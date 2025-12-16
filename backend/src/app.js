@@ -3,6 +3,7 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const authRouter = require("./routes/auth.routes");
+const techHubRouter = require('./routes/techhub.routes');
 
 const app = express();
 
@@ -23,5 +24,6 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/hubs", techHubRouter);
 
 module.exports = { app };

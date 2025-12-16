@@ -1,7 +1,7 @@
 const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
-const TechHub = require("../models/TechHub.model");
+const TechHub = require("../models/techHubModel");
 const slugify = require("../utils/slugify");
 
 // @desc    Create a new Tech Hub

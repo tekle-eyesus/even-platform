@@ -1,7 +1,7 @@
 const { ApiError } = require("../utils/ApiError");
 const { asyncHandler } = require("../utils/asyncHandler");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User.model");
+const User = require("../models/UserModel");
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
