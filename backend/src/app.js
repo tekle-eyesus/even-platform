@@ -5,6 +5,7 @@ const morgan = require("morgan");
 const authRouter = require("./routes/auth.routes");
 const techHubRouter = require('./routes/techhub.routes');
 const postRouter = require('./routes/post.routes');
+const commentRouter = require('./routes/comment.routes');
 
 const app = express();
 
@@ -27,5 +28,6 @@ app.get("/", (req, res) => {
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/hubs", techHubRouter);
 app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/comments", commentRouter);
 
 module.exports = { app };
