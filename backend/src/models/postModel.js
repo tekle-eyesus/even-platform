@@ -53,6 +53,18 @@ const postSchema = new mongoose.Schema(
         views: {
             type: Number,
             default: 0
+        },
+        likesCount: {
+            type: Number,
+            default: 0
+        },
+        dislikesCount: {
+            type: Number,
+            default: 0
+        },
+        sharesCount: {
+            type: Number,
+            default: 0
         }
 
     },
