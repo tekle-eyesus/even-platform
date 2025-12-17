@@ -7,6 +7,7 @@ const techHubRouter = require('./routes/techhub.routes');
 const postRouter = require('./routes/post.routes');
 const commentRouter = require('./routes/comment.routes');
 const subscriptionRouter = require('./routes/subscription.routes');
+const analyticsRouter = require('./routes/analytics.routes');
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use("/api/v1/hubs", techHubRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/analytics", analyticsRouter);
 
 module.exports = { app };
