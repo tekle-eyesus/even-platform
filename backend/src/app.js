@@ -9,6 +9,7 @@ const commentRouter = require('./routes/comment.routes');
 const subscriptionRouter = require('./routes/subscription.routes');
 const analyticsRouter = require('./routes/analytics.routes');
 const likeRouter = require("./routes/like.routes");
+const shareRouter = require("./routes/share.routes");
 
 const app = express();
 
@@ -35,5 +36,6 @@ app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
 app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/likes", likeRouter);
+app.use("/api/v1/share", shareRouter);
 
 module.exports = { app };
