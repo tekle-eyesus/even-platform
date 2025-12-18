@@ -10,6 +10,7 @@ const subscriptionRouter = require('./routes/subscription.routes');
 const analyticsRouter = require('./routes/analytics.routes');
 const likeRouter = require("./routes/like.routes");
 const shareRouter = require("./routes/share.routes");
+const userRouter = require("./routes/user.routes");
 
 const app = express();
 
@@ -30,6 +31,7 @@ app.get("/", (req, res) => {
 });
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/api/v1/hubs", techHubRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/comments", commentRouter);
