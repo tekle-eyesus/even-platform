@@ -53,36 +53,45 @@ const toggleHubSubscription = asyncHandler(async (req, res) => {
 const toggleAuthorSubscription = asyncHandler(async (req, res) => {
     const { userId } = req.params;
 
-    //  Prevent subscribing to self
     if (userId.toString() === req.user._id.toString()) {
         throw new ApiError(400, "You cannot subscribe to yourself");
     }
 
-    // Check if Author exists
-    const author = await User.findById(userId);
-    if (!author) {
+    const channel = await User.findById(userId);
+    if (!channel) {
         throw new ApiError(404, "Author not found");
     }
 
-    // Check if already subscribed
     const existingSubscription = await Subscription.findOne({
         subscriber: req.user._id,
         channel: userId
     });
 
     if (existingSubscription) {
-        // Unsubscribe
+        // UNSUBSCRIBE LOGIC
         await Subscription.findByIdAndDelete(existingSubscription._id);
+
+        // Decrease 'followingCount' for the Subscriber (Current User)
+        await User.findByIdAndUpdate(req.user._id, { $inc: { followingCount: -1 } });
+
+        // Decrease 'followersCount' for the Channel (Author)
+        await User.findByIdAndUpdate(userId, { $inc: { followersCount: -1 } });
 
         return res.status(200).json(
             new ApiResponse(200, { subscribed: false }, "Unfollowed author successfully")
         );
     } else {
-        // Subscribe
+        // --- SUBSCRIBE LOGIC ---
         await Subscription.create({
             subscriber: req.user._id,
             channel: userId
         });
+
+        // 1. Increase 'followingCount' for the Subscriber (Current User)
+        await User.findByIdAndUpdate(req.user._id, { $inc: { followingCount: 1 } });
+
+        // 2. Increase 'followersCount' for the Channel (Author)
+        await User.findByIdAndUpdate(userId, { $inc: { followersCount: 1 } });
 
         return res.status(200).json(
             new ApiResponse(200, { subscribed: true }, "Followed author successfully")
