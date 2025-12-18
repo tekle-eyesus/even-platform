@@ -25,6 +25,19 @@ const userSchema = new mongoose.Schema(
             trim: true,
             index: true
         },
+        bio: {
+            type: String,
+            default: "",
+            maxLength: 250 // Limit bio length
+        },
+        followersCount: {
+            type: Number,
+            default: 0
+        },
+        followingCount: {
+            type: Number,
+            default: 0
+        },
         avatar: {
             type: String,
             default: "https://via.placeholder.com/200"
