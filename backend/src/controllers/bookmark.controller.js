@@ -1,8 +1,8 @@
 const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
-const Bookmark = require("../models/Bookmark.model");
-const Post = require("../models/Post.model");
+const Bookmark = require("../models/bookmarkModel");
+const Post = require("../models/postModel");
 
 // @desc    Toggle Bookmark (Save/Unsave post)
 // @route   POST /api/v1/bookmarks/:postId
