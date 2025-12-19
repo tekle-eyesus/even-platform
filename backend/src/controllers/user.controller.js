@@ -1,7 +1,7 @@
 const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
-const User = require("../models/User.model");
+const User = require("../models/UserModel");
 
 // @desc    Get current user profile
 // @route   GET /api/v1/users/me
