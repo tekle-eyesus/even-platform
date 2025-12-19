@@ -11,7 +11,7 @@ const analyticsRouter = require('./routes/analytics.routes');
 const likeRouter = require("./routes/like.routes");
 const shareRouter = require("./routes/share.routes");
 const userRouter = require("./routes/user.routes");
-
+const bookmarkRouter = require("./routes/bookmark.routes");
 const app = express();
 
 app.use(cors({
@@ -36,6 +36,7 @@ app.use("/api/v1/hubs", techHubRouter);
 app.use("/api/v1/posts", postRouter);
 app.use("/api/v1/comments", commentRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/bookmarks", bookmarkRouter);
 app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/share", shareRouter);
