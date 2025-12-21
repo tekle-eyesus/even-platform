@@ -19,4 +19,4 @@ const commentClapSchema = new mongoose.Schema(
 // Prevent duplicate claps from the same user on the same comment
 commentClapSchema.index({ comment: 1, user: 1 }, { unique: true });
 
-module.exports = mongoose.model("CommentClap", commentClapSchema); s
+module.exports = mongoose.model("CommentClap", commentClapSchema);
