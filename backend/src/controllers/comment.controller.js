@@ -2,14 +2,15 @@ const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const Comment = require("../models/commentModel");
+const CommentClap = require("../models/commentClapModel");
 const Post = require("../models/postModel");
 
-// @desc    Add a Comment to a Post
+// @desc    Add a Comment (or Reply)
 // @route   POST /api/v1/comments/:postId
 // @access  Protected
 const addComment = asyncHandler(async (req, res) => {
     const { postId } = req.params;
-    const { content } = req.body;
+    const { content, parentCommentId } = req.body; // parentCommentId is optional for replies
 
     if (!content) {
         throw new ApiError(400, "Comment content is required");
@@ -20,18 +21,33 @@ const addComment = asyncHandler(async (req, res) => {
         throw new ApiError(404, "Post not found");
     }
 
-    const comment = await Comment.create({
+    // Prepare comment data
+    const commentData = {
         content,
         post: postId,
         author: req.user._id
-    });
+    };
+
+    // If it's a reply
+    if (parentCommentId) {
+        const parent = await Comment.findById(parentCommentId);
+        if (!parent) {
+            throw new ApiError(404, "Parent comment not found");
+        }
+        commentData.parentComment = parentCommentId;
+
+        // Increment replies count on the parent comment
+        await Comment.findByIdAndUpdate(parentCommentId, { $inc: { repliesCount: 1 } });
+    }
+
+    const comment = await Comment.create(commentData);
 
     return res.status(201).json(
-        new ApiResponse(201, comment, "Comment added successfully")
+        new ApiResponse(201, comment, parentCommentId ? "Reply added successfully" : "Comment added successfully")
     );
 });
 
-// @desc    Get Comments for a specific Post
+// @desc    Get Top-Level Comments for a Post
 // @route   GET /api/v1/comments/:postId
 // @access  Public
 const getPostComments = asyncHandler(async (req, res) => {
@@ -44,18 +60,15 @@ const getPostComments = asyncHandler(async (req, res) => {
         sort: { createdAt: -1 },
     };
 
-    const postExists = await Post.exists({ _id: postId });
-    if (!postExists) {
-        throw new ApiError(404, "Post not found");
-    }
+    const query = { post: postId, parentComment: null };
 
-    const comments = await Comment.find({ post: postId })
+    const comments = await Comment.find(query)
         .populate("author", "fullName username avatar")
         .sort(options.sort)
         .skip((options.page - 1) * options.limit)
         .limit(options.limit);
 
-    const total = await Comment.countDocuments({ post: postId });
+    const total = await Comment.countDocuments(query);
 
     return res.status(200).json(
         new ApiResponse(200, {
@@ -68,6 +81,78 @@ const getPostComments = asyncHandler(async (req, res) => {
         }, "Comments fetched successfully")
     );
 });
+
+
+// @desc    Get Replies for a specific Comment
+// @route   GET /api/v1/comments/replies/:commentId
+// @access  Public
+const getCommentReplies = asyncHandler(async (req, res) => {
+    const { commentId } = req.params;
+
+    const replies = await Comment.find({ parentComment: commentId })
+        .populate("author", "fullName username avatar")
+        .sort({ createdAt: 1 }); // Oldest first usually makes sense for replies reading flow
+
+    return res.status(200).json(
+        new ApiResponse(200, replies, "Replies fetched successfully")
+    );
+});
+
+
+// @desc    Toggle Clap on a Comment
+// @route   POST /api/v1/comments/:commentId/clap
+// @access  Protected
+const toggleCommentClap = asyncHandler(async (req, res) => {
+    const { commentId } = req.params;
+
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+        throw new ApiError(404, "Comment not found");
+    }
+
+    const existingClap = await CommentClap.findOne({
+        comment: commentId,
+        user: req.user._id
+    });
+
+    let isClapped = false;
+
+    if (existingClap) {
+        // Remove clap (Toggle off)
+        await CommentClap.findByIdAndDelete(existingClap._id);
+
+        // Decrement count
+        const updatedComment = await Comment.findByIdAndUpdate(
+            commentId,
+            { $inc: { clapsCount: -1 } },
+            { new: true }
+        );
+        isClapped = false;
+
+        return res.status(200).json(
+            new ApiResponse(200, { isClapped, clapsCount: updatedComment.clapsCount }, "Clap removed")
+        );
+    } else {
+        // Add clap
+        await CommentClap.create({
+            comment: commentId,
+            user: req.user._id
+        });
+
+        // Increment count
+        const updatedComment = await Comment.findByIdAndUpdate(
+            commentId,
+            { $inc: { clapsCount: 1 } },
+            { new: true }
+        );
+        isClapped = true;
+
+        return res.status(200).json(
+            new ApiResponse(200, { isClapped, clapsCount: updatedComment.clapsCount }, "Clap added")
+        );
+    }
+});
+
 
 // @desc    Update a Comment
 // @route   PATCH /api/v1/comments/:commentId
@@ -123,4 +208,11 @@ const deleteComment = asyncHandler(async (req, res) => {
     );
 });
 
-module.exports = { addComment, getPostComments, updateComment, deleteComment };
+module.exports = {
+    addComment,
+    getPostComments,
+    getCommentReplies,
+    toggleCommentClap,
+    updateComment,
+    deleteComment
+};

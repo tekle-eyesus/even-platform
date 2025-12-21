@@ -2,6 +2,8 @@ const Router = require("express").Router;
 const {
     addComment,
     getPostComments,
+    getCommentReplies,
+    toggleCommentClap,
     updateComment,
     deleteComment
 } = require("../controllers/comment.controller");
@@ -17,5 +19,12 @@ router.route("/:postId")
 router.route("/c/:commentId")       // Using /c/ to distinguish from /:postId easily
     .patch(verifyJWT, updateComment)
     .delete(verifyJWT, deleteComment);
+
+
+router.route("/replies/:commentId")
+    .get(getCommentReplies);
+
+router.route("/clap/:commentId")
+    .post(verifyJWT, toggleCommentClap);
 
 module.exports = router;
