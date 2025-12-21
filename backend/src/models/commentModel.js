@@ -17,12 +17,29 @@ const commentSchema = new mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: "User",
             required: true
+        },
+        parentComment: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Comment",
+            default: null // Null means it's a top-level comment not a reply.
+        },
+        clapsCount: {
+            type: Number,
+            default: 0
+        },
+        repliesCount: {
+            type: Number,
+            default: 0
         }
     },
     { timestamps: true }
 );
 
 commentSchema.index({ post: 1 });
+commentSchema.index({ author: 1 });
+commentSchema.index({ parentComment: 1 });
+
+// --- PAGINATION PLUGIN ---
 commentSchema.plugin(mongooseAggregatePaginate);
 
 
