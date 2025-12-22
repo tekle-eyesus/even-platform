@@ -18,6 +18,10 @@ const postSchema = new mongoose.Schema(
             type: String,
             required: true
         },
+        contentImages: {
+            type: [String],
+            default: []
+        },
         summary: {
             type: String,
             // This will be populated by AI later, but can be manually edited
