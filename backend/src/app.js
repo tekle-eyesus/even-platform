@@ -17,7 +17,7 @@ const uploadRouter = require("./routes/upload.routes");
 const app = express();
 
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: process.env.CORS_ORIGIN || "*", // Adjust as needed for production
     credentials: true
 }));
 
