@@ -5,7 +5,7 @@ function App() {
     <Router>
       <div className='min-h-screen flex flex-col'>
         {/* Navbar will go here */}
-        <main className='flex-grow container mx-auto px-4 py-8'>
+        <main className='container mx-auto px-4 py-8'>
           <Routes>
             <Route
               path='/'
