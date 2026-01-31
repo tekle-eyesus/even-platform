@@ -83,3 +83,25 @@
     text-wrap: balance;
   }
 }
+
+@layer base {
+  @apply font-sans;
+}
+
+@layer components {
+  :root {
+    --border: hsl(var(--border));
+    --input: hsl(var(--input));
+    --ring: hsl(var(--ring));
+    --background: hsl(var(--background));
+    --foreground: hsl(var(--foreground));
+    --primary: #09090b; /* Zinc-950 (Almost Black) */
+    --primary-foreground: #fafafa; /* Zinc-50 (Almost White) */
+    --secondary: #f4f4f5; /* Zinc-100 */
+    --secondary-foreground: #18181b; /* Zinc-900 */
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a; /* Zinc-500 (Subtle text) */
+    --card: #ffffff;
+    --card-foreground: #09090b;
+  }
+}

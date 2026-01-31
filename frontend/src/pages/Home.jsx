@@ -1,63 +1,134 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import Navbar from "../components/layout/Navbar";
+import PostCard from "../features/blog/components/PostCard";
+import { postService } from "../features/blog/services/post.service";
+import { hubService } from "../features/blog/services/hub.service";
+import { Loader2 } from "lucide-react";
 import { Link } from "react-router-dom";
-import { Button } from "../components/ui/Button";
-import { Feed } from "../features/blog/components/Feed";
-import { useAuth } from "../context/AuthContext";
 
 export default function Home() {
-    const { user, isAuthenticated } = useAuth();
+  const [posts, setPosts] = useState([]);
+  const [trending, setTrending] = useState([]);
+  const [hubs, setHubs] = useState([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [postsData, trendingData, hubsData] = await Promise.all([
+          postService.getAllPosts({ limit: 9 }),
+          postService.getTrending(),
+          hubService.getAllHubs(),
+        ]);
+
+        setPosts(postsData.data.posts);
+        setTrending(trendingData.data);
+        setHubs(hubsData.data);
+      } catch (error) {
+        console.error("Failed to fetch feed", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
+  if (loading) {
     return (
-        <div className="container py-8">
-            {!isAuthenticated && (
-                <section className="mb-12 border-b border-border/40 pb-12">
-                    <h1 className="text-6xl font-serif font-bold mb-6 tracking-tight">Stay curious.</h1>
-                    <p className="text-xl text-muted-foreground max-w-2xl mb-8 leading-relaxed">
-                        Discover stories, thinking, and expertise from writers on any topic.
-                    </p>
-                    <Button size="lg" className="rounded-full px-8 text-lg h-12">Start reading</Button>
-                </section>
-            )}
-
-            <section className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                <div className="lg:col-span-8">
-                    <div className="flex items-center gap-4 border-b border-border/40 pb-4 mb-8">
-                        <button className="text-sm font-medium border-b-2 border-foreground pb-4 -mb-4.5">For you</button>
-                        <button className="text-sm text-muted-foreground hover:text-foreground pb-4">Mbappe</button>
-                        <button className="text-sm text-muted-foreground hover:text-foreground pb-4">Technology</button>
-                    </div>
-
-                    <Feed />
-                </div>
-
-                <div className="hidden lg:block lg:col-span-4 pl-8 border-l border-border/40 min-h-screen">
-                    <div className="sticky top-24 space-y-8">
-                        <div>
-                            <h3 className="font-bold mb-4 font-medium text-sm text-foreground">Discover more of what matters to you</h3>
-                            <div className="flex flex-wrap gap-2">
-                                {["Programming", "Data Science", "Technology", "Self Improvement", "Writing", "Relationships", "Politics"].map(topic => (
-                                    <span key={topic} className="px-3 py-2 bg-secondary/50 rounded-full text-sm text-muted-foreground hover:bg-secondary hover:text-foreground cursor-pointer transition-colors">
-                                        {topic}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-
-                        <div>
-                            <div className="flex flex-wrap gap-x-6 gap-y-2 text-xs text-muted-foreground">
-                                <a href="#" className="hover:underline">Help</a>
-                                <a href="#" className="hover:underline">Status</a>
-                                <a href="#" className="hover:underline">Writers</a>
-                                <a href="#" className="hover:underline">Blog</a>
-                                <a href="#" className="hover:underline">Careers</a>
-                                <a href="#" className="hover:underline">Privacy</a>
-                                <a href="#" className="hover:underline">Terms</a>
-                                <a href="#" className="hover:underline">About</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-        </div>
+      <div className='min-h-screen flex items-center justify-center'>
+        <Loader2 className='w-8 h-8 animate-spin text-zinc-400' />
+      </div>
     );
+  }
+
+  // Get the first trending post for the BIG Hero card
+  const heroPost = trending[0];
+
+  return (
+    <div className='min-h-screen bg-white'>
+      <Navbar />
+
+      <main className='container mx-auto px-4 py-8 max-w-7xl'>
+        {/* 1. Tech Hubs Strip (Like "Most Search Tags" in img 1) */}
+        <div className='flex items-center gap-4 overflow-x-auto pb-6 mb-8 border-b border-zinc-100 no-scrollbar'>
+          <span className='text-sm font-bold text-zinc-900 whitespace-nowrap'>
+            Tech Hubs:
+          </span>
+          {hubs.map((hub) => (
+            <Link
+              key={hub._id}
+              to={`/hubs/${hub.slug}`}
+              className='px-4 py-1.5 rounded-full text-sm font-medium bg-zinc-50 text-zinc-600 hover:bg-black hover:text-white transition-colors whitespace-nowrap'
+            >
+              {hub.name}
+            </Link>
+          ))}
+        </div>
+
+        {/* 2. Hero Section (Inspiration Image 1 - Large Card) */}
+        {heroPost && (
+          <section className='mb-16'>
+            <div className='relative rounded-2xl overflow-hidden aspect-[21/9] group'>
+              <div className='absolute inset-0'>
+                <img
+                  src={
+                    heroPost.coverImage ||
+                    "https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=2070&auto=format&fit=crop"
+                  }
+                  alt='Hero'
+                  className='w-full h-full object-cover transition-transform duration-700 group-hover:scale-105'
+                />
+                {/* Gradient Overlay for text readability */}
+                <div className='absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent' />
+              </div>
+
+              <div className='absolute bottom-0 left-0 p-8 md:p-12 w-full md:w-2/3'>
+                <span className='px-3 py-1 bg-blue-600 text-white text-xs font-bold rounded-md mb-4 inline-block'>
+                  Trending Now
+                </span>
+                <h1 className='text-3xl md:text-5xl font-bold text-white mb-4 leading-tight'>
+                  {heroPost.title}
+                </h1>
+                <div className='flex items-center gap-3 text-zinc-300'>
+                  <img
+                    src={heroPost.author?.avatar}
+                    className='w-8 h-8 rounded-full border border-white/20'
+                    alt=''
+                  />
+                  <span className='font-medium text-white'>
+                    {heroPost.author?.fullName}
+                  </span>
+                  <span>•</span>
+                  <span>
+                    {new Date(heroPost.createdAt).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
+        {/* 3. Latest Posts Grid */}
+        <section>
+          <div className='flex items-center justify-between mb-8'>
+            <h2 className='text-2xl font-bold text-zinc-900'>
+              Latest Articles
+            </h2>
+            <Link
+              to='/search'
+              className='text-sm font-medium text-zinc-500 hover:text-black'
+            >
+              View All
+            </Link>
+          </div>
+
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12'>
+            {posts.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))}
+          </div>
+        </section>
+      </main>
+    </div>
+  );
 }

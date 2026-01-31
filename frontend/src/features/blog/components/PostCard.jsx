@@ -1,45 +1,70 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { cn } from "../../../lib/utils";
+import { Calendar } from "lucide-react";
 
-export function PostCard({ post, className }) {
-    const { title, summary, author, techHub, createdAt, slug, readTime, coverImage } = post;
+export default function PostCard({ post }) {
+  // Format Date
+  const date = new Date(post.createdAt).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
 
-    return (
-        <div className={cn("flex gap-4 group cursor-pointer border-b border-border/40 pb-8 last:border-0", className)}>
-            <div className="flex-1 space-y-2">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    {author.avatar && (
-                        <img src={author.avatar} alt={author.username} className="h-5 w-5 rounded-full object-cover" />
-                    )}
-                    <span className="font-medium text-foreground">{author.fullName}</span>
-                    <span>in</span>
-                    <span className="font-medium text-foreground">{techHub.name}</span>
-                    <span>·</span>
-                    <span>{new Date(createdAt).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
-                </div>
+  return (
+    <div className='group flex flex-col gap-4'>
+      {/* Image Container */}
+      <Link
+        to={`/posts/${post.slug}`}
+        className='overflow-hidden rounded-xl bg-zinc-100 aspect-[16/10]'
+      >
+        {post.coverImage ? (
+          <img
+            src={post.coverImage}
+            alt={post.title}
+            className='w-full h-full object-cover transition-transform duration-500 group-hover:scale-105'
+          />
+        ) : (
+          <div className='w-full h-full flex items-center justify-center text-zinc-400 bg-zinc-100'>
+            No Image
+          </div>
+        )}
+      </Link>
 
-                <Link to={`/post/${slug}`} className="block group">
-                    <h2 className="text-xl font-bold font-serif group-hover:underline decoration-offset-4 mb-1">
-                        {title}
-                    </h2>
-                    <p className="text-muted-foreground line-clamp-3 text-base leading-relaxed">
-                        {summary}
-                    </p>
-                </Link>
+      {/* Content */}
+      <div className='flex flex-col gap-2'>
+        {/* Badge */}
+        {post.techHub && (
+          <span className='inline-block px-2.5 py-0.5 rounded-md bg-zinc-100 text-zinc-600 text-xs font-semibold w-fit'>
+            {post.techHub.name}
+          </span>
+        )}
 
-                <div className="flex items-center gap-3 text-xs text-muted-foreground pt-3">
-                    <span className="bg-secondary px-2 py-1 rounded-full text-secondary-foreground font-medium">{techHub.name}</span>
-                    <span>{readTime} min read</span>
-                    {/* Add bookmark button here if needed */}
-                </div>
+        <Link to={`/posts/${post.slug}`}>
+          <h3 className='text-xl font-bold text-zinc-900 leading-tight group-hover:text-zinc-600 transition-colors'>
+            {post.title}
+          </h3>
+        </Link>
+
+        {/* Meta */}
+        <div className='flex items-center gap-3 text-sm text-zinc-500 mt-1'>
+          <div className='flex items-center gap-2'>
+            <div className='w-6 h-6 rounded-full bg-zinc-200 overflow-hidden'>
+              <img
+                src={post.author?.avatar || "https://via.placeholder.com/30"}
+                alt=''
+              />
             </div>
-
-            {coverImage && (
-                <Link to={`/post/${slug}`} className="hidden sm:block h-32 w-48 bg-secondary/50 rounded-md shrink-0 overflow-hidden">
-                    <img src={coverImage} alt={title} className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105" />
-                </Link>
-            )}
+            <span className='font-medium text-zinc-700'>
+              {post.author?.fullName}
+            </span>
+          </div>
+          <span>•</span>
+          <div className='flex items-center gap-1'>
+            <Calendar className='w-3 h-3' />
+            {date}
+          </div>
         </div>
-    );
+      </div>
+    </div>
+  );
 }

@@ -1,22 +1,22 @@
-import apiClient from "../../../lib/axios";
+import api from "../../../lib/axios";
 
 export const postService = {
-    async getAllPosts(params = {}) {
-        // params: { page, limit, hub, author, tag }
-        const response = await apiClient.get("/posts", { params });
-        // Backend returns structure: { statusCode, data: { posts, pagination }, message, success }
-        return response.data;
-    },
+  // Get all posts with pagination & filters
+  async getAllPosts(params = {}) {
+    // params can be { page, limit, hub, tag }
+    const response = await api.get("/posts", { params });
+    return response.data;
+  },
 
-    async getPostBySlug(slug) {
-        const response = await apiClient.get(`/posts/${slug}`);
-        return response.data;
-    },
+  // Get single post
+  async getPostBySlug(slug) {
+    const response = await api.get(`/posts/${slug}`);
+    return response.data;
+  },
 
-    async createPost(postData) {
-        const response = await apiClient.post("/posts", postData);
-        return response.data;
-    },
-
-    // ... update, delete etc.
+  // Get Trending (for the Hero section)
+  async getTrending() {
+    const response = await api.get("/analytics/trending");
+    return response.data;
+  },
 };
