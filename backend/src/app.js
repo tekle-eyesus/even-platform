@@ -3,11 +3,11 @@ const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const morgan = require("morgan");
 const authRouter = require("./routes/auth.routes");
-const techHubRouter = require('./routes/techhub.routes');
-const postRouter = require('./routes/post.routes');
-const commentRouter = require('./routes/comment.routes');
-const subscriptionRouter = require('./routes/subscription.routes');
-const analyticsRouter = require('./routes/analytics.routes');
+const techHubRouter = require("./routes/techhub.routes");
+const postRouter = require("./routes/post.routes");
+const commentRouter = require("./routes/comment.routes");
+const subscriptionRouter = require("./routes/subscription.routes");
+const analyticsRouter = require("./routes/analytics.routes");
 const likeRouter = require("./routes/like.routes");
 const shareRouter = require("./routes/share.routes");
 const userRouter = require("./routes/user.routes");
@@ -16,10 +16,12 @@ const uploadRouter = require("./routes/upload.routes");
 
 const app = express();
 
-app.use(cors({
-    origin: process.env.CORS_ORIGIN || "*", // Adjust as needed for production
-    credentials: true
-}));
+app.use(
+  cors({
+    origin: process.env.CORS_ORIGIN || "http://localhost:5173", // Adjust as needed for production
+    credentials: true,
+  }),
+);
 
 // Standard middleware for parsing
 app.use(express.json({ limit: "16kb" }));
@@ -29,7 +31,7 @@ app.use(cookieParser());
 app.use(morgan("dev"));
 
 app.get("/", (req, res) => {
-    res.json({ message: "Welcome to EVEN API" });
+  res.json({ message: "Welcome to EVEN API" });
 });
 
 app.use("/api/v1/auth", authRouter);

@@ -10,7 +10,7 @@ import { FaLinkedin } from "react-icons/fa";
 
 export default function Login() {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
   });
 
@@ -20,6 +20,8 @@ export default function Login() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
+    // prevent refreash
+    e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -29,6 +31,7 @@ export default function Login() {
     setError("");
 
     try {
+      console.log("Submitting login with:", formData);
       await login(formData);
       navigate("/");
     } catch (err) {
@@ -99,11 +102,11 @@ export default function Login() {
                   </div>
                   <Input
                     id='email'
-                    name='username' // Changed to username based on state, but keeps flexible logic
-                    placeholder='Username or Email'
+                    name='email' // Changed to username based on state, but keeps flexible logic
+                    placeholder='Email'
                     type='text'
                     autoCapitalize='none'
-                    autoComplete='username'
+                    autoComplete='email'
                     autoCorrect='off'
                     disabled={isLoading}
                     onChange={handleChange}

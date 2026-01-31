@@ -22,6 +22,8 @@ export default function Register() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
+    // prevent refreash
+    e.preventDefault();
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 

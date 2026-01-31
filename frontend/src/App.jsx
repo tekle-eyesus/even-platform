@@ -1,26 +1,29 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { AuthProvider } from "./context/AuthContext";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <Router>
-      <div className='min-h-screen flex flex-col'>
-        {/* Navbar will go here */}
-        <main className='container mx-auto px-4 py-8'>
-          <Routes>
-            <Route
-              path='/'
-              element={
-                <h1 className='text-3xl font-bold text-primary'>
-                  Welcome to EVEN
-                </h1>
-              }
-            />
-            <Route path='/login' element={<h2>Login Page</h2>} />
-          </Routes>
-        </main>
-        {/* Footer will go here */}
-      </div>
-    </Router>
+    <AuthProvider>
+      <Router>
+        <Routes>
+          {/* Public Routes */}
+          <Route path='/' element={<Home />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/register' element={<Register />} />
+
+          {/* Fallback route */}
+          <Route path='*' element={<Navigate to='/' replace />} />
+        </Routes>
+      </Router>
+    </AuthProvider>
   );
 }
 
