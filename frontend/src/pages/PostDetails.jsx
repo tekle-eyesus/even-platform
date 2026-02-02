@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import clsx from "clsx";
+import CommentSection from "../features/blog/components/CommentSection";
 
 export default function PostDetails() {
   const { slug } = useParams();
@@ -252,7 +253,7 @@ export default function PostDetails() {
           </div>
         </article>
       </div>
-
+      <CommentSection postId={post._id} />
       {/* Mobile Sticky Action Bar */}
       <div className='lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-zinc-200 p-4 flex justify-around z-40 pb-6'>
         <button
