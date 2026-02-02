@@ -18,13 +18,13 @@ export default function Navbar() {
           className='flex items-center gap-2 font-bold text-xl tracking-tight text-zinc-900'
         >
           <div className='w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-serif italic'>
-            E
+            <img src='./logo2.png' alt='' className='rounded-full' />
           </div>
-          <span>Even</span>
+          <span className='font-display'>EVEN</span>
         </Link>
 
         {/* 2. Desktop Navigation */}
-        <nav className='hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600'>
+        <nav className='hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600 font-display'>
           <Link to='/' className='hover:text-black transition-colors'>
             Home
           </Link>
@@ -39,11 +39,11 @@ export default function Navbar() {
         {/* 3. Actions (Search + Auth) */}
         <div className='hidden md:flex items-center gap-4'>
           <div className='relative group'>
-            <Search className='w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-black' />
+            <Search className='w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-zinc-600' />
             <input
               type='text'
-              placeholder='Search...'
-              className='h-9 pl-9 pr-4 rounded-full bg-zinc-100 text-sm border-none focus:ring-1 focus:ring-black w-64 transition-all'
+              placeholder='Search'
+              className='h-8 pl-9 pr-4 rounded-full bg-zinc-100 text-sm border-none focus:outline-none focus:ring-0 w-64 transition-all'
             />
           </div>
 
@@ -52,9 +52,9 @@ export default function Navbar() {
               <Link to='/write'>
                 <Button
                   variant='ghost'
-                  className='text-zinc-600 hover:text-black'
+                  className='text-zinc-600 hover:text-black font-sans'
                 >
-                  <PenSquare className='w-4 h-4 mr-2' />
+                  <PenSquare className='w-4 h-4 mr-2 font-sans' />
                   Write
                 </Button>
               </Link>
