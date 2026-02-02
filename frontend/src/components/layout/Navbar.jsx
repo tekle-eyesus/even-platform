@@ -1,14 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 import { Button } from "../ui/Button";
-import { Search, PenSquare, Menu, X, User } from "lucide-react";
+import {
+  Search,
+  PenSquare,
+  Menu,
+  X,
+  User,
+  Settings,
+  HelpCircle,
+  Sparkles,
+} from "lucide-react";
 
 export default function Navbar() {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false); // Profile Dropdown
+  const profileRef = useRef(null); // Reference for click-outside logic
   const navigate = useNavigate();
 
+  // Handle Click Outside to close profile menu
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (profileRef.current && !profileRef.current.contains(event.target)) {
+        setIsProfileOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [profileRef]);
+
+  const handleLogout = () => {
+    logout();
+    setIsProfileOpen(false);
+    navigate("/");
+  };
   return (
     <header className='sticky top-0 z-50 w-full border-b border-zinc-100 bg-white/80 backdrop-blur-md'>
       <div className='container mx-auto px-4 h-16 flex items-center justify-between'>
@@ -48,7 +77,7 @@ export default function Navbar() {
           </div>
 
           {user ? (
-            <div className='flex items-center gap-3 pl-4 border-l border-zinc-200'>
+            <div className='flex items-center gap-3 pl-4 border-l border-zinc-200 font-sans'>
               <Link to='/write'>
                 <Button
                   variant='ghost'
@@ -58,18 +87,90 @@ export default function Navbar() {
                   Write
                 </Button>
               </Link>
-              <div
-                className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden cursor-pointer'
-                onClick={logout}
-              >
-                {user.avatar ? (
-                  <img
-                    src={user.avatar}
-                    alt={user.username}
-                    className='w-full h-full object-cover'
-                  />
-                ) : (
-                  <User className='w-5 h-5 m-1.5 text-zinc-500' />
+              <div className='relative' ref={profileRef}>
+                {/* Avatar Trigger */}
+                <button
+                  onClick={() => setIsProfileOpen(!isProfileOpen)}
+                  className='w-8 h-8 rounded-full bg-zinc-200 overflow-hidden ring-offset-2 hover:ring-2 ring-zinc-100 transition-all cursor-pointer'
+                >
+                  {user.avatar ? (
+                    <img
+                      src={user.avatar}
+                      alt={user.username}
+                      className='w-full h-full object-cover'
+                    />
+                  ) : (
+                    <div className='w-full h-full flex items-center justify-center bg-green-700 text-white font-medium'>
+                      {user.fullName?.charAt(0) || "U"}
+                    </div>
+                  )}
+                </button>
+
+                {isProfileOpen && (
+                  <div className='absolute right-0 top-12 w-60 bg-white rounded-md shadow-lg border border-zinc-100 py-2 animate-in fade-in slide-in-from-top-2 overflow-hidden'>
+                    <div className='px-6 py-4 border-b border-zinc-100'>
+                      <div className='flex items-center gap-3 mb-2'>
+                        <div className='w-9 h-9 rounded-full flex items-center justify-center text-lg font-medium'>
+                          <img
+                            src={user.avatar}
+                            alt={user.username}
+                            className='w-full h-full object-cover rounded-full cursor-pointer'
+                          />
+                        </div>
+                        <div className='flex flex-col'>
+                          <span className='font-semibold text-zinc-900 leading-tight'>
+                            {user.fullName}
+                          </span>
+                          <Link
+                            to={`/u/${user.username}`}
+                            onClick={() => setIsProfileOpen(false)}
+                            className='text-sm text-zinc-500 hover:text-black'
+                          >
+                            View profile
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className='py-2 border-b border-zinc-100'>
+                      <button className='w-full text-left cursor-pointer px-6 py-2 text-sm text-zinc-600 hover:text-black hover:bg-zinc-50 flex items-center gap-3'>
+                        <Settings className='w-4 h-4' /> Settings
+                      </button>
+                      <button className='w-full text-left cursor-pointer px-6 py-2 text-sm text-zinc-600 hover:text-black hover:bg-zinc-50 flex items-center gap-3'>
+                        <HelpCircle className='w-4 h-4' /> Help
+                      </button>
+                    </div>
+
+                    <div className='py-2 border-b border-zinc-100'>
+                      <div className='px-6 py-2 hover:bg-zinc-50 cursor-pointer'>
+                        <div className='flex items-center justify-between text-sm text-zinc-600'>
+                          <span>Become a member</span>
+                          <Sparkles className='w-3 h-3 text-yellow-500 fill-yellow-500' />
+                        </div>
+                        <p className='text-xs text-zinc-400 mt-1'>
+                          Unlock premium insights
+                        </p>
+                      </div>
+                    </div>
+
+                    <div className='pt-2 pb-4'>
+                      <button
+                        onClick={handleLogout}
+                        className='w-full cursor-pointer text-left px-6 py-2 text-sm text-zinc-600 hover:text-black hover:bg-zinc-50'
+                      >
+                        Sign out
+                        <div className='text-xs text-zinc-400 mt-0.5 truncate'>
+                          {user.email}
+                        </div>
+                      </button>
+                    </div>
+
+                    <div className='px-6 py-2 text-[11px] text-zinc-400 flex flex-wrap gap-x-3 gap-y-1'>
+                      <span>Privacy</span>
+                      <span>Terms</span>
+                      <span>About</span>
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
