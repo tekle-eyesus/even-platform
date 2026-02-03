@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
 import PostDetails from "./pages/PostDetails";
+import Write from "./pages/Write";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path='/posts/:slug' element={<PostDetails />} />
           {/* Fallback route */}
           <Route path='*' element={<Navigate to='/' replace />} />
+          <Route path='/write' element={<Write />} />
         </Routes>
       </Router>
     </AuthProvider>
