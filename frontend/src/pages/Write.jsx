@@ -227,7 +227,7 @@ export default function Write() {
       <div className='container mx-auto px-4 max-w-3xl pt-10'>
         {/* Error Notification Banner */}
         {error && !showPublishModal && (
-          <div className='mb-6 p-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2 text-sm'>
+          <div className='mb-6 p-4 bg-red-50 text-red-600 rounded-lg flex items-center gap-2 text-sm font-sans'>
             <AlertCircle className='w-4 h-4' />
             {error}
           </div>
@@ -235,11 +235,13 @@ export default function Write() {
 
         {/* --- 1. ACTIONS BAR --- */}
         <div className='flex justify-between items-center mb-8'>
-          <div className='text-sm text-zinc-500'>Draft</div>
+          <div className='text-sm text-zinc-500 font-semibold font-serif'>
+            Draft
+          </div>
           <Button
             onClick={handlePrePublish}
             disabled={isUploading}
-            className='bg-green-600 hover:bg-green-700 text-white rounded-full px-6 disabled:opacity-50'
+            className='bg-green-600 hover:bg-green-700 font-serif text-white rounded-full px-5 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed'
           >
             Publish
           </Button>
@@ -257,7 +259,7 @@ export default function Write() {
                     <ImageIcon className='w-5 h-5' />
                   )}
                 </div>
-                <span className='text-sm'>Add a cover image</span>
+                <span className='text-md font-serif'>Add a cover image</span>
                 <input
                   type='file'
                   className='hidden'
@@ -288,7 +290,7 @@ export default function Write() {
           placeholder='Title'
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          className='w-full text-4xl md:text-5xl font-bold text-zinc-900 placeholder:text-zinc-300 border-none focus:ring-0 resize-none overflow-hidden bg-transparent p-0 mb-4 font-serif leading-tight'
+          className='w-full text-[42px] md:text-5xl font-semibold text-zinc-900 placeholder:text-zinc-300 border-none focus:outline-none focus:ring-0 resize-none overflow-hidden bg-transparent p-0 mb-4 font-serif leading-tight'
           rows={1}
           onInput={(e) => {
             e.target.style.height = "auto";
