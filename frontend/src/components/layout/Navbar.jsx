@@ -81,7 +81,7 @@ export default function Navbar() {
               <Link to='/write'>
                 <Button
                   variant='ghost'
-                  className='text-zinc-600 hover:text-black font-sans'
+                  className='text-zinc-600 hover:text-black font-sans cursor-pointer'
                 >
                   <PenSquare className='w-4 h-4 mr-2 font-sans' />
                   Write
