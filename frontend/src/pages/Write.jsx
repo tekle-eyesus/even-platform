@@ -22,6 +22,9 @@ import {
   Quote,
   Check,
   AlertCircle,
+  List,
+  ListCheck,
+  ListIcon,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -304,7 +307,7 @@ export default function Write() {
             <BubbleMenu
               editor={editor}
               tippyOptions={{ duration: 100 }}
-              className='bg-black text-white px-2 py-1.5 rounded-lg shadow-xl flex items-center gap-1'
+              className='absolute bg-black text-white px-2 py-1.5 rounded-lg shadow-xl flex items-center gap-1'
             >
               {showLinkInput ? (
                 // --- CUSTOM LINK INPUT VIEW ---
@@ -314,16 +317,19 @@ export default function Write() {
                     value={linkUrl}
                     onChange={(e) => setLinkUrl(e.target.value)}
                     placeholder='Paste link...'
-                    className='bg-transparent border-none text-white text-sm placeholder:text-zinc-400 focus:ring-0 p-0 w-48 h-8'
+                    className='bg-transparent border-none focus:outline-none focus:ring-0 text-white  font-sans text-sm placeholder:text-zinc-400  p-0 w-48 h-8'
                     autoFocus
                     onKeyDown={(e) => e.key === "Enter" && applyLink()}
                   />
-                  <button onClick={applyLink} className='hover:text-green-400'>
+                  <button
+                    onClick={applyLink}
+                    className='hover:text-green-400 cursor-pointer'
+                  >
                     <Check className='w-4 h-4' />
                   </button>
                   <button
                     onClick={() => setShowLinkInput(false)}
-                    className='hover:text-red-400'
+                    className='hover:text-red-400 cursor-pointer'
                   >
                     <X className='w-4 h-4' />
                   </button>
@@ -334,7 +340,7 @@ export default function Write() {
                   <button
                     onClick={() => editor.chain().focus().toggleBold().run()}
                     className={clsx(
-                      "p-1.5 rounded hover:bg-zinc-700 transition",
+                      "p-1.5 rounded hover:bg-zinc-700 transition cursor-pointer",
                       editor.isActive("bold") && "bg-zinc-700",
                     )}
                   >
@@ -343,7 +349,7 @@ export default function Write() {
                   <button
                     onClick={() => editor.chain().focus().toggleItalic().run()}
                     className={clsx(
-                      "p-1.5 rounded hover:bg-zinc-700 transition",
+                      "p-1.5 rounded hover:bg-zinc-700 transition cursor-pointer",
                       editor.isActive("italic") && "bg-zinc-700",
                     )}
                   >
@@ -354,7 +360,7 @@ export default function Write() {
                       editor.chain().focus().toggleHeading({ level: 2 }).run()
                     }
                     className={clsx(
-                      "p-1.5 rounded hover:bg-zinc-700 transition",
+                      "p-1.5 rounded hover:bg-zinc-700 transition cursor-pointer",
                       editor.isActive("heading", { level: 2 }) && "bg-zinc-700",
                     )}
                   >
@@ -365,7 +371,7 @@ export default function Write() {
                       editor.chain().focus().toggleHeading({ level: 3 }).run()
                     }
                     className={clsx(
-                      "p-1.5 rounded hover:bg-zinc-700 transition",
+                      "p-1.5 rounded hover:bg-zinc-700 transition cursor-pointer",
                       editor.isActive("heading", { level: 3 }) && "bg-zinc-700",
                     )}
                   >
@@ -375,7 +381,7 @@ export default function Write() {
                   <button
                     onClick={openLinkInput}
                     className={clsx(
-                      "p-1.5 rounded hover:bg-zinc-700 transition",
+                      "p-1.5 rounded hover:bg-zinc-700 transition cursor-pointer",
                       editor.isActive("link") && "bg-zinc-700",
                     )}
                   >
@@ -391,17 +397,25 @@ export default function Write() {
             <button
               onClick={addInlineImage}
               disabled={isUploading}
-              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors disabled:opacity-50'
+              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors disabled:opacity-50 cursor-pointer'
               title='Add Image'
             >
               <ImageIcon className='w-5 h-5' />
             </button>
             <button
               onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors'
+              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer'
               title='Quote'
             >
               <Quote className='w-5 h-5' />
+            </button>
+
+            <button
+              onClick={() => editor.chain().focus().toggleOrderedList().run()}
+              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer'
+              title='Ordered List'
+            >
+              <ListIcon className='w-5 h-5' />
             </button>
           </div>
 
