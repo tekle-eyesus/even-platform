@@ -426,11 +426,13 @@ export default function Write() {
       {/* --- 5. PUBLISH MODAL --- */}
       {showPublishModal && (
         <div className='fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4'>
-          <div className='bg-white rounded-xl max-w-lg w-full p-8 shadow-2xl animate-in fade-in zoom-in-95'>
+          <div className='bg-white rounded-lg max-w-lg w-full p-8 shadow-2xl animate-in fade-in zoom-in-95'>
             <div className='flex justify-between items-center mb-6'>
-              <h2 className='text-2xl font-bold'>Finishing touches</h2>
+              <h2 className='text-2xl font-bold font-sans'>
+                Finishing touches
+              </h2>
               <button onClick={() => setShowPublishModal(false)}>
-                <X className='w-6 h-6 text-zinc-400 hover:text-black' />
+                <X className='w-6 h-6 text-zinc-400 hover:text-black cursor-pointer' />
               </button>
             </div>
 
@@ -445,7 +447,8 @@ export default function Write() {
               {/* Select Hub */}
               <div>
                 <label className='block text-sm font-medium text-zinc-700 mb-2'>
-                  Select a Tech Hub <span className='text-red-500'>*</span>
+                  Select a Tech Hub{" "}
+                  <span className='text-red-500 font-sans'>*</span>
                 </label>
                 <div className='grid grid-cols-2 gap-2'>
                   {hubs.map((hub) => (
@@ -453,9 +456,9 @@ export default function Write() {
                       key={hub._id}
                       onClick={() => setSelectedHub(hub._id)}
                       className={clsx(
-                        "px-4 py-2 rounded-lg text-sm border text-left transition-all",
+                        "px-4 py-2 rounded-lg text-sm border text-left transition-all cursor-pointer font-sans",
                         selectedHub === hub._id
-                          ? "border-black bg-black text-white"
+                          ? " bg-black text-white"
                           : "border-zinc-200 hover:border-zinc-400 text-zinc-700",
                       )}
                     >
@@ -467,12 +470,12 @@ export default function Write() {
 
               {/* Tags */}
               <div>
-                <label className='block text-sm font-medium text-zinc-700 mb-2'>
+                <label className='block text-sm font-medium text-zinc-700 mb-2 font-sans'>
                   Tags (comma separated)
                 </label>
                 <input
                   type='text'
-                  className='w-full rounded-lg border-zinc-300 focus:ring-black focus:border-black'
+                  className='w-full rounded-lg border-zinc-300 focus:ring-black focus:border-black border-none focus:outline-none focus:ring-0 font-sans p-2'
                   placeholder='AI, Web3, Tutorial...'
                   value={tags}
                   onChange={(e) => setTags(e.target.value)}
@@ -481,29 +484,30 @@ export default function Write() {
 
               {/* Summary */}
               <div>
-                <label className='block text-sm font-medium text-zinc-700 mb-2'>
+                <label className='block text-sm font-medium text-zinc-700 mb-2 font-sans'>
                   Short Summary
                 </label>
                 <textarea
                   rows={3}
-                  className='w-full rounded-lg border-zinc-300 focus:ring-black focus:border-black resize-none'
+                  className='w-full rounded-lg border-zinc-300 border-none focus:outline-none focus:ring-0 focus:border-black resize-none font-sans p-2'
                   placeholder='Briefly describe your article...'
                   value={summary}
                   onChange={(e) => setSummary(e.target.value)}
                 />
               </div>
 
-              <div className='flex justify-end gap-3 pt-4'>
+              <div className='flex justify-end gap-3 pt-4 '>
                 <Button
                   variant='ghost'
                   onClick={() => setShowPublishModal(false)}
+                  className='text-zinc-600 hover:text-black font-sans cursor-pointer'
                 >
                   Cancel
                 </Button>
                 <Button
                   onClick={handlePublish}
                   disabled={isPublishing || !selectedHub}
-                  className='bg-green-600 hover:bg-green-700 text-white rounded-full px-8 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50'
+                  className='bg-green-600 hover:bg-green-700 text-white rounded-full px-8 cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 font-sans'
                 >
                   {isPublishing ? (
                     <Loader2 className='w-4 h-4 animate-spin mr-2' />
