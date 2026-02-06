@@ -11,6 +11,7 @@ import Register from "./pages/Register";
 import Home from "./pages/Home";
 import PostDetails from "./pages/PostDetails";
 import Write from "./pages/Write";
+import Profile from "./pages/Profile";
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
             <Route path='/' element={<Home />} />
             <Route path='/posts/:slug' element={<PostDetails />} />
             <Route path='/write' element={<Write />} />
-            {/* Add placeholder route for bookmarks if you haven't created the page yet */}
+            <Route path='/u/:username' element={<Profile />} />
             <Route
               path='/bookmarks'
               element={
