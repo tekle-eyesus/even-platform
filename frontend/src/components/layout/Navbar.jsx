@@ -13,7 +13,7 @@ import {
   Sparkles,
 } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ onMenuClick }) {
   const { user, logout } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false); // Profile Dropdown
@@ -42,15 +42,23 @@ export default function Navbar() {
     <header className='sticky top-0 z-50 w-full border-b border-zinc-100 bg-white/80 backdrop-blur-md'>
       <div className='container mx-auto px-4 h-16 flex items-center justify-between'>
         {/* 1. Logo */}
-        <Link
-          to='/'
-          className='flex items-center gap-2 font-bold text-xl tracking-tight text-zinc-900'
-        >
-          <div className='w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-serif italic'>
-            <img src='./logo2.png' alt='' className='rounded-full' />
-          </div>
-          <span className='font-display'>EVEN</span>
-        </Link>
+        <div className='flex items-center gap-4'>
+          <button
+            onClick={onMenuClick}
+            className='p-2 -ml-2 text-zinc-600 hover:text-black hover:bg-zinc-100 rounded-full transition-colors cursor-pointer'
+          >
+            <Menu className='w-6 h-6 stroke-[1.5]' />
+          </button>
+          <Link
+            to='/'
+            className='flex items-center gap-2 font-bold text-xl tracking-tight text-zinc-900'
+          >
+            <div className='w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-serif italic'>
+              <img src='./logo2.png' alt='' className='rounded-full' />
+            </div>
+            <span className='font-display'>EVEN</span>
+          </Link>
+        </div>
 
         {/* 2. Desktop Navigation */}
         <nav className='hidden md:flex items-center gap-8 text-sm font-medium text-zinc-600 font-display'>
