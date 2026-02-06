@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Navbar from "../components/layout/Navbar";
 import { postService } from "../features/blog/services/post.service";
 import { hubService } from "../features/blog/services/hub.service";
 import {
@@ -202,8 +201,6 @@ export default function Home() {
 
   return (
     <div className='min-h-screen bg-white text-zinc-900 font-sans'>
-      <Navbar />
-
       <div className='container mx-auto px-4 max-w-7xl'>
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>
           {/* --- LEFT COLUMN: MAIN FEED --- */}

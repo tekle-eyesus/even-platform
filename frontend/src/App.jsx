@@ -5,6 +5,7 @@ import {
   Navigate,
 } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
+import MainLayout from "./components/layout/MainLayout";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Home from "./pages/Home";
@@ -17,13 +18,25 @@ function App() {
       <Router>
         <Routes>
           {/* Public Routes */}
-          <Route path='/' element={<Home />} />
           <Route path='/login' element={<Login />} />
           <Route path='/register' element={<Register />} />
-          <Route path='/posts/:slug' element={<PostDetails />} />
-          {/* Fallback route */}
-          <Route path='*' element={<Navigate to='/' replace />} />
-          <Route path='/write' element={<Write />} />
+          <Route element={<MainLayout />}>
+            <Route path='/' element={<Home />} />
+            <Route path='/posts/:slug' element={<PostDetails />} />
+            <Route path='/write' element={<Write />} />
+            {/* Add placeholder route for bookmarks if you haven't created the page yet */}
+            <Route
+              path='/bookmarks'
+              element={
+                <div className='pt-20 text-center'>
+                  Library Page (Coming Soon)
+                </div>
+              }
+            />
+          </Route>
+
+          {/* Redirect any unknown routes to home */}
+          <Route path='*' element={<Navigate to='/' />} />
         </Routes>
       </Router>
     </AuthProvider>
