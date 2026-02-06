@@ -74,13 +74,13 @@ export default function CommentSection({ postId }) {
                 value={newComment}
                 onChange={(e) => setNewComment(e.target.value)}
                 placeholder='What are your thoughts?'
-                className='w-full min-h-[100px] p-4 rounded-xl bg-zinc-50 border-none focus:ring-2 focus:ring-black/5 resize-none text-zinc-700'
+                className='w-full min-h-[100px] p-4 rounded-xl bg-zinc-50 border-none focus:outline-none focus:ring-0 resize-none text-zinc-700'
               />
               <div className='absolute bottom-3 right-3'>
                 <Button
                   disabled={isSubmitting || !newComment.trim()}
                   size='sm'
-                  className='bg-black text-white rounded-full px-4'
+                  className='bg-black text-white rounded-full px-4 cursor-pointer'
                 >
                   {isSubmitting ? "Posting..." : "Respond"}
                 </Button>
