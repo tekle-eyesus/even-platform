@@ -127,7 +127,7 @@ export default function CommentItem({ comment, postId }) {
           <button
             onClick={handleClap}
             className={clsx(
-              "flex items-center gap-1.5 text-xs font-medium transition-colors",
+              "flex items-center gap-1.5 text-xs font-medium transition-colors cursor-pointer",
               isClapped ? "text-black" : "text-zinc-500 hover:text-black",
             )}
           >
@@ -141,7 +141,7 @@ export default function CommentItem({ comment, postId }) {
             onClick={() =>
               user ? setIsReplying(!isReplying) : alert("Login to reply")
             }
-            className='flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-black transition-colors'
+            className='flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-black transition-colors cursor-pointer'
           >
             <MessageSquare className='w-4 h-4' />
             Reply
@@ -159,14 +159,14 @@ export default function CommentItem({ comment, postId }) {
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
                 placeholder={`Reply to ${comment.author?.fullName}...`}
-                className='bg-white'
+                className='bg-white border-none focus:outline-none focus:ring-0'
                 autoFocus
               />
             </div>
             <Button
               disabled={isSubmitting}
               size='sm'
-              className='bg-black text-white'
+              className='bg-black text-white cursor-pointer'
             >
               {isSubmitting ? "Sending..." : "Send"}
             </Button>
@@ -177,7 +177,7 @@ export default function CommentItem({ comment, postId }) {
         {repliesCount > 0 && (
           <button
             onClick={handleToggleReplies}
-            className='mt-3 flex items-center gap-2 text-xs font-bold text-blue-600 hover:underline'
+            className='mt-3 flex items-center gap-2 text-xs font-bold text-blue-600 hover:underline cursor-pointer'
           >
             <CornerDownRight className='w-3 h-3' />
             {showReplies ? "Hide Replies" : `View ${repliesCount} Replies`}
