@@ -96,8 +96,6 @@ export default function PostDetails() {
 
   return (
     <div className='min-h-screen bg-white pb-20 font-sans'>
-      <Navbar />
-
       {/* 1. Header Section (Title, Summary, Author) */}
       <header className='container mx-auto px-4 pt-10 pb-8 max-w-3xl text-center'>
         <div className='flex flex-col items-center gap-4'>

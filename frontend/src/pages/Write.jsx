@@ -225,8 +225,6 @@ export default function Write() {
 
   return (
     <div className='min-h-screen bg-white pb-20'>
-      <Navbar />
-
       <div className='container mx-auto px-4 max-w-3xl pt-10'>
         {/* Error Notification Banner */}
         {error && !showPublishModal && (
