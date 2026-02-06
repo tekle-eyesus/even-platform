@@ -4,15 +4,7 @@ import Navbar from "../components/layout/Navbar";
 import { postService } from "../features/blog/services/post.service";
 import { interactionService } from "../features/blog/services/interaction.service";
 import { useAuth } from "../context/AuthContext";
-import {
-  Loader2,
-  Heart,
-  Bookmark,
-  Share2,
-  MessageCircle,
-  UserPlus,
-  Check,
-} from "lucide-react";
+import { Loader2, Heart, Bookmark, MessageCircle, Share2 } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import clsx from "clsx";
 import CommentSection from "../features/blog/components/CommentSection";
@@ -48,8 +40,6 @@ export default function PostDetails() {
           ]);
           setIsLiked(likeStatus.data.hasLiked);
           setIsBookmarked(bookmarkStatus.data.isBookmarked);
-          // Note: We'd need a separate check for "isFollowing" usually,
-          // or we pass it in the author object. For MVP, we toggle blindly or assume false.
         }
       } catch (error) {
         console.error("Error fetching post", error);
@@ -64,7 +54,6 @@ export default function PostDetails() {
   // Handlers
   const handleLike = async () => {
     if (!user) return alert("Please login to like");
-    // Optimistic Update
     const newStatus = !isLiked;
     setIsLiked(newStatus);
     setLikesCount((prev) => (newStatus ? prev + 1 : prev - 1));
@@ -72,7 +61,6 @@ export default function PostDetails() {
     try {
       await interactionService.toggleLike(post._id);
     } catch (error) {
-      // Revert if error
       setIsLiked(!newStatus);
       setLikesCount((prev) => (newStatus ? prev - 1 : prev + 1));
     }
@@ -107,33 +95,39 @@ export default function PostDetails() {
   if (!post) return <div className='text-center py-20'>Post not found</div>;
 
   return (
-    <div className='min-h-screen bg-white pb-20'>
+    <div className='min-h-screen bg-white pb-20 font-sans'>
       <Navbar />
 
-      {/* 1. Header Section */}
-      <header className='container mx-auto px-4 pt-12 pb-8 max-w-4xl text-center'>
-        {post.techHub && (
-          <Link
-            to={`/hubs/${post.techHub.slug}`}
-            className='text-blue-600 font-semibold text-sm tracking-wide uppercase mb-4 inline-block hover:underline'
-          >
-            {post.techHub.name}
-          </Link>
-        )}
-        <h1 className='text-4xl md:text-5xl font-bold text-zinc-900 leading-tight mb-6'>
-          {post.title}
-        </h1>
-        <p className='text-xl text-zinc-500 font-light leading-relaxed mb-8'>
-          {post.summary || "A deep dive into the technology ecosystem."}
-        </p>
+      {/* 1. Header Section (Title, Summary, Author) */}
+      <header className='container mx-auto px-4 pt-10 pb-8 max-w-3xl text-center'>
+        <div className='flex flex-col items-center gap-4'>
+          {post.techHub && (
+            <Link
+              to={`/hubs/${post.techHub.slug}`}
+              className='text-blue-600 font-semibold text-sm tracking-wide uppercase hover:underline'
+            >
+              {post.techHub.name}
+            </Link>
+          )}
+
+          <h1 className='text-4xl md:text-5xl font-extrabold text-zinc-900 leading-[1.15] tracking-tight'>
+            {post.title}
+          </h1>
+
+          <p className='text-xl text-zinc-500 font-serif leading-relaxed line-clamp-3'>
+            {post.summary}
+          </p>
+        </div>
 
         {/* Author Meta */}
-        <div className='flex items-center justify-center gap-4'>
-          <img
-            src={post.author.avatar}
-            alt=''
-            className='w-12 h-12 rounded-full border border-zinc-100'
-          />
+        <div className='flex items-center justify-center gap-4 mt-8'>
+          <div className='w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-zinc-200 to-white'>
+            <img
+              src={post.author.avatar}
+              alt={post.author.fullName}
+              className='w-full h-full rounded-full object-cover border border-white'
+            />
+          </div>
           <div className='text-left'>
             <div className='flex items-center gap-2'>
               <span className='font-bold text-zinc-900'>
@@ -154,50 +148,54 @@ export default function PostDetails() {
               )}
             </div>
             <div className='text-sm text-zinc-500'>
-              {new Date(post.createdAt).toLocaleDateString()} · {post.readTime}{" "}
-              min read
+              {new Date(post.createdAt).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}{" "}
+              · {post.readTime} min read
             </div>
           </div>
         </div>
       </header>
 
       {/* 2. Cover Image */}
-      <div className='container mx-auto px-4 max-w-5xl mb-12'>
-        <div className='aspect-[21/9] rounded-2xl overflow-hidden bg-zinc-100'>
-          {post.coverImage && (
+      {post.coverImage && (
+        <div className='container mx-auto px-4 max-w-5xl mb-12'>
+          <div className='aspect-[2/1] md:aspect-[21/9] rounded-xl overflow-hidden shadow-sm bg-zinc-100'>
             <img
               src={post.coverImage}
               alt={post.title}
               className='w-full h-full object-cover'
             />
-          )}
+          </div>
         </div>
-      </div>
+      )}
 
-      <div className='container mx-auto px-4 max-w-6xl flex relative'>
+      <div className='container mx-auto px-4 max-w-5xl flex relative'>
         {/* 3. Floating Sidebar (Desktop Actions) */}
-        <aside className='hidden lg:flex flex-col gap-6 sticky top-32 h-fit mr-12 ml-4'>
-          <div className='flex flex-col items-center gap-2'>
+        <aside className='hidden lg:flex flex-col gap-6 sticky top-32 h-fit mr-8 xl:-ml-16'>
+          <div className='flex flex-col items-center gap-1'>
             <Button
               variant='ghost'
               onClick={handleLike}
               className={clsx(
-                "rounded-full p-3 h-12 w-12 border",
+                "rounded-full p-3 h-10 w-10 border transition-all",
                 isLiked
-                  ? "border-red-200 bg-red-50 text-red-600"
-                  : "border-zinc-200 text-zinc-500 hover:bg-zinc-100",
+                  ? "border-transparent bg-red-50 text-red-600"
+                  : "border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900",
               )}
             >
               <Heart className={clsx("w-5 h-5", isLiked && "fill-current")} />
             </Button>
-            <span className='text-sm font-medium text-zinc-500'>
+            <span className='text-xs font-medium text-zinc-500'>
               {likesCount}
             </span>
           </div>
 
           <Button
             variant='ghost'
-            className='rounded-full p-3 h-12 w-12 border border-zinc-200 text-zinc-500 hover:bg-zinc-100'
+            className='rounded-full p-3 h-10 w-10 border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900'
           >
             <MessageCircle className='w-5 h-5' />
           </Button>
@@ -206,69 +204,76 @@ export default function PostDetails() {
             variant='ghost'
             onClick={handleBookmark}
             className={clsx(
-              "rounded-full p-3 h-12 w-12 border",
+              "rounded-full p-3 h-10 w-10 border transition-all",
               isBookmarked
-                ? "border-black bg-black text-white hover:bg-zinc-800"
-                : "border-zinc-200 text-zinc-500 hover:bg-zinc-100",
+                ? "border-transparent bg-zinc-900 text-white hover:bg-zinc-700"
+                : "border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900",
             )}
           >
             <Bookmark
               className={clsx("w-5 h-5", isBookmarked && "fill-current")}
             />
           </Button>
+
+          <Button
+            variant='ghost'
+            className='rounded-full p-3 h-10 w-10 border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900'
+          >
+            <Share2 className='w-5 h-5' />
+          </Button>
         </aside>
 
-        {/* 4. Main Content */}
+        {/* 4. Main Content (HTML Rendered) */}
         <article className='flex-1 max-w-3xl mx-auto'>
-          {/* 
-               Typography Plugin Class: 'prose' 
-               This automatically styles h1, h2, p, ul, img inside the div 
-            */}
           <div
             className='prose prose-lg prose-zinc max-w-none 
-                prose-headings:font-bold prose-headings:tracking-tight 
-                prose-a:text-blue-600 prose-img:rounded-xl'
-          >
-            {/* 
-                   Safety Note: In production, use a sanitizer library like 'dompurify' 
-                   before rendering user HTML.
-                */}
-            {post.content.split("\n").map((paragraph, idx) => (
-              <p key={idx}>{paragraph}</p> // Simple text render for now, replace with dangerousHTML if your backend sends HTML
-            ))}
-          </div>
+                prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-zinc-900
+                prose-p:leading-relaxed prose-p:text-zinc-800
+                prose-a:text-blue-600 prose-a:no-underline hover:prose-a:underline
+                prose-img:rounded-xl prose-img:shadow-sm prose-img:my-8
+                prose-blockquote:border-l-4 prose-blockquote:border-zinc-900 prose-blockquote:pl-4 prose-blockquote:italic
+                '
+            // DangerouslySetInnerHTML is required to render the HTML from Tiptap
+            dangerouslySetInnerHTML={{ __html: post.content }}
+          />
 
           {/* Tags Footer */}
-          <div className='mt-12 pt-8 border-t border-zinc-100'>
+          <div className='mt-16 pt-7 mb-4 border-t border-zinc-100'>
             <div className='flex gap-2 flex-wrap'>
               {post.tags.map((tag) => (
-                <span
+                <Link
+                  to={`/search?q=${tag}`}
                   key={tag}
-                  className='px-3 py-1 bg-zinc-100 text-zinc-600 rounded-full text-sm'
+                  className='px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded-full text-sm transition-colors'
                 >
-                  #{tag}
-                </span>
+                  {tag}
+                </Link>
               ))}
             </div>
           </div>
         </article>
       </div>
+
       <CommentSection postId={post._id} />
+
       {/* Mobile Sticky Action Bar */}
-      <div className='lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-zinc-200 p-4 flex justify-around z-40 pb-6'>
+      <div className='lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-zinc-200 p-3 flex justify-around z-40 pb-6 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]'>
         <button
           onClick={handleLike}
-          className='flex items-center gap-2 text-zinc-600'
+          className='flex items-center gap-2 text-zinc-600 cursor-pointer'
         >
           <Heart
             className={clsx("w-5 h-5", isLiked && "fill-red-500 text-red-500")}
           />
-          <span>{likesCount}</span>
+          <span className='text-sm font-medium'>{likesCount}</span>
         </button>
-        <button className='flex items-center gap-2 text-zinc-600'>
+        <button className='flex items-center gap-2 text-zinc-600 cursor-pointer'>
           <MessageCircle className='w-5 h-5' />
         </button>
-        <button onClick={handleBookmark} className='text-zinc-600'>
+        <button
+          onClick={handleBookmark}
+          className='text-zinc-600 cursor-pointer'
+        >
           <Bookmark
             className={clsx("w-5 h-5", isBookmarked && "fill-black text-black")}
           />
