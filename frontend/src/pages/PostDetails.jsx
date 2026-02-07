@@ -8,6 +8,7 @@ import { Loader2, Heart, Bookmark, MessageCircle, Share2 } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import clsx from "clsx";
 import CommentSection from "../features/blog/components/CommentSection";
+import { commentService } from "../features/blog/services/comment.service";
 
 export default function PostDetails() {
   const { slug } = useParams();
@@ -21,6 +22,7 @@ export default function PostDetails() {
   const [isLiked, setIsLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
+  const [comments, setComments] = useState([]);
 
   // Fetch Data
   useEffect(() => {
@@ -30,6 +32,8 @@ export default function PostDetails() {
         // 1. Get Post Details
         const data = await postService.getPostBySlug(slug);
         setPost(data.data);
+        const commentData = await commentService.getPostComments(data.data._id);
+        setComments(commentData.data.comments);
         setLikesCount(data.data.likesCount || 0);
 
         // 2. If User is logged in, fetch interaction statuses
@@ -191,12 +195,17 @@ export default function PostDetails() {
             </span>
           </div>
 
-          <Button
-            variant='ghost'
-            className='rounded-full p-3 h-10 w-10 border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900'
-          >
-            <MessageCircle className='w-5 h-5' />
-          </Button>
+          <div className='flex flex-col items-center gap-1'>
+            <Button
+              variant='ghost'
+              className='rounded-full p-3 h-10 w-10 border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900'
+            >
+              <MessageCircle className='w-5 h-5' />
+            </Button>
+            <span className='text-xs font-medium text-zinc-500'>
+              {comments.length}
+            </span>
+          </div>
 
           <Button
             variant='ghost'
