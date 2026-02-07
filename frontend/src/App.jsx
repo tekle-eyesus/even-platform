@@ -12,6 +12,7 @@ import Home from "./pages/Home";
 import PostDetails from "./pages/PostDetails";
 import Write from "./pages/Write";
 import Profile from "./pages/Profile";
+import Library from "./pages/Library";
 
 function App() {
   return (
@@ -26,14 +27,7 @@ function App() {
             <Route path='/posts/:slug' element={<PostDetails />} />
             <Route path='/write' element={<Write />} />
             <Route path='/u/:username' element={<Profile />} />
-            <Route
-              path='/bookmarks'
-              element={
-                <div className='pt-20 text-center'>
-                  Library Page (Coming Soon)
-                </div>
-              }
-            />
+            <Route path='/bookmarks' element={<Library />} />
           </Route>
 
           {/* Redirect any unknown routes to home */}
