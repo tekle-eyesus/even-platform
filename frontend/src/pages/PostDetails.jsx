@@ -9,6 +9,7 @@ import { Button } from "../components/ui/Button";
 import clsx from "clsx";
 import CommentSection from "../features/blog/components/CommentSection";
 import { commentService } from "../features/blog/services/comment.service";
+import ShareModal from "../features/blog/components/ShareModal";
 
 export default function PostDetails() {
   const { slug } = useParams();
@@ -23,6 +24,10 @@ export default function PostDetails() {
   const [isBookmarked, setIsBookmarked] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
   const [comments, setComments] = useState([]);
+
+  // --- SHARE STATE ---
+  const [isShareOpen, setIsShareOpen] = useState(false);
+  const [shareLinks, setShareLinks] = useState(null);
 
   // Fetch Data
   useEffect(() => {
@@ -87,6 +92,16 @@ export default function PostDetails() {
       await interactionService.toggleFollow(post.author._id);
     } catch (error) {
       setIsFollowing(!isFollowing);
+    }
+  };
+
+  const handleShare = async () => {
+    try {
+      const data = await interactionService.getShareLinks(post._id);
+      setShareLinks(data.data);
+      setIsShareOpen(true);
+    } catch (error) {
+      console.error("Failed to get share links", error);
     }
   };
 
@@ -224,6 +239,7 @@ export default function PostDetails() {
 
           <Button
             variant='ghost'
+            onClick={handleShare} // Connect handler
             className='rounded-full p-3 h-10 w-10 border border-zinc-200 text-zinc-500 hover:bg-zinc-50 hover:text-zinc-900'
           >
             <Share2 className='w-5 h-5' />
@@ -262,6 +278,11 @@ export default function PostDetails() {
       </div>
 
       <CommentSection postId={post._id} />
+      <ShareModal
+        isOpen={isShareOpen}
+        onClose={() => setIsShareOpen(false)}
+        shareData={shareLinks}
+      />
 
       {/* Mobile Sticky Action Bar */}
       <div className='lg:hidden fixed bottom-0 left-0 w-full bg-white border-t border-zinc-200 p-3 flex justify-around z-40 pb-6 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]'>
