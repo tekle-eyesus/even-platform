@@ -24,4 +24,9 @@ export const interactionService = {
     const response = await api.post(`/subscriptions/users/${userId}`);
     return response.data;
   },
+
+  async getBookmarkedPosts() {
+    const response = await api.get("/bookmarks");
+    return response.data;
+  },
 };
