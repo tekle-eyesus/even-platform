@@ -276,6 +276,7 @@ export default function PostDetails() {
         </button>
         <button className='flex items-center gap-2 text-zinc-600 cursor-pointer'>
           <MessageCircle className='w-5 h-5' />
+          <span className='text-sm font-medium'>{comments.length}</span>
         </button>
         <button
           onClick={handleBookmark}

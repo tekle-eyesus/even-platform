@@ -29,4 +29,9 @@ export const interactionService = {
     const response = await api.get("/bookmarks");
     return response.data;
   },
+
+  async getShareLinks(postId) {
+    const response = await api.post(`/share/${postId}`);
+    return response.data;
+  },
 };
