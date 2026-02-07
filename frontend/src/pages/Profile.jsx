@@ -168,7 +168,7 @@ export default function Profile() {
               <h2 className='hidden lg:block font-bold text-zinc-900 text-lg mb-1'>
                 {profileUser.fullName}
               </h2>
-              <div className='text-zinc-500 text-sm mb-4'>
+              <div className='text-zinc-500 text-sm mb-4 font-sans'>
                 @{profileUser.username}
               </div>
 
@@ -181,7 +181,7 @@ export default function Profile() {
                 {isOwnProfile ? (
                   <button
                     onClick={() => setIsEditOpen(true)}
-                    className='text-green-700 text-sm hover:text-green-800 font-medium'
+                    className='text-green-700 text-sm hover:text-green-800 font-medium cursor-pointer'
                   >
                     Edit profile
                   </button>
