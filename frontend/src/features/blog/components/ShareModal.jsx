@@ -42,17 +42,16 @@ export default function ShareModal({ isOpen, onClose, shareData }) {
       <div className='bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 relative'>
         {/* Header */}
         <div className='flex items-center justify-between px-6 py-5 border-b border-zinc-100'>
-          <h3 className='text-xl font-bold text-zinc-900'>Share</h3>
+          <h3 className='text-xl font-bold text-zinc-900 font-sans'>Share</h3>
           <button
             onClick={onClose}
-            className='p-2 bg-zinc-100 hover:bg-zinc-200 rounded-full transition-colors text-zinc-500 hover:text-black'
+            className='p-2 bg-zinc-100 hover:bg-zinc-200 rounded-full transition-colors text-zinc-500 hover:text-black cursor-pointer'
           >
             <X className='w-5 h-5' />
           </button>
         </div>
 
         <div className='p-6'>
-          {/* 1. Social Icons Grid */}
           <p className='text-sm font-medium text-zinc-900 mb-4'>
             Share this link via
           </p>
@@ -85,19 +84,19 @@ export default function ShareModal({ isOpen, onClose, shareData }) {
           </div>
 
           {/* 2. Page Link Copy Section */}
-          <p className='text-sm font-medium text-zinc-900 mb-2'>Page link</p>
+          <p className='text-sm font-sans text-zinc-900 mb-2'>Page link</p>
           <div className='flex items-center gap-2 bg-zinc-50 border border-zinc-200 rounded-xl px-3 py-2'>
             <div className='flex-1 overflow-hidden'>
               <input
                 type='text'
                 readOnly
                 value={shareData.copy || ""}
-                className='w-full bg-transparent border-none text-sm text-zinc-600 focus:ring-0 p-0 truncate'
+                className='w-full bg-transparent border-none text-sm text-zinc-600 focus:outline-none focus:ring-0 p-0 truncate'
               />
             </div>
             <button
               onClick={handleCopy}
-              className='p-2 hover:bg-white rounded-lg transition-colors text-zinc-500 hover:text-black hover:shadow-sm border border-transparent hover:border-zinc-200'
+              className='p-2 hover:bg-white rounded-lg transition-colors text-zinc-500 hover:text-black hover:shadow-sm border border-transparent hover:border-zinc-200 cursor-pointer'
               title='Copy link'
             >
               {copied ? (
