@@ -49,8 +49,6 @@ export default function EditProfileModal({
     e.preventDefault();
     setIsSaving(true);
     try {
-      // Call the API via the parent prop or service
-      // We assume parent passed the actual service call or we do it here:
       const response = await api.patch("/users/update-account", formData);
 
       // Update global auth context so Navbar avatar updates immediately
@@ -72,8 +70,11 @@ export default function EditProfileModal({
       <div className='bg-white rounded-xl shadow-xl w-full max-w-md overflow-hidden'>
         {/* Header */}
         <div className='flex items-center justify-between px-6 py-4 border-b border-zinc-100'>
-          <h3 className='font-bold text-lg'>Profile Information</h3>
-          <button onClick={onClose} className='text-zinc-400 hover:text-black'>
+          <h3 className='font-bold text-lg font-sans'>Profile Information</h3>
+          <button
+            onClick={onClose}
+            className='text-zinc-400 hover:text-black cursor-pointer'
+          >
             <X className='w-5 h-5' />
           </button>
         </div>
@@ -113,7 +114,7 @@ export default function EditProfileModal({
           {/* Inputs */}
           <div className='space-y-4'>
             <div>
-              <label className='text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1 block'>
+              <label className='text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1 block font-sans'>
                 Full Name
               </label>
               <Input
@@ -121,11 +122,11 @@ export default function EditProfileModal({
                 onChange={(e) =>
                   setFormData({ ...formData, fullName: e.target.value })
                 }
-                className='bg-zinc-50 border-transparent focus:bg-white transition-all'
+                className='font-sans bg-zinc-50 border-none focus:outline-none focus:ring-0 border-transparent transition-all'
               />
             </div>
             <div>
-              <label className='text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1 block'>
+              <label className='text-xs font-bold text-zinc-500 uppercase tracking-wider mb-1 block font-sans'>
                 Bio
               </label>
               <textarea
@@ -135,7 +136,7 @@ export default function EditProfileModal({
                   setFormData({ ...formData, bio: e.target.value })
                 }
                 maxLength={160}
-                className='w-full rounded-md bg-zinc-50 border-transparent focus:bg-white focus:ring-2 focus:ring-black/5 px-3 py-2 text-sm resize-none transition-all'
+                className='w-full rounded-md bg-zinc-50 border-transparent focus:bg-white  focus:ring-black/5 px-3 py-2 text-sm resize-none transition-all border-none focus:outline-none focus:ring-0 font-sans'
               />
               <div className='text-right text-xs text-zinc-400 mt-1'>
                 {formData.bio.length}/160
@@ -149,13 +150,13 @@ export default function EditProfileModal({
               type='button'
               variant='ghost'
               onClick={onClose}
-              className='rounded-full'
+              className='rounded-full cursor-pointer'
             >
               Cancel
             </Button>
             <Button
               disabled={isSaving || isUploading}
-              className='bg-green-600 hover:bg-green-700 text-white rounded-full px-6'
+              className='bg-green-600 hover:bg-green-700 text-white rounded-full px-6 cursor-pointer'
             >
               {isSaving ? <Loader2 className='w-4 h-4 animate-spin' /> : "Save"}
             </Button>
