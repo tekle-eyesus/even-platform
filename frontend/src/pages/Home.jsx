@@ -119,9 +119,6 @@ const MinimalPostCard = ({ post }) => {
               <BotIcon className='w-5 h-5 stroke-[1.5] cursor-pointer' />
             </button>
             <button className='hover:text-zinc-800 transition-colors cursor-pointer'>
-              <Bookmark className='w-5 h-5 stroke-[1.5]' />
-            </button>
-            <button className='hover:text-zinc-800 transition-colors cursor-pointer'>
               <MoreHorizontal className='w-5 h-5 stroke-[1.5]' />
             </button>
           </div>
