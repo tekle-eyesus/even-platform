@@ -34,4 +34,9 @@ export const interactionService = {
     const response = await api.post(`/share/${postId}`);
     return response.data;
   },
+
+  async toggleHubSubscription(hubId) {
+    const response = await api.post(`/subscriptions/hubs/${hubId}`);
+    return response.data;
+  },
 };
