@@ -12,6 +12,8 @@ import {
   HelpCircle,
   Sparkles,
 } from "lucide-react";
+import { searchService } from "../../services/search.service";
+import { Loader2, Hash, BookOpen } from "lucide-react";
 
 export default function Navbar({ onMenuClick }) {
   const { user, logout } = useAuth();
@@ -19,6 +21,13 @@ export default function Navbar({ onMenuClick }) {
   const [isProfileOpen, setIsProfileOpen] = useState(false); // Profile Dropdown
   const profileRef = useRef(null); // Reference for click-outside logic
   const navigate = useNavigate();
+
+  // Search state
+  const [query, setQuery] = useState("");
+  const [results, setResults] = useState(null);
+  const [isSearching, setIsSearching] = useState(false);
+  const [showSearch, setShowSearch] = useState(false);
+  const searchRef = useRef(null);
 
   // Handle Click Outside to close profile menu
   useEffect(() => {
@@ -38,6 +47,42 @@ export default function Navbar({ onMenuClick }) {
     setIsProfileOpen(false);
     navigate("/");
   };
+
+  // Debounce Search Logic
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(async () => {
+      if (query.trim().length > 1) {
+        // Only search if 2+ chars
+        setIsSearching(true);
+        try {
+          const data = await searchService.search(query);
+          setResults(data.data);
+          setShowSearch(true);
+        } catch (error) {
+          console.error(error);
+        } finally {
+          setIsSearching(false);
+        }
+      } else {
+        setResults(null);
+        setShowSearch(false);
+      }
+    }, 300); // Wait 300ms
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [query]);
+
+  // Close search when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (searchRef.current && !searchRef.current.contains(event.target)) {
+        setShowSearch(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [searchRef]);
+
   return (
     <header className='sticky top-0 z-50 w-full border-b border-zinc-100 bg-white/80 backdrop-blur-md'>
       <div className='container mx-auto px-4 h-16 flex items-center justify-between'>
@@ -75,13 +120,129 @@ export default function Navbar({ onMenuClick }) {
 
         {/* 3. Actions (Search + Auth) */}
         <div className='hidden md:flex items-center gap-4'>
-          <div className='relative group'>
-            <Search className='w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-zinc-600' />
-            <input
-              type='text'
-              placeholder='Search'
-              className='h-8 pl-9 pr-4 rounded-full bg-zinc-100 text-sm border-none focus:outline-none focus:ring-0 w-64 transition-all'
-            />
+          {/* 3. Search Bar (Middle) */}
+          <div className='hidden md:block flex-1 max-w-md px-8' ref={searchRef}>
+            <div className='relative group'>
+              <Search className='w-4 h-4 text-zinc-400 absolute left-3 top-1/2 -translate-y-1/2 group-focus-within:text-zinc-800 transition-colors' />
+              <input
+                type='text'
+                placeholder='Search'
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                onFocus={() => query.length > 1 && setShowSearch(true)}
+                className='h-9 pl-10 pr-4 rounded-full bg-zinc-100 text-sm border-none focus:outline-none focus:ring-0 w-full transition-all placeholder:text-zinc-400'
+              />
+
+              {/* --- SEARCH DROPDOWN --- */}
+              {showSearch && results && (
+                <div className='absolute top-12 left-0 w-full bg-white rounded-lg shadow-xl border border-zinc-100 py-2 animate-in fade-in zoom-in-95 z-50'>
+                  {/* 1. PEOPLE (Users) */}
+                  {results.users?.length > 0 && (
+                    <div className='mb-2'>
+                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider'>
+                        People
+                      </h4>
+                      {results.users.map((u) => (
+                        <Link
+                          key={u._id}
+                          to={`/u/${u.username}`}
+                          onClick={() => setShowSearch(false)}
+                          className='flex items-center gap-3 px-4 py-2 hover:bg-zinc-50 transition-colors'
+                        >
+                          <img
+                            src={u.avatar || "https://via.placeholder.com/30"}
+                            className='w-8 h-8 rounded-full bg-zinc-200 object-cover'
+                            alt=''
+                          />
+                          <div className='flex flex-col'>
+                            <span className='text-sm font-medium text-zinc-900'>
+                              {u.fullName}
+                            </span>
+                            <span className='text-xs text-zinc-500'>
+                              @{u.username}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 2. TECH HUBS (Publications) */}
+                  {results.hubs?.length > 0 && (
+                    <div className='mb-2'>
+                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider'>
+                        Tech Hubs
+                      </h4>
+                      {results.hubs.map((h) => (
+                        <Link
+                          key={h._id}
+                          to={`/hubs/${h.slug}`}
+                          onClick={() => setShowSearch(false)}
+                          className='flex items-center gap-3 px-4 py-2 hover:bg-zinc-50 transition-colors'
+                        >
+                          <div className='w-8 h-8 rounded-md bg-zinc-100 flex items-center justify-center text-zinc-500'>
+                            <Hash className='w-4 h-4' />
+                          </div>
+                          <span className='text-sm font-medium text-zinc-900'>
+                            {h.name}
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* 3. STORIES (Posts) */}
+                  {results.posts?.length > 0 && (
+                    <div>
+                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider'>
+                        Stories
+                      </h4>
+                      {results.posts.map((p) => (
+                        <Link
+                          key={p._id}
+                          to={`/posts/${p.slug}`}
+                          onClick={() => setShowSearch(false)}
+                          className='flex items-center gap-3 px-4 py-2 hover:bg-zinc-50 transition-colors'
+                        >
+                          <div className='w-8 h-8 rounded-md bg-zinc-100 flex items-center justify-center text-zinc-500'>
+                            <BookOpen className='w-4 h-4' />
+                          </div>
+                          <div className='flex flex-col overflow-hidden'>
+                            <span className='text-sm font-medium text-zinc-900 truncate'>
+                              {p.title}
+                            </span>
+                            <span className='text-xs text-zinc-400'>
+                              by {p.author?.fullName}
+                            </span>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+
+                  {/* Empty State */}
+                  {!results.users?.length &&
+                    !results.hubs?.length &&
+                    !results.posts?.length && (
+                      <div className='px-4 py-6 text-center text-sm text-zinc-500'>
+                        No results found for "{query}"
+                      </div>
+                    )}
+
+                  {/* View All Link (Optional) */}
+                  {results.users?.length ||
+                  results.hubs?.length ||
+                  results.posts?.length ? (
+                    <Link
+                      to={`/search?q=${query}`}
+                      className='block border-t border-zinc-100 mt-2 px-4 py-3 text-sm text-zinc-600 hover:text-black'
+                    >
+                      See all results for "{query}"
+                    </Link>
+                  ) : null}
+                </div>
+              )}
+            </div>
           </div>
 
           {user ? (
