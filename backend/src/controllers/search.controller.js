@@ -1,8 +1,8 @@
 const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiResponse } = require("../utils/ApiResponse");
-const User = require("../models/User.model");
-const Post = require("../models/Post.model");
-const TechHub = require("../models/TechHub.model");
+const User = require("../models/UserModel");
+const Post = require("../models/postModel");
+const TechHub = require("../models/techHubModel");
 
 // @desc    Global Search (Users, Hubs, Posts)
 // @route   GET /api/v1/search?q=query
