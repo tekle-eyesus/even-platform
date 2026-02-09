@@ -96,12 +96,12 @@ export default function Navbar({ onMenuClick }) {
           </button>
           <Link
             to='/'
-            className='flex items-center gap-2 font-bold text-xl tracking-tight text-zinc-900'
+            className='flex items-center gap-2 font-bold text-2xl tracking-tight text-zinc-900'
           >
-            <div className='w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-serif italic'>
-              <img src='./logo2.png' alt='' className='rounded-full' />
+            <div className='w-8 h-8 rounded-full flex items-center justify-center text-white font-serif italic'>
+              <img src='./logo3.png' alt='' className='rounded-full' />
             </div>
-            <span className='font-display'>EVEN</span>
+            <span className='font-russo '>EVEN</span>
           </Link>
         </div>
 
