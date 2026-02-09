@@ -13,6 +13,8 @@ import PostDetails from "./pages/PostDetails";
 import Write from "./pages/Write";
 import Profile from "./pages/Profile";
 import Library from "./pages/Library";
+import TechHubs from "./pages/TechHubs";
+import HubDetail from "./pages/HubDetail";
 
 function App() {
   return (
@@ -28,6 +30,8 @@ function App() {
             <Route path='/write' element={<Write />} />
             <Route path='/u/:username' element={<Profile />} />
             <Route path='/bookmarks' element={<Library />} />
+            <Route path='/hubs' element={<TechHubs />} />
+            <Route path='/hubs/:slug' element={<HubDetail />} />
           </Route>
 
           {/* Redirect any unknown routes to home */}
