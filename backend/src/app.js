@@ -13,6 +13,7 @@ const shareRouter = require("./routes/share.routes");
 const userRouter = require("./routes/user.routes");
 const bookmarkRouter = require("./routes/bookmark.routes");
 const uploadRouter = require("./routes/upload.routes");
+const searchRouter = require("./routes/search.routes");
 
 const app = express();
 
@@ -45,5 +46,6 @@ app.use("/api/v1/bookmarks", bookmarkRouter);
 app.use("/api/v1/analytics", analyticsRouter);
 app.use("/api/v1/likes", likeRouter);
 app.use("/api/v1/share", shareRouter);
+app.use("/api/v1/search", searchRouter);
 
 module.exports = { app };
