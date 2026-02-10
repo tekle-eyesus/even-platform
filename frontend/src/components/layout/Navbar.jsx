@@ -348,13 +348,13 @@ export default function Navbar({ onMenuClick }) {
               <Link to='/login'>
                 <Button
                   variant='ghost'
-                  className='text-zinc-600 hover:text-black'
+                  className='text-zinc-600 hover:text-black cursor-pointer'
                 >
                   Log in
                 </Button>
               </Link>
               <Link to='/register'>
-                <Button className='bg-black text-white hover:bg-zinc-800 rounded-full px-6'>
+                <Button className='bg-black text-white hover:bg-zinc-800 rounded-full px-6 cursor-pointer'>
                   Get Started
                 </Button>
               </Link>
