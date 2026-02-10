@@ -39,7 +39,7 @@ export default function About() {
       </section>
 
       {/* 2. Value Proposition Grid */}
-      <section className='py-20 bg-zinc-50'>
+      <section className='py-20 bg-[#F0EEE6]'>
         <div className='container mx-auto px-4 max-w-6xl'>
           <div className='grid grid-cols-1 md:grid-cols-3 gap-12'>
             {/* Feature 1 */}
