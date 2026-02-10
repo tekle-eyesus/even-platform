@@ -75,7 +75,7 @@ export default function HubDetail() {
                   <span>Followers</span>
                 </div>
                 {/* Add 'Follow Hub' button here later if needed */}
-                <button className='text-green-700 font-bold hover:underline'>
+                <button className='text-green-700 font-bold hover:underline cursor-pointer'>
                   + Follow {hub.name}
                 </button>
               </div>
@@ -85,8 +85,8 @@ export default function HubDetail() {
       </div>
 
       {/* Content Feed */}
-      <div className='container mx-auto px-4 max-w-5xl py-10'>
-        <h2 className='text-xl font-bold text-zinc-900 border-b border-zinc-100 pb-4 mb-6'>
+      <div className='container mx-auto px-4 max-w-3xl py-10 '>
+        <h2 className='text-xl font-bold text-zinc-900 border-b border-zinc-100 pb-4 mb-6 font-sans'>
           Latest Stories
         </h2>
 

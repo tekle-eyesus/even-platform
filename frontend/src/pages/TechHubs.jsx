@@ -64,10 +64,10 @@ export default function TechHubs() {
       {/* Header */}
       <div className='bg-[#F0EEE6] border-b border-zinc-100 py-16'>
         <div className='container mx-auto px-4 max-w-6xl text-center'>
-          <h1 className='text-4xl md:text-5xl font-bold text-zinc-900 mb-4 tracking-tight font-ptserif'>
+          <h1 className='text-4xl md:text-5xl font-bold text-zinc-900 mb-4 tracking-tight font-clash'>
             Explore Tech Hubs
           </h1>
-          <p className='text-[30px] text-zinc-500 max-w-2xl mx-auto font-ptserif'>
+          <p className='text-[30px] text-zinc-500 max-w-2xl mx-auto font-clash-extralight'>
             Discover communities, follow your interests, and keep up with the
             latest trends in technology.
           </p>
@@ -92,10 +92,10 @@ export default function TechHubs() {
                 </div>
               </div>
 
-              <h3 className='text-xl font-bold text-zinc-900 mb-2  transition-colors'>
+              <h3 className='text-xl font-bold text-zinc-900 mb-2  transition-colors font-display'>
                 {hub.name}
               </h3>
-              <p className='text-sm text-zinc-500 mb-6 line-clamp-2 leading-relaxed flex-1'>
+              <p className='text-sm text-zinc-500 mb-6 line-clamp-2 leading-relaxed flex-1 font-sans'>
                 {hub.description}
               </p>
 
