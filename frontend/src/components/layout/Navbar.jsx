@@ -135,11 +135,12 @@ export default function Navbar({ onMenuClick }) {
 
               {/* --- SEARCH DROPDOWN --- */}
               {showSearch && results && (
-                <div className='absolute top-12 left-0 w-full bg-white rounded-lg shadow-xl border border-zinc-100 py-2 animate-in fade-in zoom-in-95 z-50'>
+                <div className='absolute top-12 left-0 w-full bg-white rounded-md shadow-xl border border-zinc-100 py-2 animate-in fade-in zoom-in-95 z-50'>
                   {/* 1. PEOPLE (Users) */}
+
                   {results.users?.length > 0 && (
                     <div className='mb-2'>
-                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider'>
+                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider font-sans'>
                         People
                       </h4>
                       {results.users.map((u) => (
@@ -170,7 +171,7 @@ export default function Navbar({ onMenuClick }) {
                   {/* 2. TECH HUBS (Publications) */}
                   {results.hubs?.length > 0 && (
                     <div className='mb-2'>
-                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider'>
+                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider font-sans'>
                         Tech Hubs
                       </h4>
                       {results.hubs.map((h) => (
@@ -194,7 +195,7 @@ export default function Navbar({ onMenuClick }) {
                   {/* 3. STORIES (Posts) */}
                   {results.posts?.length > 0 && (
                     <div>
-                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider'>
+                      <h4 className='px-4 py-2 text-[11px] font-bold text-zinc-500 uppercase tracking-wider font-sans'>
                         Stories
                       </h4>
                       {results.posts.map((p) => (
@@ -224,7 +225,7 @@ export default function Navbar({ onMenuClick }) {
                   {!results.users?.length &&
                     !results.hubs?.length &&
                     !results.posts?.length && (
-                      <div className='px-4 py-6 text-center text-sm text-zinc-500'>
+                      <div className='px-4 py-6 text-center text-sm text-zinc-500 font-sans'>
                         No results found for "{query}"
                       </div>
                     )}
