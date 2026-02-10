@@ -3,12 +3,21 @@
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Orbitron:wght@400..900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Orbitron:wght@400..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&family=Orbitron:wght@400..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Russo+One&display=swap");
+@import url("./assets/fonts/ClashDisplay-Bold.otf");
+@import url("./assets/fonts/ClashDisplay-Regular.otf");
+@import url("./assets/fonts/ClashDisplay-Light.otf");
+@import url("./assets/fonts/ClashDisplay-Extralight.otf");
 
 @theme {
   --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: "Orbitron", system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-ptserif: "PT Serif", serif;
   --font-russo: "Russo One", sans-serif;
+  --font-clash: "_Clash_Display", sans-serif;
+  --font-clash-bold: "Clash Display Bold", sans-serif;
+  --font-clash-regular: "Clash Display Regular", sans-serif;
+  --font-clash-light: "Clash Display Light", sans-serif;
+  --font-clash-extralight: "Clash Display Extralight", sans-serif;
 }
 
 @layer base {
