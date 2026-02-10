@@ -15,6 +15,7 @@ import Profile from "./pages/Profile";
 import Library from "./pages/Library";
 import TechHubs from "./pages/TechHubs";
 import HubDetail from "./pages/HubDetail";
+import About from "./pages/About";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
             <Route path='/bookmarks' element={<Library />} />
             <Route path='/hubs' element={<TechHubs />} />
             <Route path='/hubs/:slug' element={<HubDetail />} />
+            <Route path='/about' element={<About />} />
           </Route>
 
           {/* Redirect any unknown routes to home */}
