@@ -239,3 +239,15 @@ pre code {
 .ProseMirror li p {
   margin: 0;
 }
+
+/* --- TIPTAP BLOCKQUOTE FIX --- */
+.ProseMirror blockquote {
+  border-left: 3px solid #18181b;
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-right: 0;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  font-style: italic;
+  color: #52525b;
+}
