@@ -444,6 +444,18 @@ export default function Write() {
             >
               <CodeIcon className='w-5 h-5' />
             </button>
+            <button
+              onClick={() => editor.chain().focus().toggleBulletList().run()}
+              className={clsx(
+                "p-2 rounded-full transition-colors",
+                editor.isActive("bulletList")
+                  ? "bg-black text-white" // Active state (Black)
+                  : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100", // Inactive state
+              )}
+              title='Bullet List'
+            >
+              <ListIcon className='w-5 h-5' />
+            </button>
           </div>
 
           <EditorContent editor={editor} />
