@@ -426,12 +426,16 @@ export default function Write() {
             </button>
             <button
               onClick={() => editor.chain().focus().toggleBlockquote().run()}
-              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer'
+              className={clsx(
+                "p-2 rounded-full transition-colors cursor-pointer",
+                editor?.isActive("blockquote")
+                  ? "bg-black text-white"
+                  : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100",
+              )}
               title='Quote'
             >
               <Quote className='w-5 h-5' />
             </button>
-
             <button
               onClick={toggleCodeBlock}
               className={clsx(
