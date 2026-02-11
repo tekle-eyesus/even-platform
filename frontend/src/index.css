@@ -142,3 +142,76 @@
     --card-foreground: #09090b;
   }
 }
+
+/* --- CODE BLOCK SYNTAX HIGHLIGHTING  */
+pre {
+  background: #f4f4f5; /* Zinc-100 */
+  border-radius: 0.5rem;
+  color: #383a42;
+  font-family: "JetBrains Mono", monospace;
+  padding: 0.75rem 1rem;
+}
+
+pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+  font-size: 0.875rem;
+}
+
+.hljs-comment,
+.hljs-quote {
+  color: #a0a1a7;
+  font-style: italic;
+}
+
+.hljs-doctag,
+.hljs-keyword,
+.hljs-formula {
+  color: #a626a4;
+}
+
+.hljs-section,
+.hljs-name,
+.hljs-selector-tag,
+.hljs-deletion,
+.hljs-subst {
+  color: #e45649;
+}
+
+.hljs-literal {
+  color: #0184bc;
+}
+
+.hljs-string,
+.hljs-regexp,
+.hljs-addition,
+.hljs-attribute,
+.hljs-meta-string {
+  color: #50a14f;
+}
+
+.hljs-built_in,
+.hljs-class .hljs-title {
+  color: #c18401;
+}
+
+.hljs-attr,
+.hljs-variable,
+.hljs-template-variable,
+.hljs-type,
+.hljs-selector-class,
+.hljs-selector-attr,
+.hljs-selector-pseudo,
+.hljs-number {
+  color: #986801;
+}
+
+.hljs-symbol,
+.hljs-bullet,
+.hljs-link,
+.hljs-meta,
+.hljs-selector-id,
+.hljs-title {
+  color: #4078f2;
+}
