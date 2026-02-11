@@ -12,9 +12,9 @@ export default function About() {
           <div className='inline-block px-3 py-1 mb-6 text-xs font-semibold tracking-wider text-green-700 uppercase bg-green-50 rounded-full'>
             Our Mission
           </div>
-          <h1 className='text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight'>
+          <h1 className='text-5xl md:text-7xl font-extrabold tracking-tight mb-8 leading-tight font-baskervville'>
             Where technology <br className='hidden md:block' /> meets{" "}
-            <span className='text-zinc-500'>insight.</span>
+            <span className='text-zinc-500 font-display'>insight.</span>
           </h1>
           <p className='text-xl md:text-2xl text-zinc-500 font-serif leading-relaxed max-w-2xl mx-auto mb-10'>
             EVEN is a community of developers, data scientists, and tech
@@ -22,14 +22,14 @@ export default function About() {
           </p>
           <div className='flex flex-col sm:flex-row items-center justify-center gap-4'>
             <Link to='/register'>
-              <Button className='h-12 px-8 rounded-full bg-black text-white text-lg hover:bg-zinc-800 transition-all'>
+              <Button className='h-12 px-8 rounded-full bg-black text-white text-lg hover:bg-zinc-800 transition-all cursor-pointer'>
                 Start Reading
               </Button>
             </Link>
             <Link to='/write'>
               <Button
                 variant='outline'
-                className='h-12 px-8 rounded-full border-zinc-200 text-zinc-600 hover:text-black hover:border-black text-lg transition-all'
+                className='h-12 px-8 rounded-full border-zinc-200 text-zinc-600 hover:text-black hover:border-black text-lg transition-all cursor-pointer'
               >
                 Start Writing
               </Button>
@@ -137,7 +137,7 @@ export default function About() {
           <div className='w-8 h-8 bg-black rounded-full flex items-center justify-center text-white font-serif italic'>
             <img src='./logo3.png' alt='' />
           </div>
-          <span className='font-display'>Even</span>
+          <span className='font-display'>EVEN</span>
         </div>
         <div className='flex justify-center gap-6 text-sm text-zinc-500 mb-8'>
           <Link to='#' className='hover:text-black'>

@@ -7,6 +7,7 @@
 @import url("./assets/fonts/ClashDisplay-Regular.otf");
 @import url("./assets/fonts/ClashDisplay-Light.otf");
 @import url("./assets/fonts/ClashDisplay-Extralight.otf");
+@import url("https://fonts.googleapis.com/css2?family=Baskervville+SC:wght@400..700&display=swap");
 
 @theme {
   --font-sans: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
@@ -18,6 +19,7 @@
   --font-clash-regular: "Clash Display Regular", sans-serif;
   --font-clash-light: "Clash Display Light", sans-serif;
   --font-clash-extralight: "Clash Display Extralight", sans-serif;
+  --font-baskervville: "Baskervville SC", serif;
 }
 
 @layer base {
