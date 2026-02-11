@@ -260,7 +260,7 @@ export default function Write() {
 
         {/* --- 1. ACTIONS BAR --- */}
         <div className='flex justify-between items-center mb-8'>
-          <div className='text-sm text-zinc-500 font-semibold font-serif'>
+          <div className='text-sm text-zinc-500 font-semibold font-sans uppercase tracking-wide'>
             Draft
           </div>
           <Button
@@ -302,7 +302,7 @@ export default function Write() {
               />
               <button
                 onClick={() => setCoverImage("")}
-                className='absolute top-4 right-4 p-2 bg-white/80 hover:bg-white rounded-full text-zinc-600 transition-all shadow-sm'
+                className='absolute top-4 right-4 p-2 bg-white/80 hover:bg-white rounded-full text-zinc-600 transition-all shadow-sm cursor-pointer'
               >
                 <X className='w-5 h-5' />
               </button>
@@ -427,7 +427,7 @@ export default function Write() {
             <button
               onClick={() => editor.chain().focus().toggleBlockquote().run()}
               className={clsx(
-                "p-2 rounded-full transition-colors cursor-pointer",
+                "p-2 rounded-full transition-colors cursor-pointer cursor-pointer",
                 editor?.isActive("blockquote")
                   ? "bg-black text-white"
                   : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100",
@@ -439,7 +439,7 @@ export default function Write() {
             <button
               onClick={toggleCodeBlock}
               className={clsx(
-                "p-2 rounded-full transition-colors",
+                "p-2 rounded-full transition-colors cursor-pointer",
                 editor?.isActive("codeBlock")
                   ? "bg-black text-white"
                   : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100",
@@ -451,7 +451,7 @@ export default function Write() {
             <button
               onClick={() => editor.chain().focus().toggleBulletList().run()}
               className={clsx(
-                "p-2 rounded-full transition-colors",
+                "p-2 rounded-full transition-colors cursor-pointer",
                 editor.isActive("bulletList")
                   ? "bg-black text-white" // Active state (Black)
                   : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100", // Inactive state
