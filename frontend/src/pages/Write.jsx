@@ -10,6 +10,11 @@ import api from "../lib/axios";
 import { hubService } from "../features/blog/services/hub.service";
 import Navbar from "../components/layout/Navbar";
 import { Button } from "../components/ui/Button";
+import { common, createLowlight } from "lowlight";
+import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
+import { ReactNodeViewRenderer } from "@tiptap/react";
+import CodeBlockComponent from "../features/blog/components/CodeBlockComponent"; // Import the component
+
 import {
   Loader2,
   Image as ImageIcon,
@@ -25,8 +30,11 @@ import {
   List,
   ListCheck,
   ListIcon,
+  CodeIcon,
 } from "lucide-react";
 import clsx from "clsx";
+
+const lowlight = createLowlight(common);
 
 export default function Write() {
   const navigate = useNavigate();
@@ -75,7 +83,9 @@ export default function Write() {
   // --- EDITOR SETUP ---
   const editor = useEditor({
     extensions: [
-      StarterKit,
+      StarterKit.configure({
+        codeBlock: false,
+      }),
       ImageExtension,
       LinkExtension.configure({
         openOnClick: false,
@@ -83,6 +93,17 @@ export default function Write() {
       }),
       Placeholder.configure({
         placeholder: "Tell your story...",
+      }),
+      CodeBlockLowlight.configure({
+        lowlight,
+        // Bind the React component to the node view
+        HTMLAttributes: {
+          class: "not-prose",
+        },
+      }).extend({
+        addNodeView() {
+          return ReactNodeViewRenderer(CodeBlockComponent);
+        },
       }),
     ],
     editorProps: {
@@ -100,6 +121,9 @@ export default function Write() {
   });
 
   // --- HANDLERS ---
+  const toggleCodeBlock = useCallback(() => {
+    editor.chain().focus().toggleCodeBlock().run();
+  }, [editor]);
 
   // 1. Image Upload
   const uploadImage = async (file) => {
@@ -409,11 +433,16 @@ export default function Write() {
             </button>
 
             <button
-              onClick={() => editor.chain().focus().toggleOrderedList().run()}
-              className='p-2 text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100 rounded-full transition-colors cursor-pointer'
-              title='Ordered List'
+              onClick={toggleCodeBlock}
+              className={clsx(
+                "p-2 rounded-full transition-colors",
+                editor?.isActive("codeBlock")
+                  ? "bg-black text-white"
+                  : "text-zinc-400 hover:text-zinc-900 hover:bg-zinc-100",
+              )}
+              title='Code Block'
             >
-              <ListIcon className='w-5 h-5' />
+              <CodeIcon className='w-5 h-5' />
             </button>
           </div>
 
