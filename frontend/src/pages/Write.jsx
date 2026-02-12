@@ -14,6 +14,7 @@ import { common, createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { ReactNodeViewRenderer } from "@tiptap/react";
 import CodeBlockComponent from "../features/blog/components/CodeBlockComponent"; // Import the component
+import { useToast } from "../context/ToastContext";
 
 import {
   Loader2,
@@ -38,6 +39,7 @@ const lowlight = createLowlight(common);
 
 export default function Write() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
 
   // --- STATE ---
   const [title, setTitle] = useState("");
@@ -195,7 +197,7 @@ export default function Write() {
   const handlePrePublish = () => {
     setError("");
     if (!title.trim()) {
-      setError("Please add a title to your story.");
+      setError("Your story must have a title.");
       return;
     }
     if (editor.isEmpty) {
@@ -208,12 +210,12 @@ export default function Write() {
   // 4. Final Publish
   const handlePublish = async () => {
     if (!selectedHub) {
-      setError("Please select a Tech Hub.");
+      showToast("Please select a Tech Hub", "error");
       return;
     }
 
     setIsPublishing(true);
-    setError("");
+    // setError("");
 
     try {
       const htmlContent = editor.getHTML();
@@ -233,11 +235,11 @@ export default function Write() {
 
       await api.post("/posts", payload);
       // snackbar success
-      showSuccess("Post published successfully!");
+      showToast("Story published successfully!", "success");
       navigate("/");
     } catch (error) {
       console.error(error);
-      setError("Failed to publish post. Please try again.");
+      showToast("Failed to publish. Please try again.", "error");
     } finally {
       setIsPublishing(false);
     }
