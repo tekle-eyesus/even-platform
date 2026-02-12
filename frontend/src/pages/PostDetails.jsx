@@ -36,19 +36,31 @@ export default function PostDetails() {
         setLoading(true);
         // 1. Get Post Details
         const data = await postService.getPostBySlug(slug);
-        setPost(data.data);
-        const commentData = await commentService.getPostComments(data.data._id);
+        const currentPost = data.data;
+        setPost(currentPost);
+        const commentData = await commentService.getPostComments(
+          currentPost._id,
+        );
         setComments(commentData.data.comments);
-        setLikesCount(data.data.likesCount || 0);
+        setLikesCount(currentPost.likesCount || 0);
 
         // 2. If User is logged in, fetch interaction statuses
         if (user) {
-          const [likeStatus, bookmarkStatus] = await Promise.all([
-            interactionService.getLikeStatus(data.data._id),
-            interactionService.getBookmarkStatus(data.data._id),
-          ]);
+          const [likeStatus, bookmarkStatus, followingList] = await Promise.all(
+            [
+              interactionService.getLikeStatus(currentPost._id),
+              interactionService.getBookmarkStatus(currentPost._id),
+              interactionService.getMyFollowedAuthors(),
+            ],
+          );
+
           setIsLiked(likeStatus.data.hasLiked);
           setIsBookmarked(bookmarkStatus.data.isBookmarked);
+
+          const isFollowingAuthor = followingList.data.some(
+            (author) => author._id === currentPost.author._id,
+          );
+          setIsFollowing(isFollowingAuthor);
         }
       } catch (error) {
         console.error("Error fetching post", error);
@@ -154,7 +166,7 @@ export default function PostDetails() {
                 <button
                   onClick={handleFollow}
                   className={clsx(
-                    "text-xs px-2 py-0.5 rounded-full font-medium transition-colors",
+                    "text-xs px-2 py-0.5 rounded-full font-medium transition-colors cursor-pointer",
                     isFollowing
                       ? "bg-green-100 text-green-700"
                       : "text-blue-600 hover:bg-blue-50",
