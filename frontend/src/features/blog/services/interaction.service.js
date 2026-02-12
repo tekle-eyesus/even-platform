@@ -25,6 +25,11 @@ export const interactionService = {
     return response.data;
   },
 
+  async getMyFollowedAuthors() {
+    const response = await api.get("/subscriptions/me/authors");
+    return response.data;
+  },
+
   async getBookmarkedPosts() {
     const response = await api.get("/bookmarks");
     return response.data;
