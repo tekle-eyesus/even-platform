@@ -197,11 +197,11 @@ export default function Write() {
   const handlePrePublish = () => {
     setError("");
     if (!title.trim()) {
-      setError("Your story must have a title.");
+      showToast("Your story must have a title.", "error");
       return;
     }
     if (editor.isEmpty) {
-      setError("Your story cannot be empty.");
+      showToast("Your story cannot be empty.", "error");
       return;
     }
     setShowPublishModal(true);
