@@ -19,4 +19,9 @@ export const postService = {
     const response = await api.get("/analytics/trending");
     return response.data;
   },
+
+  async deletePost(id) {
+    const response = await api.delete(`/posts/${id}`);
+    return response.data;
+  },
 };
