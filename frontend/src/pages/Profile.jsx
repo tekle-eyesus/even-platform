@@ -8,49 +8,7 @@ import { Loader2, MoreHorizontal, UserPlus, Calendar } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-
-// Reusing the component from Home
-const MinimalPostCard = ({ post }) => {
-  const date = new Date(post.createdAt).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
-  });
-  return (
-    <div className='flex items-start justify-between gap-8 py-8 border-b border-zinc-100 group'>
-      <div className='flex-1'>
-        <Link
-          to={`/posts/${post.slug}`}
-          className='block group-hover:opacity-80'
-        >
-          <h2 className='text-xl font-bold text-zinc-900 mb-2'>{post.title}</h2>
-          <p className='text-zinc-500 font-serif line-clamp-2 mb-3 text-sm'>
-            {post.summary}
-          </p>
-        </Link>
-        <div className='flex items-center gap-3 text-xs text-zinc-400'>
-          <span>{date}</span>
-          <span>·</span>
-          <span>{post.readTime} min read</span>
-          <div className='flex items-center gap-1 ml-auto'>
-            <span className='text-zinc-300'>{post.likesCount} likes</span>
-          </div>
-        </div>
-      </div>
-      {post.coverImage && (
-        <Link
-          to={`/posts/${post.slug}`}
-          className='hidden sm:block w-24 h-24 bg-zinc-100 rounded-md overflow-hidden'
-        >
-          <img
-            src={post.coverImage}
-            alt=''
-            className='w-full h-full object-cover'
-          />
-        </Link>
-      )}
-    </div>
-  );
-};
+import MinimalPostCard from "../features/blog/components/MinimalPostCard";
 
 export default function Profile() {
   const { username } = useParams();
@@ -73,9 +31,6 @@ export default function Profile() {
       // Get User's Posts
       const postsData = await userService.getUserPosts(userData.data._id);
       setPosts(postsData.data.posts);
-
-      // Check follow status (Mock logic or check array if user object has it)
-      // For now, we default to false unless we add a check endpoint
     } catch (error) {
       console.error("Failed to load profile", error);
     } finally {
@@ -101,6 +56,12 @@ export default function Profile() {
   const onUpdateSuccess = (updatedData) => {
     // Merge updated fields into current profile view
     setProfileUser((prev) => ({ ...prev, ...updatedData }));
+  };
+
+  const handlePostDelete = (deletedPostId) => {
+    setPosts((prevPosts) =>
+      prevPosts.filter((post) => post._id !== deletedPostId),
+    );
   };
 
   if (loading)
@@ -135,7 +96,11 @@ export default function Profile() {
             <div className='flex flex-col'>
               {posts.length > 0 ? (
                 posts.map((post) => (
-                  <MinimalPostCard key={post._id} post={post} />
+                  <MinimalPostCard
+                    key={post._id}
+                    post={post}
+                    onDelete={handlePostDelete}
+                  />
                 ))
               ) : (
                 <div className='py-12 text-zinc-500 italic'>
