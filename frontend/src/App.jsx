@@ -16,30 +16,33 @@ import Library from "./pages/Library";
 import TechHubs from "./pages/TechHubs";
 import HubDetail from "./pages/HubDetail";
 import About from "./pages/About";
+import { ToastProvider } from "./context/ToastContext";
 
 function App() {
   return (
     <AuthProvider>
-      <Router>
-        <Routes>
-          {/* Public Routes */}
-          <Route path='/login' element={<Login />} />
-          <Route path='/register' element={<Register />} />
-          <Route element={<MainLayout />}>
-            <Route path='/' element={<Home />} />
-            <Route path='/posts/:slug' element={<PostDetails />} />
-            <Route path='/write' element={<Write />} />
-            <Route path='/u/:username' element={<Profile />} />
-            <Route path='/bookmarks' element={<Library />} />
-            <Route path='/hubs' element={<TechHubs />} />
-            <Route path='/hubs/:slug' element={<HubDetail />} />
-            <Route path='/about' element={<About />} />
-          </Route>
+      <ToastProvider>
+        <Router>
+          <Routes>
+            {/* Public Routes */}
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+            <Route element={<MainLayout />}>
+              <Route path='/' element={<Home />} />
+              <Route path='/posts/:slug' element={<PostDetails />} />
+              <Route path='/write' element={<Write />} />
+              <Route path='/u/:username' element={<Profile />} />
+              <Route path='/bookmarks' element={<Library />} />
+              <Route path='/hubs' element={<TechHubs />} />
+              <Route path='/hubs/:slug' element={<HubDetail />} />
+              <Route path='/about' element={<About />} />
+            </Route>
 
-          {/* Redirect any unknown routes to home */}
-          <Route path='*' element={<Navigate to='/' />} />
-        </Routes>
-      </Router>
+            {/* Redirect any unknown routes to home */}
+            <Route path='*' element={<Navigate to='/' />} />
+          </Routes>
+        </Router>
+      </ToastProvider>
     </AuthProvider>
   );
 }
