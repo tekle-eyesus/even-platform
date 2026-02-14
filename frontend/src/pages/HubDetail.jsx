@@ -2,44 +2,79 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { hubService } from "../features/blog/services/hub.service";
 import { postService } from "../features/blog/services/post.service";
-import MinimalPostCard from "../features/blog/components/MinimalPostCard"; // Reuse our component
-import { Loader2, Hash, Users } from "lucide-react";
+import { interactionService } from "../features/blog/services/interaction.service";
+import MinimalPostCard from "../features/blog/components/MinimalPostCard";
+import { Loader2, Hash, Users, Check } from "lucide-react";
+import { useAuth } from "../context/AuthContext";
+import clsx from "clsx";
 
 export default function HubDetail() {
   const { slug } = useParams();
+  const { user } = useAuth();
+
   const [hub, setHub] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  // --- NEW STATE ---
+  const [isFollowing, setIsFollowing] = useState(false);
+  const [subCount, setSubCount] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
 
-        // 1. We need to find the Hub ID/Details from the slug
-        // Since our API currently has getAllHubs, we might filter it client side
-        // OR ideally, we have a getHubBySlug endpoint.
-        // For MVP, let's fetch all and find (or update backend to support /hubs/:slug).
-        // Let's assume we use the getAll for now to find the match.
         const hubsData = await hubService.getAllHubs();
         const currentHub = hubsData.data.find((h) => h.slug === slug);
 
         if (currentHub) {
           setHub(currentHub);
-          // 2. Fetch Posts for this Hub
-          const postsData = await postService.getAllPosts({
+          setSubCount(currentHub.subscriberCount || 0); // Init count
+
+          const postsPromise = postService.getAllPosts({
             hub: currentHub.slug,
           });
+
+          let isSubscribed = false;
+          if (user) {
+            const myHubsRes = await interactionService.getMySubscribedHubs();
+            const myHubs = myHubsRes.data || [];
+            isSubscribed = myHubs.some((h) => h._id === currentHub._id);
+          }
+
+          const [postsData] = await Promise.all([postsPromise]);
+
           setPosts(postsData.data.posts);
+          setIsFollowing(isSubscribed);
         }
       } catch (error) {
-        console.error("Error fetching hub details");
+        console.error("Error fetching hub details", error);
       } finally {
         setLoading(false);
       }
     };
     fetchData();
-  }, [slug]);
+  }, [slug, user]);
+
+  // --- HANDLER ---
+  const handleFollowToggle = async () => {
+    if (!user) return alert("Please login to follow this Hub");
+
+    // Optimistic Update
+    const newStatus = !isFollowing;
+    setIsFollowing(newStatus);
+    setSubCount((prev) => (newStatus ? prev + 1 : prev - 1));
+
+    try {
+      await interactionService.toggleHubSubscription(hub._id);
+    } catch (error) {
+      // Revert on error
+      setIsFollowing(!newStatus);
+      setSubCount((prev) => (newStatus ? prev - 1 : prev + 1));
+      console.error("Failed to toggle subscription");
+    }
+  };
 
   if (loading)
     return (
@@ -52,31 +87,44 @@ export default function HubDetail() {
   return (
     <div className='min-h-screen bg-white'>
       {/* Hero Header */}
-      <div className='bg-[#F0EEE6] border-b border-zinc-100'>
+      <div className='bg-zinc-50 border-b border-zinc-100'>
         <div className='container mx-auto px-4 max-w-5xl py-12 md:py-16'>
           <div className='flex items-start gap-6'>
             <div className='w-16 h-16 md:w-20 md:h-20 bg-white rounded-2xl shadow-sm flex items-center justify-center text-zinc-900 border border-zinc-200'>
               <Hash className='w-8 h-8 md:w-10 md:h-10' />
             </div>
             <div>
-              <h1 className='text-3xl md:text-5xl font-bold text-zinc-900 mb-4 font-ptserif'>
+              <h1 className='text-3xl md:text-5xl font-bold text-zinc-900 mb-4'>
                 {hub.name}
               </h1>
-              <p className='text-xl text-zinc-500 max-w-2xl leading-relaxed mb-6 font-ptserif'>
+              <p className='text-lg text-zinc-500 max-w-2xl leading-relaxed mb-6'>
                 {hub.description}
               </p>
 
+              {/* --- UPDATED FOLLOW SECTION --- */}
               <div className='flex items-center gap-6 text-sm'>
                 <div className='flex items-center gap-2 text-zinc-600'>
                   <Users className='w-4 h-4' />
-                  <span className='font-bold'>
-                    {hub.subscriberCount || 0}
-                  </span>{" "}
+                  <span className='font-bold'>{subCount}</span>{" "}
                   <span>Followers</span>
                 </div>
-                {/* Add 'Follow Hub' button here later if needed */}
-                <button className='text-green-700 font-bold hover:underline cursor-pointer'>
-                  + Follow {hub.name}
+
+                <button
+                  onClick={handleFollowToggle}
+                  className={clsx(
+                    "font-bold transition-colors flex items-center gap-1",
+                    isFollowing
+                      ? "text-zinc-500 hover:text-zinc-800"
+                      : "text-green-700 hover:text-green-800 hover:underline",
+                  )}
+                >
+                  {isFollowing ? (
+                    <>
+                      <Check className='w-4 h-4' /> Following
+                    </>
+                  ) : (
+                    `+ Follow ${hub.name}`
+                  )}
                 </button>
               </div>
             </div>
@@ -85,8 +133,8 @@ export default function HubDetail() {
       </div>
 
       {/* Content Feed */}
-      <div className='container mx-auto px-4 max-w-3xl py-10 '>
-        <h2 className='text-xl font-bold text-zinc-900 border-b border-zinc-100 pb-4 mb-6 font-sans'>
+      <div className='container mx-auto px-4 max-w-5xl py-10'>
+        <h2 className='text-xl font-bold text-zinc-900 border-b border-zinc-100 pb-4 mb-6'>
           Latest Stories
         </h2>
 
