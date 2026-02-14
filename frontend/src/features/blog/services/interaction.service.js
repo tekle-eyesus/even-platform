@@ -44,4 +44,9 @@ export const interactionService = {
     const response = await api.post(`/subscriptions/hubs/${hubId}`);
     return response.data;
   },
+
+  async getMySubscribedHubs() {
+    const response = await api.get("/subscriptions/me/hubs");
+    return response.data;
+  },
 };
