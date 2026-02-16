@@ -101,7 +101,10 @@ export default function Navbar({ onMenuClick }) {
             <div className='w-8 h-8 rounded-full flex items-center justify-center text-white font-serif italic'>
               <img src='./logo3.png' alt='' className='rounded-full' />
             </div>
-            <span className='font-russo '>EVEN</span>
+            <span className='font-sans font-medium text-xl text-zinc-600'>
+              EVEN
+              <span className='font-ptserif font-extrabold text-3xl'>blog</span>
+            </span>
           </Link>
         </div>
 

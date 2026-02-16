@@ -43,7 +43,6 @@ export default function Sidebar({ isOpen, onClose }) {
     { icon: Home, label: "Home", path: "/" },
     { icon: Bookmark, label: "Library", path: "/bookmarks" },
     { icon: FileText, label: "Stories", path: "/write" },
-    { icon: BarChart2, label: "Stats", path: "/trending" },
   ];
 
   if (user) {
