@@ -20,29 +20,10 @@ export default function Profile() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isFollowing, setIsFollowing] = useState(false);
 
-  // 1. Fetch Profile & Posts
-  const fetchProfile = async () => {
-    try {
-      setLoading(true);
-      // Get User Data
-      const userData = await userService.getCurrentUser();
-      setProfileUser(userData.data);
-
-      // Get User's Posts
-      const postsData = await userService.getUserPosts(userData.data._id);
-      setPosts(postsData.data.posts);
-    } catch (error) {
-      console.error("Failed to load profile", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     fetchProfile();
   }, [username]);
 
-  // 2. Interaction Handlers
   const handleFollow = async () => {
     if (!currentUser) return;
     setIsFollowing(!isFollowing);
@@ -53,8 +34,32 @@ export default function Profile() {
     }
   };
 
+  const fetchProfile = async () => {
+    try {
+      setLoading(true);
+      const userData = await userService.getUserProfile(username);
+      const profileId = userData.data._id;
+      setProfileUser(userData.data);
+
+      const postsData = await userService.getUserPosts(profileId);
+      setPosts(postsData.data.posts);
+      // check if followed
+      if (currentUser && currentUser.username !== username) {
+        const followingRes = await interactionService.getMyFollowedAuthors();
+        const myFollowingList = followingRes.data || [];
+        const isAlreadyFollowing = myFollowingList.some(
+          (u) => u._id === profileId,
+        );
+        setIsFollowing(isAlreadyFollowing);
+      }
+    } catch (error) {
+      console.error("Failed to load profile", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const onUpdateSuccess = (updatedData) => {
-    // Merge updated fields into current profile view
     setProfileUser((prev) => ({ ...prev, ...updatedData }));
   };
 

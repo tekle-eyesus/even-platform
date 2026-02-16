@@ -150,18 +150,24 @@ export default function PostDetails() {
 
         {/* Author Meta */}
         <div className='flex items-center justify-center gap-4 mt-8'>
-          <div className='w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-zinc-200 to-white'>
+          <Link
+            to={`/u/${post.author.username}`}
+            className='w-12 h-12 rounded-full p-[2px] bg-gradient-to-tr from-zinc-200 to-white hover:scale-105 transition-transform'
+          >
             <img
               src={post.author.avatar}
               alt={post.author.fullName}
               className='w-full h-full rounded-full object-cover border border-white'
             />
-          </div>
+          </Link>
           <div className='text-left'>
             <div className='flex items-center gap-2'>
-              <span className='font-bold text-zinc-900'>
+              <Link
+                to={`/u/${post.author.username}`}
+                className='font-bold text-zinc-900 hover:underline'
+              >
                 {post.author.fullName}
-              </span>
+              </Link>
               {user?._id !== post.author._id && (
                 <button
                   onClick={handleFollow}
