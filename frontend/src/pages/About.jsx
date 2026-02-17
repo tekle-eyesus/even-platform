@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button";
 import { PenTool, BookOpen, Users, Zap, Globe, Code } from "lucide-react";
+import { useTitle } from "../hooks/useTitle";
 
 export default function About() {
+  useTitle("About Us");
   return (
     <div className='min-h-screen bg-white font-sans text-zinc-900'>
       {/* 1. Hero Section */}

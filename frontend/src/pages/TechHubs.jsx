@@ -6,11 +6,13 @@ import { Loader2, Users, Hash, ArrowRight } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { useAuth } from "../context/AuthContext";
 import clsx from "clsx";
+import { useTitle } from "../hooks/useTitle";
 
 export default function TechHubs() {
   const { user } = useAuth();
   const [hubs, setHubs] = useState([]);
   const [loading, setLoading] = useState(true);
+  useTitle("Tech Hubs");
 
   // Track which hubs the user has joined (locally for UI toggle)
   const [joinedHubs, setJoinedHubs] = useState({});

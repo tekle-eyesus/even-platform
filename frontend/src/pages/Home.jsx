@@ -13,6 +13,7 @@ import {
   Share2,
 } from "lucide-react";
 import clsx from "clsx";
+import { useTitle } from "../hooks/useTitle";
 
 // --- UTILITY FUNCTION: Format Metrics ---
 const formatMetric = (num) => {
@@ -149,6 +150,7 @@ export default function Home() {
   const [posts, setPosts] = useState([]);
   const [trending, setTrending] = useState([]);
   const [loading, setLoading] = useState(true);
+  useTitle();
 
   useEffect(() => {
     const initData = async () => {
