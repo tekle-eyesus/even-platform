@@ -10,6 +10,7 @@ import clsx from "clsx";
 import CommentSection from "../features/blog/components/CommentSection";
 import { commentService } from "../features/blog/services/comment.service";
 import ShareModal from "../features/blog/components/ShareModal";
+import { useTitle } from "../hooks/useTitle";
 
 export default function PostDetails() {
   const { slug } = useParams();
@@ -29,6 +30,7 @@ export default function PostDetails() {
   const [isShareOpen, setIsShareOpen] = useState(false);
   const [shareLinks, setShareLinks] = useState(null);
 
+  useTitle(post ? post.title : "Loading...");
   // Fetch Data
   useEffect(() => {
     const fetchPostData = async () => {
