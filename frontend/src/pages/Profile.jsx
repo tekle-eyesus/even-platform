@@ -9,6 +9,7 @@ import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import MinimalPostCard from "../features/blog/components/MinimalPostCard";
+import { useTitle } from "../hooks/useTitle";
 
 export default function Profile() {
   const { username } = useParams();
@@ -23,6 +24,12 @@ export default function Profile() {
   useEffect(() => {
     fetchProfile();
   }, [username]);
+
+  useTitle(
+    profileUser
+      ? `${profileUser.fullName} (@${profileUser.username})`
+      : "Profile",
+  );
 
   const handleFollow = async () => {
     if (!currentUser) return;

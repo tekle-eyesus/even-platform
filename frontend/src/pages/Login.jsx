@@ -7,12 +7,14 @@ import { Mail, Lock, Loader2 } from "lucide-react";
 import { FaGoogle } from "react-icons/fa";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { useTitle } from "../hooks/useTitle";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  useTitle("Login");
 
   const { login } = useAuth();
   const navigate = useNavigate();

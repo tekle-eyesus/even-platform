@@ -7,6 +7,7 @@ import MinimalPostCard from "../features/blog/components/MinimalPostCard";
 import { Loader2, Hash, Users, Check } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import clsx from "clsx";
+import { useTitle } from "../hooks/useTitle";
 
 export default function HubDetail() {
   const { slug } = useParams();
@@ -15,6 +16,7 @@ export default function HubDetail() {
   const [hub, setHub] = useState(null);
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
+  useTitle(hub ? hub.name : "Tech Hub");
 
   // --- NEW STATE ---
   const [isFollowing, setIsFollowing] = useState(false);

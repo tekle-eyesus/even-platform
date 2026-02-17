@@ -34,12 +34,14 @@ import {
   CodeIcon,
 } from "lucide-react";
 import clsx from "clsx";
+import { useTitle } from "../hooks/useTitle";
 
 const lowlight = createLowlight(common);
 
 export default function Write() {
   const navigate = useNavigate();
   const { showToast } = useToast();
+  useTitle("New Story");
 
   // --- STATE ---
   const [title, setTitle] = useState("");

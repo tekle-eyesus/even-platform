@@ -6,11 +6,12 @@ import { TbBookmarkOff } from "react-icons/tb";
 import { CiBookmark } from "react-icons/ci";
 import { Link } from "react-router-dom";
 import { Button } from "../components/ui/Button";
+import { useTitle } from "../hooks/useTitle";
 
 export default function Library() {
   const [bookmarks, setBookmarks] = useState([]);
   const [loading, setLoading] = useState(true);
-
+  useTitle("Your Library");
   useEffect(() => {
     const fetchBookmarks = async () => {
       try {
