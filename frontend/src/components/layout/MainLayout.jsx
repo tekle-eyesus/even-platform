@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "./Navbar";
 import Sidebar from "./Sidebar";
+import AIChatBot from "../../features/AIChatBot/AIChatBot";
 
 export default function MainLayout() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -17,6 +18,7 @@ export default function MainLayout() {
       <div className='transition-all duration-500 ease-in-out'>
         <Outlet />
       </div>
+      <AIChatBot />
     </div>
   );
 }
