@@ -25,8 +25,8 @@ const RobotButton = ({ isOpen, onClick, isThinking }) => {
 
       <style jsx>{`
         .bot-icon {
-          width: 52px;
-          height: 52px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           background: #4f46e5; /* Indigo */
           color: white;
@@ -37,8 +37,8 @@ const RobotButton = ({ isOpen, onClick, isThinking }) => {
         }
 
         .trigger-button {
-          width: 56px;
-          height: 56px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
           background: var(--accent-color); /* Uses CSS var from parent */
           border: none;

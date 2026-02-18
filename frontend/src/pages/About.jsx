@@ -9,7 +9,7 @@ export default function About() {
   return (
     <div className='min-h-screen bg-white font-sans text-zinc-900'>
       {/* 1. Hero Section */}
-      <section className='py-20 md:py-32 border-b border-zinc-100'>
+      <section className='py-20 md:py-18 border-b border-zinc-100'>
         <div className='container mx-auto px-4 max-w-4xl text-center'>
           <div className='inline-block px-3 py-1 mb-6 text-xs font-semibold tracking-wider text-green-700 uppercase bg-green-50 rounded-full'>
             Our Mission
