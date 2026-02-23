@@ -350,17 +350,14 @@ export default function Navbar({ onMenuClick }) {
           ) : (
             <div className='flex items-center gap-3'>
               <Link to='/login'>
-                <Button
-                  variant='ghost'
-                  className='text-zinc-600 hover:text-black cursor-pointer'
-                >
-                  Log in
-                </Button>
+                <button className='h-9 px-5 text-sm font-medium text-black/50 hover:text-[#0a0a0a] transition-colors cursor-pointer'>
+                  Sign in
+                </button>
               </Link>
               <Link to='/register'>
-                <Button className='bg-black text-white hover:bg-zinc-800 rounded-full px-6 cursor-pointer'>
-                  Get Started
-                </Button>
+                <button className='h-9 px-5 text-sm font-semibold bg-[#0a0a0a] text-white rounded-[8px] hover:-translate-y-px hover:shadow-[0_4px_14px_rgba(0,0,0,0.15)] transition-all duration-200 cursor-pointer'>
+                  Get started
+                </button>
               </Link>
             </div>
           )}
