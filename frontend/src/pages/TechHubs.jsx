@@ -80,7 +80,7 @@ export default function TechHubs() {
             Explore <em className='not-italic text-black/30'>Tech</em> Hubs
           </h1>
 
-          <p className='text-base md:text-lg text-black/42 font-light leading-relaxed max-w-lg mb-10 animate-fade-up-d2'>
+          <p className='font-serif text-base md:text-lg text-black/50 font-medium leading-relaxed max-w-lg mb-10 animate-fade-up-d2'>
             Discover communities, follow your interests, and keep up with the
             latest trends in technology.
           </p>

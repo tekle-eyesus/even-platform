@@ -54,7 +54,7 @@ export default function About() {
             meets <em className='not-italic text-[#0a0a0a]/35'>insight.</em>
           </h1>
 
-          <p className='text-lg md:text-xl text-black/45 font-light leading-relaxed max-w-xl mx-auto mb-10 animate-fade-up-d2'>
+          <p className='font-serif text-lg md:text-xl text-black/50  font-medium leading-relaxed max-w-xl mx-auto mb-10 animate-fade-up-d2'>
             EVEN is a community of developers, data scientists, and tech
             enthusiasts sharing ideas that move the industry forward.
           </p>
