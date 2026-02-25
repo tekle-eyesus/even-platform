@@ -17,6 +17,19 @@ export default function About() {
 
   return (
     <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap');
+        .font-dm { font-family: 'DM Sans', sans-serif; }
+        .animate-fade-up { animation: fadeUp 0.55s ease both; }
+        .animate-fade-up-d1 { animation: fadeUp 0.55s ease 0.08s both; }
+        .animate-fade-up-d2 { animation: fadeUp 0.55s ease 0.16s both; }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(16px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        .hub-card { animation: fadeUp 0.45s ease both; }
+        input[type="search"]::-webkit-search-cancel-button { display: none; }
+      `}</style>
       <div className='font-dm min-h-screen bg-[#f7f6f3] text-[#0a0a0a]'>
         {/* ── HERO ── */}
         <section
