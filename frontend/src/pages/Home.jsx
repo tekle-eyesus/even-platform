@@ -56,7 +56,7 @@ const MinimalPostCard = ({ post }) => {
   });
 
   return (
-    <div className='flex items-start justify-between gap-8 py-8 border-b border-zinc-100 group'>
+    <div className='flex items-start justify-between gap-8 py-8 border-b border-zinc-100 groups bg-[#FDFDF8]  px-6 border-b-gray-300'>
       {/* Left: Content */}
       <div className='flex-1 flex flex-col justify-center pl-10'>
         {/* Author Header */}
@@ -75,10 +75,10 @@ const MinimalPostCard = ({ post }) => {
 
         {/* Title & Summary */}
         <Link to={`/posts/${post.slug}`} className='block transition-opacity'>
-          <h2 className='text-xl md:text-2xl font-extrabold text-zinc-900 leading-tight tracking-tight font-sans'>
+          <h2 className='text-xl md:text-2xl font-extrabold text-[#000000] leading-tight tracking-tight font-sans'>
             {post.title}
           </h2>
-          <p className='hidden md:block text-zinc-600 font-sans leading-relaxed line-clamp-2 mb-4 text-[17px]'>
+          <p className='hidden md:block text-[#000000]/60 font-sans leading-relaxed line-clamp-2 mb-4 text-[17px]'>
             {post.summary ||
               (post.content ? `${post.content.substring(0, 150)}...` : "")}
           </p>
@@ -115,13 +115,8 @@ const MinimalPostCard = ({ post }) => {
           </div>
 
           {/* Right Side Icons */}
-          <div className='flex items-center gap-3 text-zinc-600'>
-            <button className='hover:text-zinc-800 transition-colors'>
-              <BotIcon className='w-5 h-5 stroke-[1.5] cursor-pointer' />
-            </button>
-            <button className='hover:text-zinc-800 transition-colors cursor-pointer'>
-              <MoreHorizontal className='w-5 h-5 stroke-[1.5]' />
-            </button>
+          <div className='flex items-center text-zinc-600 bg-[#E6E6DD] px-2 py-1 rounded-xs text-xs font-light tracking-wide'>
+            <span>{post.techHub?.name.toUpperCase()}</span>
           </div>
         </div>
       </div>
@@ -199,13 +194,13 @@ export default function Home() {
   const tabs = ["For You", "Featured", ...hubs.map((h) => h.name)];
 
   return (
-    <div className='min-h-screen bg-white text-zinc-900 font-sans'>
+    <div className='min-h-screen bg-[#F5F5EE] text-zinc-900 font-sans'>
       <div className='container mx-auto px-4 max-w-7xl'>
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-12'>
           {/* --- LEFT COLUMN: MAIN FEED --- */}
           <main className='lg:col-span-8 border-r border-zinc-100 min-h-screen pr-0 lg:pr-12'>
             {/* Navigation Tabs */}
-            <div className='sticky top-16 bg-white/95 backdrop-blur-sm z-30 border-b border-zinc-100 pt-4 mb-6 pl-9'>
+            <div className='sticky top-16 bg-[#F5F5EE]/95 backdrop-blur-sm z-30 border-b border-zinc-100 pt-4 mb-6 pl-9'>
               <div className='flex items-center gap-6 overflow-x-auto no-scrollbar pb-[1px]'>
                 {tabs.map((tab) => (
                   <button

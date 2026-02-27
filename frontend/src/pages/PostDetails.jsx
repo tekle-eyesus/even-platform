@@ -128,24 +128,24 @@ export default function PostDetails() {
   if (!post) return <div className='text-center py-20'>Post not found</div>;
 
   return (
-    <div className='min-h-screen bg-white pb-20 font-sans'>
+    <div className='min-h-screen bg-[#F5F5EE] pb-20 font-sans'>
       {/* 1. Header Section (Title, Summary, Author) */}
       <header className='container mx-auto px-4 pt-10 pb-8 max-w-3xl text-center'>
         <div className='flex flex-col items-center gap-4'>
           {post.techHub && (
             <Link
               to={`/hubs/${post.techHub.slug}`}
-              className='text-blue-600 font-semibold text-sm tracking-wide uppercase hover:underline'
+              className='text-[#000000] font-semibold text-sm tracking-wide uppercase hover:underline'
             >
               {post.techHub.name}
             </Link>
           )}
 
-          <h1 className='text-4xl md:text-5xl font-extrabold text-zinc-900 leading-[1.15] tracking-tight'>
+          <h1 className='text-4xl md:text-5xl font-extrabold text-[#000000] leading-[1.15] tracking-tight'>
             {post.title}
           </h1>
 
-          <p className='text-xl text-zinc-500 font-serif leading-relaxed line-clamp-3'>
+          <p className='text-xl font-normal text-[#000000]/60 font-sans leading-relaxed line-clamp-3'>
             {post.summary}
           </p>
         </div>
@@ -287,7 +287,7 @@ export default function PostDetails() {
                 <Link
                   to={`/search?q=${tag}`}
                   key={tag}
-                  className='px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-600 rounded-full text-sm transition-colors'
+                  className='px-2 py-1 bg-[#E6E6DD] hover:bg-zinc-200 text-zinc-700 tracking-wide rounded-sm text-sm transition-colors capitalize'
                 >
                   {tag}
                 </Link>
