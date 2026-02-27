@@ -95,7 +95,7 @@ export default function CommentItem({ comment, postId }) {
     <div className='flex gap-4 group'>
       {/* Avatar */}
       <div className='flex-shrink-0'>
-        <div className='w-10 h-10 rounded-full bg-zinc-200 overflow-hidden'>
+        <div className='w-10 h-10 rounded-full bg-[#FDFDF8] overflow-hidden'>
           <img
             src={comment.author?.avatar || "https://via.placeholder.com/40"}
             alt=''
@@ -106,7 +106,7 @@ export default function CommentItem({ comment, postId }) {
 
       <div className='flex-1'>
         {/* Comment Header */}
-        <div className='bg-zinc-50 rounded-2xl p-4 rounded-tl-none'>
+        <div className='bg-[#FDFDF8] rounded-2xl p-4 rounded-tl-none'>
           <div className='flex items-center justify-between mb-2'>
             <div className='flex items-center gap-2'>
               <span className='font-bold text-sm text-zinc-900'>
@@ -159,14 +159,14 @@ export default function CommentItem({ comment, postId }) {
                 value={replyContent}
                 onChange={(e) => setReplyContent(e.target.value)}
                 placeholder={`Reply to ${comment.author?.fullName}...`}
-                className='bg-white border-none focus:outline-none focus:ring-0'
+                className='bg-[#FDFDF8] border-none focus:outline-none focus:ring-0'
                 autoFocus
               />
             </div>
             <Button
               disabled={isSubmitting}
               size='sm'
-              className='bg-black text-white cursor-pointer'
+              className='bg-black text-[#FDFDF8] cursor-pointer'
             >
               {isSubmitting ? "Sending..." : "Send"}
             </Button>
