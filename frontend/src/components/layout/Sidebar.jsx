@@ -66,7 +66,7 @@ export default function Sidebar({ isOpen, onClose }) {
 
       <aside
         className={clsx(
-          "fixed top-16 left-0 bottom-0 w-64 bg-white border-r border-zinc-100 z-40 flex flex-col py-6 overflow-y-auto", // Added overflow-y-auto for scrolling
+          "fixed top-16 left-0 bottom-0 w-64 bg-[#FDFDF8] border-r border-zinc-100 z-40 flex flex-col py-6 overflow-y-auto", // Added overflow-y-auto for scrolling
           "transform transition-transform duration-500 ease-in-out",
           isOpen ? "translate-x-0" : "-translate-x-full",
         )}
@@ -85,7 +85,7 @@ export default function Sidebar({ isOpen, onClose }) {
                   "flex items-center gap-4 px-4 py-3 rounded-full text-sm font-medium transition-colors",
                   isActive
                     ? "bg-zinc-100 text-black"
-                    : "text-zinc-500 hover:bg-zinc-50 hover:text-black",
+                    : "text-zinc-500 hover:bg-[#FDFDF8]/90 hover:text-black",
                 )}
               >
                 <Icon

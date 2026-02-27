@@ -84,7 +84,7 @@ export default function Navbar({ onMenuClick }) {
   }, [searchRef]);
 
   return (
-    <header className='sticky top-0 z-50 w-full border-b border-zinc-100 bg-white/80 backdrop-blur-md'>
+    <header className='sticky top-0 z-50 w-full border-b border-zinc-100 bg-[#F5F5EE]/80 backdrop-blur-md'>
       <div className='container mx-auto px-4 h-16 flex items-center justify-between'>
         {/* 1. Logo */}
         <div className='flex items-center gap-4'>
