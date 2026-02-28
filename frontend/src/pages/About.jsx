@@ -77,12 +77,12 @@ export default function About() {
         <section
           className='py-24 relative bg-cover bg-center mx-2 md:mx-4 lg:mx-6 rounded-2xl overflow-hidden'
           style={{
-            backgroundImage: `linear-gradient(to right, #777E7E 0%, #777E7E 40%, transparent 100%), url("https://images.pexels.com/photos/17486102/pexels-photo-17486102.png")`,
+            backgroundImage: `linear-gradient(to right, #E1EAF7 0%, #E4DDE2 40%, transparent 100%), url("https://images.pexels.com/photos/17486102/pexels-photo-17486102.png")`,
           }}
         >
           <div className='max-w-6xl mx-auto px-8'>
-            <p className='text-[18px] font-semibold tracking-[0.18em] uppercase text-white mb-14 text-center'>
-              Why Even
+            <p className='text-[18px] font-semibold tracking-[0.18em] uppercase text-black mb-14 text-center'>
+              Why Evenblog
             </p>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.06] rounded-2xl overflow-hidden'>
               {[
@@ -104,15 +104,15 @@ export default function About() {
               ].map(({ icon: Icon, title, body }) => (
                 <div
                   key={title}
-                  className='flex flex-col gap-5 p-10 bg-[#0a0a0a] hover:bg-white/[0.02] transition-colors duration-300'
+                  className='flex flex-col gap-3 mx-2 p-10 bg-[#F6F1EF] transition-colors duration-300 rounded-lg'
                 >
                   <div className='w-11 h-11 rounded-xl border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-white/50'>
                     <Icon size={18} />
                   </div>
-                  <h3 className='font-display text-[22px] text-white'>
+                  <h3 className='font-display text-[22px] text-[#000000]'>
                     {title}
                   </h3>
-                  <p className='text-sm text-white/38 leading-relaxed font-light'>
+                  <p className='text-sm text-[#000000]/60 leading-relaxed font-light'>
                     {body}
                   </p>
                 </div>
