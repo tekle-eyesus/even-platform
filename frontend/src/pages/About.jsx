@@ -129,7 +129,12 @@ export default function About() {
             </p>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
               {/* Writers — dark card */}
-              <div className='relative overflow-hidden rounded-2xl bg-[#0a0a0a] p-10 flex flex-col justify-between min-h-[340px] group'>
+              <div
+                className='relative overflow-hidden rounded-2xl bg-cover bg-center p-10 flex flex-col justify-between min-h-[340px] group'
+                style={{
+                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%), url("https://media.istockphoto.com/id/2159943659/photo/ai-powered-humanoid-robot-with-glass-visor-typing-on-futuristic-touch-keyboard-humanoid-robot.jpg?b=1&s=612x612&w=0&k=20&c=JO31eipOukIlJN5pBv96gXC4heseCYxh1tSQx9N1Jp8=")`,
+                }}
+              >
                 {/* glow */}
                 <div className='absolute -top-20 -right-20 w-64 h-64 rounded-full bg-white/[0.03] blur-3xl pointer-events-none group-hover:bg-white/[0.06] transition-all duration-700' />
                 {/* grid texture */}
@@ -140,15 +145,12 @@ export default function About() {
                   }}
                 />
                 <div className='relative z-10'>
-                  <div className='w-10 h-10 rounded-xl border border-white/[0.08] bg-white/[0.04] flex items-center justify-center text-white/40 mb-8'>
-                    <PenTool size={16} />
-                  </div>
                   <h2 className='font-display text-[32px] leading-[1.1] text-white mb-4'>
                     Share your
                     <br />
                     knowledge.
                   </h2>
-                  <p className='text-sm text-white/38 leading-relaxed font-light max-w-xs'>
+                  <p className='text-sm text-white/70 leading-relaxed font-light max-w-xs'>
                     Build your personal brand as a developer. Our clean,
                     distraction-free editor lets you focus on what matters —
                     your ideas.
@@ -156,7 +158,7 @@ export default function About() {
                 </div>
                 <Link
                   to='/write'
-                  className='relative z-10 inline-flex items-center gap-2 mt-10 text-sm font-semibold text-white/50 hover:text-white transition-colors duration-200 group/link'
+                  className='relative z-10 inline-flex items-center gap-2 mt-10 text-sm font-semibold text-white/80 hover:text-white transition-colors duration-200 group/link'
                 >
                   Write a story
                   <ArrowRight
@@ -167,25 +169,27 @@ export default function About() {
               </div>
 
               {/* Readers — light card */}
-              <div className='relative overflow-hidden rounded-2xl bg-white p-10 flex flex-col justify-between min-h-[340px] border-[1.5px] border-black/[0.07] group'>
+              <div
+                className='relative overflow-hidden rounded-2xl bg-cover bg-center p-10 flex flex-col justify-between min-h-[340px] group'
+                style={{
+                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%), url("https://images.pexels.com/photos/17485657/pexels-photo-17485657.png")`,
+                }}
+              >
                 <div className='absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-black/[0.02] blur-3xl pointer-events-none' />
                 <div className='relative z-10'>
-                  <div className='w-10 h-10 rounded-xl border border-black/[0.08] bg-black/[0.03] flex items-center justify-center text-black/30 mb-8'>
-                    <BookOpen size={16} />
-                  </div>
-                  <h2 className='font-display text-[32px] leading-[1.1] text-[#0a0a0a] mb-4'>
+                  <h2 className='font-display text-[32px] leading-[1.1] text-white mb-4'>
                     Expand your
                     <br />
                     mind.
                   </h2>
-                  <p className='text-sm text-black/42 leading-relaxed font-light max-w-xs'>
+                  <p className='text-sm text-white/70 leading-relaxed font-light max-w-xs'>
                     Curated reading lists, personalized feeds, and direct access
                     to industry experts. Stop scrolling, start learning.
                   </p>
                 </div>
                 <Link
                   to='/register'
-                  className='relative z-10 inline-flex items-center gap-2 mt-10 text-sm font-semibold text-black/40 hover:text-[#0a0a0a] transition-colors duration-200 group/link'
+                  className='relative z-10 inline-flex items-center gap-2 mt-10 text-sm font-semibold text-white/80 hover:text-white transition-colors duration-200 group/link'
                 >
                   Get started
                   <ArrowRight
