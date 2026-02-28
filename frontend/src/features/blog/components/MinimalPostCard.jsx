@@ -73,7 +73,7 @@ export default function MinimalPostCard({ post, onDelete }) {
 
   return (
     <>
-      <div className='flex items-start justify-between gap-8 py-8 border-b border-zinc-100 group relative'>
+      <div className='flex items-start justify-between gap-8 py-8 border-b border-zinc-100 group relative bg-[#FDFDF8] rounded-sm px-4 md:px-6 border-b-gray-300'>
         {/* Left: Content */}
         <div className='flex-1 flex flex-col justify-center'>
           {/* Author Header */}
@@ -91,7 +91,7 @@ export default function MinimalPostCard({ post, onDelete }) {
             {post.techHub && (
               <>
                 <span className='text-zinc-400'>in</span>
-                <span className='font-medium text-zinc-900'>
+                <span className='font-medium text-zinc-900 bg-[#E6E6DD] px-2 py-0.5 rounded-sm text-xs'>
                   {post.techHub.name || post.techHub}
                 </span>
               </>
@@ -103,10 +103,10 @@ export default function MinimalPostCard({ post, onDelete }) {
             to={`/posts/${post.slug}`}
             className='block group-hover:opacity-80 transition-opacity'
           >
-            <h2 className='text-xl md:text-2xl font-bold text-zinc-900 mb-2 leading-tight font-sans'>
+            <h2 className='text-xl md:text-2xl font-bold text-[#000000] mb-2 leading-tight font-sans'>
               {post.title}
             </h2>
-            <p className='hidden md:block text-zinc-500 font-serif leading-relaxed line-clamp-2 mb-4 text-[15px]'>
+            <p className='hidden md:block text-[#000000]/60 font-serif leading-relaxed line-clamp-2 mb-4 text-[15px]'>
               {post.summary || post.content?.substring(0, 150) + "..."}
             </p>
           </Link>

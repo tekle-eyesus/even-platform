@@ -89,18 +89,18 @@ export default function Profile() {
     currentUser && currentUser.username === profileUser.username;
 
   return (
-    <div className='min-h-screen bg-white'>
+    <div className='min-h-screen bg-[#F5F5EE]'>
       <div className='container mx-auto px-4 max-w-5xl'>
         <div className='grid grid-cols-1 lg:grid-cols-12 gap-12 pt-10'>
           {/* --- LEFT: POSTS FEED (Main Content) --- */}
           <main className='lg:col-span-8 lg:border-r border-zinc-100 min-h-screen lg:pr-12 order-2 lg:order-1'>
             <div className='hidden lg:block mb-8'>
-              <h1 className='text-4xl font-bold text-zinc-900 mb-2'>
+              <h1 className='text-4xl font-bold text-[#000000] mb-2'>
                 {profileUser.fullName}
               </h1>
               <div className='flex gap-6 text-sm text-zinc-500 border-b border-zinc-100 pb-4'>
-                <span className='text-zinc-900 border-b-2 border-zinc-900 pb-4 -mb-4 cursor-pointer'>
-                  Home
+                <span className='text-red-900 border-b-2 border-zinc-900 pb-1 -mb-4 cursor-pointer font-display'>
+                  My Stories
                 </span>
               </div>
             </div>
