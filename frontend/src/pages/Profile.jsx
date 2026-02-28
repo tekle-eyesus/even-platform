@@ -8,6 +8,7 @@ import { Loader2, MoreHorizontal, UserPlus, Calendar } from "lucide-react";
 import { Button } from "../components/ui/Button";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
+import { formatDate } from "../lib/utils";
 import MinimalPostCard from "../features/blog/components/MinimalPostCard";
 import { useTitle } from "../hooks/useTitle";
 
@@ -198,7 +199,7 @@ export default function Profile() {
                 </div>
                 <div className='flex items-center gap-2 mt-2'>
                   <Calendar className='w-4 h-4' /> Joined{" "}
-                  {new Date(profileUser.createdAt).toLocaleDateString()}
+                  {formatDate(profileUser.createdAt)}
                 </div>
               </div>
             </div>
