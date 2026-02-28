@@ -74,9 +74,14 @@ export default function About() {
         </section>
 
         {/* ── VALUE PROPS ── */}
-        <section className='py-24 bg-[#0a0a0a]'>
+        <section
+          className='py-24 relative bg-cover bg-center mx-2 md:mx-4 lg:mx-6 rounded-2xl overflow-hidden'
+          style={{
+            backgroundImage: `linear-gradient(to right, #777E7E 0%, #777E7E 40%, transparent 100%), url("https://images.pexels.com/photos/17486102/pexels-photo-17486102.png")`,
+          }}
+        >
           <div className='max-w-6xl mx-auto px-8'>
-            <p className='text-[11px] font-semibold tracking-[0.18em] uppercase text-white/25 mb-14 text-center'>
+            <p className='text-[18px] font-semibold tracking-[0.18em] uppercase text-white mb-14 text-center'>
               Why Even
             </p>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-px bg-white/[0.06] rounded-2xl overflow-hidden'>
