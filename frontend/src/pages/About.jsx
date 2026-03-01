@@ -124,7 +124,7 @@ export default function About() {
         {/* ── WRITERS / READERS SPLIT ── */}
         <section className='py-24 border-b border-black/[0.06]'>
           <div className='max-w-6xl mx-auto px-8'>
-            <p className='text-[11px] font-semibold tracking-[0.18em] uppercase text-black/25 mb-14 text-center'>
+            <p className='text-[18px] font-semibold tracking-[0.18em] uppercase text-[#000000] mb-14 text-center'>
               Built for everyone
             </p>
             <div className='grid grid-cols-1 md:grid-cols-2 gap-5'>
@@ -132,7 +132,7 @@ export default function About() {
               <div
                 className='relative overflow-hidden rounded-2xl bg-cover bg-center p-10 flex flex-col justify-between min-h-[340px] group'
                 style={{
-                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%), url("https://media.istockphoto.com/id/2159943659/photo/ai-powered-humanoid-robot-with-glass-visor-typing-on-futuristic-touch-keyboard-humanoid-robot.jpg?b=1&s=612x612&w=0&k=20&c=JO31eipOukIlJN5pBv96gXC4heseCYxh1tSQx9N1Jp8=")`,
+                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,2) 10%, rgba(0,0,0,0.1) 100%), url("https://media.istockphoto.com/id/2159943659/photo/ai-powered-humanoid-robot-with-glass-visor-typing-on-futuristic-touch-keyboard-humanoid-robot.jpg?b=1&s=612x612&w=0&k=20&c=JO31eipOukIlJN5pBv96gXC4heseCYxh1tSQx9N1Jp8=")`,
                 }}
               >
                 {/* glow */}
@@ -172,7 +172,7 @@ export default function About() {
               <div
                 className='relative overflow-hidden rounded-2xl bg-cover bg-center p-10 flex flex-col justify-between min-h-[340px] group'
                 style={{
-                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%), url("https://images.pexels.com/photos/17485657/pexels-photo-17485657.png")`,
+                  backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,2) 14%, rgba(0,0,0,0.2) 100%), url("https://images.pexels.com/photos/17485657/pexels-photo-17485657.png")`,
                 }}
               >
                 <div className='absolute -bottom-20 -left-20 w-64 h-64 rounded-full bg-black/[0.02] blur-3xl pointer-events-none' />
