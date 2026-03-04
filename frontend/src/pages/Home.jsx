@@ -245,7 +245,7 @@ export default function Home() {
           </main>
 
           {/* --- RIGHT COLUMN: SIDEBAR --- */}
-          <aside className='hidden lg:block lg:col-span-4 py-10 pl-4 sticky top-16 h-fit'>
+          <aside className='hidden lg:block lg:col-span-4 py-10 pl-4 sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto no-scrollbar'>
             <div className='mb-10'>
               <h4 className='font-bold text-zinc-900 mb-4 tracking-tight font-sans'>
                 My Picks
