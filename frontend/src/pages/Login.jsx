@@ -197,29 +197,44 @@ export default function Login() {
 
         .stat-row {
           display: flex;
-          gap: 10px;
+          gap: 16px;
           margin-top: 48px;
         }
 
         .stat-pill {
-          padding: 10px 18px;
-          border: 1px solid rgba(255,255,255,0.07);
-          border-radius: 100px;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          padding: 16px 12px;
+          border: 1px solid rgba(255,255,255,0.08);
+          border-radius: 16px;
           background: rgba(255,255,255,0.03);
+          backdrop-filter: blur(4px);
+          transition: transform 0.2s, background 0.2s;
+        }
+
+        .stat-pill:hover {
+          background: rgba(255,255,255,0.06);
+          transform: translateY(-2px);
         }
 
         .stat-pill-num {
-          font-family: 'DM Serif Display', serif;
-          font-size: 18px;
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 700;
+          font-size: 22px;
           color: #fff;
-          line-height: 1;
+          line-height: 1.1;
+          margin-bottom: 4px;
         }
 
         .stat-pill-label {
           font-size: 10px;
-          color: rgba(255,255,255,0.25);
-          margin-top: 3px;
-          letter-spacing: 0.06em;
+          font-weight: 600;
+          color: rgba(255,255,255,0.45);
+          letter-spacing: 0.1em;
+          text-transform: uppercase;
         }
 
         /* ─── RIGHT PANEL ─── */
