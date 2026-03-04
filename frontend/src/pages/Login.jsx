@@ -182,7 +182,7 @@ export default function Login() {
         .left-quote p {
           font-size: 14px;
           line-height: 1.75;
-          color: rgba(255,255,255,0.42);
+          color: rgba(255,255,255,0.8);
           margin: 0 0 10px;
           font-weight: 300;
         }
@@ -190,7 +190,7 @@ export default function Login() {
         .left-quote footer {
           font-size: 11px;
           font-weight: 600;
-          color: rgba(255,255,255,0.2);
+          color: #fff;
           letter-spacing: 0.12em;
           text-transform: uppercase;
         }

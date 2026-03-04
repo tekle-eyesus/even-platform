@@ -103,9 +103,7 @@ export default function Register() {
             className='absolute inset-0 bg-cover bg-center'
             style={{
               backgroundImage:
-                "url('https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop')",
-              filter: "grayscale(100%) blur(2px)",
-              opacity: 0.1,
+                "url('https://images.pexels.com/photos/9783346/pexels-photo-9783346.jpeg')",
             }}
           />
           {/* Gradient overlay */}
@@ -113,7 +111,7 @@ export default function Register() {
             className='absolute inset-0'
             style={{
               background:
-                "linear-gradient(135deg, #0a0a0a 0%, transparent 65%)",
+                "linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%)",
             }}
           />
           {/* Vertical accent line */}
@@ -171,14 +169,14 @@ export default function Register() {
             {/* Hero copy */}
             <div className='my-auto'>
               <p
-                className='text-xs font-semibold uppercase mb-5 tracking-widest'
+                className='text-xs font-semibold uppercase mb-3 tracking-widest'
                 style={{ color: "rgba(255,255,255,0.28)" }}
               >
                 Start your journey
               </p>
 
               <h2
-                className='text-white mb-9'
+                className='text-white mb-6'
                 style={{
                   fontFamily: "'DM Serif Display', serif",
                   fontSize: "clamp(40px, 4.5vw, 58px)",
@@ -201,20 +199,17 @@ export default function Register() {
               </h2>
 
               <div
-                className='pl-5'
-                style={{ borderLeft: "1.5px solid rgba(255,255,255,0.18)" }}
+                className='pl-5 border-l-amber-500'
+                style={{ borderLeft: "1.5px solid rgba(255,193,7,0.8)" }}
               >
-                <p
-                  className='text-sm leading-relaxed mb-2.5 font-light'
-                  style={{ color: "rgba(255,255,255,0.42)" }}
-                >
+                <p className='text-sm leading-relaxed mb-2.5 font-light text-white/80 italic'>
                   The best way to predict the future is to implement it. Join a
                   community of builders shaping tomorrow.
                 </p>
                 <footer
                   className='text-xs font-semibold uppercase'
                   style={{
-                    color: "rgba(255,255,255,0.2)",
+                    color: "rgba(255,255,255,0.8)",
                     letterSpacing: "0.12em",
                   }}
                 >
@@ -223,7 +218,7 @@ export default function Register() {
               </div>
 
               {/* Stat pills */}
-              <div className='flex gap-2.5 mt-12'>
+              <div className='flex gap-4 mt-8'>
                 {[
                   { num: "12k+", label: "Builders" },
                   { num: "50+", label: "Integrations" },
@@ -231,26 +226,36 @@ export default function Register() {
                 ].map((s) => (
                   <div
                     key={s.label}
-                    className='px-4 py-2.5 rounded-full'
+                    className='flex-1 flex flex-col items-center justify-center p-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5'
                     style={{
-                      border: "1px solid rgba(255,255,255,0.07)",
+                      border: "1px solid rgba(255,255,255,0.08)",
                       background: "rgba(255,255,255,0.03)",
+                      backdropFilter: "blur(4px)",
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(255,255,255,0.06)";
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.background =
+                        "rgba(255,255,255,0.03)";
                     }}
                   >
                     <div
-                      className='text-white leading-none'
+                      className='text-white leading-none mb-1'
                       style={{
-                        fontFamily: "'DM Serif Display', serif",
-                        fontSize: 18,
+                        fontFamily: "'DM Sans', sans-serif",
+                        fontWeight: 700,
+                        fontSize: 22,
                       }}
                     >
                       {s.num}
                     </div>
                     <div
-                      className='text-xs mt-0.5'
+                      className='text-[10px] font-semibold uppercase'
                       style={{
-                        color: "rgba(255,255,255,0.25)",
-                        letterSpacing: "0.06em",
+                        color: "rgba(255,255,255,0.45)",
+                        letterSpacing: "0.1em",
                       }}
                     >
                       {s.label}
