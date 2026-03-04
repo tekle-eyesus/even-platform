@@ -12,6 +12,16 @@ import { useTitle } from "../hooks/useTitle";
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
   const [focusedField, setFocusedField] = useState(null);
+
+  // Language State
+  const [language, setLanguage] = useState("en");
+  const [isLangMenuOpen, setIsLangMenuOpen] = useState(false);
+  const languages = [
+    { code: "en", label: "English" },
+    { code: "am", label: "Amharic" },
+    { code: "om", label: "Afan Oromo" },
+  ];
+
   useTitle("Login");
 
   const { login } = useAuth();
@@ -505,6 +515,89 @@ export default function Login() {
           from { opacity: 0; transform: translateY(18px); }
           to   { opacity: 1; transform: translateY(0); }
         }
+
+        /* ─── LANGUAGE ─── */
+        .lang-container {
+          position: absolute;
+          top: 32px;
+          right: 32px;
+          z-index: 50;
+        }
+
+        .lang-btn {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: #fff;
+          border: 1px solid rgba(0,0,0,0.08);
+          padding: 8px 16px;
+          border-radius: 12px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: #0a0a0a;
+          cursor: pointer;
+          transition: all 0.2s;
+          box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .lang-btn:hover {
+          border-color: rgba(0,0,0,0.18);
+          box-shadow: 0 4px 8px rgba(0,0,0,0.06);
+          transform: translateY(-1px);
+        }
+
+        .lang-menu {
+          position: absolute;
+          top: calc(100% + 8px);
+          right: 0;
+          background: #fff;
+          border: 1px solid rgba(0,0,0,0.08);
+          border-radius: 12px;
+          box-shadow: 0 10px 20px -5px rgba(0,0,0,0.08);
+          overflow: hidden;
+          width: 160px;
+          padding: 6px;
+          animation: fadeUp 0.15s ease-out both;
+          transform-origin: top right;
+        }
+
+        .lang-item {
+          width: 100%;
+          text-align: left;
+          padding: 10px 12px;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 13px;
+          font-weight: 500;
+          color: rgba(0,0,0,0.6);
+          background: transparent;
+          border: none;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.15s;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+        }
+
+        .lang-item:hover {
+          background: rgba(0,0,0,0.04);
+          color: #0a0a0a;
+        }
+
+        .lang-item.active {
+          background: rgba(0,0,0,0.06);
+          color: #0a0a0a;
+          font-weight: 600;
+        }
+
+        .chevron {
+          transition: transform 0.2s;
+        }
+
+        .chevron.open {
+          transform: rotate(180deg);
+        }
       `}</style>
 
       <div className='login-root'>
@@ -560,6 +653,57 @@ export default function Login() {
 
         {/* ── RIGHT ── */}
         <div className='login-right'>
+          {/* Language Selector */}
+          <div className='lang-container'>
+            <button
+              className='lang-btn'
+              onClick={() => setIsLangMenuOpen(!isLangMenuOpen)}
+              onBlur={() => setTimeout(() => setIsLangMenuOpen(false), 200)}
+            >
+              <span>{languages.find((l) => l.code === language)?.label}</span>
+              <svg
+                className={`chevron ${isLangMenuOpen ? "open" : ""}`}
+                width='10'
+                height='6'
+                viewBox='0 0 10 6'
+                fill='none'
+                xmlns='http://www.w3.org/2000/svg'
+              >
+                <path
+                  d='M1 1L5 5L9 1'
+                  stroke='currentColor'
+                  strokeWidth='1.5'
+                  strokeLinecap='round'
+                  strokeLinejoin='round'
+                />
+              </svg>
+            </button>
+
+            {isLangMenuOpen && (
+              <div className='lang-menu'>
+                {languages.map((lang) => (
+                  <button
+                    key={lang.code}
+                    className={`lang-item ${language === lang.code ? "active" : ""}`}
+                    onClick={() => setLanguage(lang.code)}
+                  >
+                    <span className='lang-label'>{lang.label}</span>
+                    {language === lang.code && (
+                      <div
+                        style={{
+                          width: 6,
+                          height: 6,
+                          borderRadius: "50%",
+                          background: "#0a0a0a",
+                        }}
+                      ></div>
+                    )}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className='form-card'>
             <div className='form-header'>
               <p className='form-eyebrow'>Secure Access</p>
