@@ -74,17 +74,15 @@ export default function Login() {
         .login-left-bg {
           position: absolute;
           inset: 0;
-          background-image: url('https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop');
+          background-image: url('https://images.pexels.com/photos/17485741/pexels-photo-17485741.png');
           background-size: cover;
           background-position: center;
-          filter: grayscale(1);
-          opacity: 0.12;
         }
 
         .login-left-gradient {
           position: absolute;
           inset: 0;
-          background: linear-gradient(135deg, #0a0a0a 0%, transparent 65%);
+          background: linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0.8) 100%);
         }
 
         .accent-line {
