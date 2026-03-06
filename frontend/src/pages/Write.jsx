@@ -5,15 +5,15 @@ import StarterKit from "@tiptap/starter-kit";
 import ImageExtension from "@tiptap/extension-image";
 import LinkExtension from "@tiptap/extension-link";
 import Placeholder from "@tiptap/extension-placeholder";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import api from "../lib/axios";
 import { hubService } from "../features/blog/services/hub.service";
-import Navbar from "../components/layout/Navbar";
+import { postService } from "../features/blog/services/post.service";
 import { Button } from "../components/ui/Button";
 import { common, createLowlight } from "lowlight";
 import CodeBlockLowlight from "@tiptap/extension-code-block-lowlight";
 import { ReactNodeViewRenderer } from "@tiptap/react";
-import CodeBlockComponent from "../features/blog/components/CodeBlockComponent"; // Import the component
+import CodeBlockComponent from "../features/blog/components/CodeBlockComponent";
 import { useToast } from "../context/ToastContext";
 
 import {
@@ -28,10 +28,8 @@ import {
   Quote,
   Check,
   AlertCircle,
-  List,
-  ListCheck,
-  ListIcon,
-  CodeIcon,
+  List as ListIcon,
+  Code as CodeIcon,
 } from "lucide-react";
 import clsx from "clsx";
 import { useTitle } from "../hooks/useTitle";
@@ -40,16 +38,21 @@ const lowlight = createLowlight(common);
 
 export default function Write() {
   const navigate = useNavigate();
+  const { slug } = useParams(); // Get slug from URL
   const { showToast } = useToast();
-  useTitle("New Story");
+
+  // Dynamic Title
+  useTitle(slug ? "Edit Story" : "New Story");
 
   // --- STATE ---
+  const [postId, setPostId] = useState(null); // Store ID for updates
   const [title, setTitle] = useState("");
   const [coverImage, setCoverImage] = useState("");
 
   // UI States
   const [isUploading, setIsUploading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isLoadingPost, setIsLoadingPost] = useState(false); // Loading state for edit mode
   const [showPublishModal, setShowPublishModal] = useState(false);
   const [error, setError] = useState("");
 
@@ -100,7 +103,6 @@ export default function Write() {
       }),
       CodeBlockLowlight.configure({
         lowlight,
-        // Bind the React component to the node view
         HTMLAttributes: {
           class: "not-prose",
         },
@@ -124,9 +126,51 @@ export default function Write() {
     },
   });
 
+  // --- FETCH POST DATA (IF EDIT MODE) ---
+  useEffect(() => {
+    if (slug && editor) {
+      const fetchPostToEdit = async () => {
+        setIsLoadingPost(true);
+        try {
+          const response = await postService.getPostBySlug(slug);
+          const post = response.data;
+
+          // Populate State
+          setPostId(post._id);
+          setTitle(post.title);
+          setCoverImage(post.coverImage);
+          setSummary(post.summary);
+          setTags(post.tags.join(", "));
+
+          // Tech Hub: Handle populated object or string ID
+          if (post.techHub) {
+            setSelectedHub(
+              typeof post.techHub === "object"
+                ? post.techHub._id
+                : post.techHub,
+            );
+          }
+
+          // Populate Editor Content
+          // We use queueMicrotask to ensure editor is fully ready
+          queueMicrotask(() => {
+            editor.commands.setContent(post.content);
+          });
+        } catch (error) {
+          console.error("Failed to fetch post", error);
+          showToast("Failed to load post for editing", "error");
+          navigate("/write"); // Fallback to create mode
+        } finally {
+          setIsLoadingPost(false);
+        }
+      };
+      fetchPostToEdit();
+    }
+  }, [slug, editor]);
+
   // --- HANDLERS ---
   const toggleCodeBlock = useCallback(() => {
-    editor.chain().focus().toggleCodeBlock().run();
+    editor?.chain().focus().toggleCodeBlock().run();
   }, [editor]);
 
   // 1. Image Upload
@@ -209,7 +253,7 @@ export default function Write() {
     setShowPublishModal(true);
   };
 
-  // 4. Final Publish
+  // 4. Final Publish (Create or Update)
   const handlePublish = async () => {
     if (!selectedHub) {
       showToast("Please select a Tech Hub", "error");
@@ -217,7 +261,6 @@ export default function Write() {
     }
 
     setIsPublishing(true);
-    // setError("");
 
     try {
       const htmlContent = editor.getHTML();
@@ -235,20 +278,31 @@ export default function Write() {
         summary: summary || editor.getText().substring(0, 150) + "...",
       };
 
-      await api.post("/posts", payload);
-      // snackbar success
-      showToast("Story published successfully!", "success");
+      if (slug && postId) {
+        // --- UPDATE MODE ---
+        await postService.updatePost(postId, payload);
+        showToast("Story updated successfully!", "success");
+      } else {
+        // --- CREATE MODE ---
+        await api.post("/posts", payload);
+        showToast("Story published successfully!", "success");
+      }
+
       navigate("/");
     } catch (error) {
       console.error(error);
-      showToast("Failed to publish. Please try again.", "error");
+      showToast("Failed to save story. Please try again.", "error");
     } finally {
       setIsPublishing(false);
     }
   };
 
-  function showSuccess(message) {
-    alert(message);
+  if (isLoadingPost) {
+    return (
+      <div className='h-screen flex items-center justify-center bg-white'>
+        <Loader2 className='w-8 h-8 animate-spin text-zinc-300' />
+      </div>
+    );
   }
 
   return (
@@ -265,14 +319,14 @@ export default function Write() {
         {/* --- 1. ACTIONS BAR --- */}
         <div className='flex justify-between items-center mb-8'>
           <div className='text-sm text-zinc-500 font-semibold font-sans uppercase tracking-wide'>
-            Draft
+            {slug ? "Editing" : "Draft"}
           </div>
           <Button
             onClick={handlePrePublish}
             disabled={isUploading}
             className='bg-green-600 hover:bg-green-700 font-serif text-white rounded-full px-5 disabled:opacity-50 cursor-pointer disabled:cursor-not-allowed'
           >
-            Publish
+            {slug ? "Save Changes" : "Publish"}
           </Button>
         </div>
 
@@ -476,7 +530,7 @@ export default function Write() {
           <div className='bg-white rounded-lg max-w-lg w-full p-8 shadow-2xl animate-in fade-in zoom-in-95'>
             <div className='flex justify-between items-center mb-6'>
               <h2 className='text-2xl font-bold font-sans'>
-                Finishing touches
+                {slug ? "Update Story" : "Finishing touches"}
               </h2>
               <button onClick={() => setShowPublishModal(false)}>
                 <X className='w-6 h-6 text-zinc-400 hover:text-black cursor-pointer' />
@@ -558,6 +612,8 @@ export default function Write() {
                 >
                   {isPublishing ? (
                     <Loader2 className='w-4 h-4 animate-spin mr-2' />
+                  ) : slug ? (
+                    "Update Story"
                   ) : (
                     "Publish Now"
                   )}
