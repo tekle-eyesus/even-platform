@@ -39,7 +39,7 @@ function App() {
             </Route>
 
             {/* Redirect any unknown routes to home */}
-            <Route path='*' element={<Navigate to='/' />} />
+            <Route path='*' element={<Navigate to='/about' />} />
           </Routes>
         </Router>
       </ToastProvider>
