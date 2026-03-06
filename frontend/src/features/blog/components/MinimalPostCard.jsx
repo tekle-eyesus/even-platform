@@ -6,6 +6,7 @@ import {
   MoreHorizontal,
   Trash2,
   X,
+  FileEdit,
   ThumbsUpIcon,
 } from "lucide-react";
 import { useAuth } from "../../../context/AuthContext";
@@ -123,13 +124,12 @@ export default function MinimalPostCard({ post, onDelete }) {
                 {post.readTime || 3} min read
               </span>
             </div>
-
             <div className='flex items-center gap-2 text-zinc-400'>
               {isOwner && (
                 <div className='relative' ref={menuRef}>
                   <button
                     onClick={() => setShowMenu(!showMenu)}
-                    className='cursor-pointer hover:text-zinc-800 transition-colors p-1 rounded-full hover:bg-zinc-100'
+                    className='hover:text-zinc-800 transition-colors p-1 rounded-full hover:bg-zinc-100'
                   >
                     <MoreHorizontal className='w-5 h-5 stroke-[1.5]' />
                   </button>
@@ -137,9 +137,18 @@ export default function MinimalPostCard({ post, onDelete }) {
                   {/* Dropdown Menu */}
                   {showMenu && (
                     <div className='absolute right-0 bottom-8 w-32 bg-white rounded-lg shadow-xl border border-zinc-100 py-1 z-10 animate-in fade-in zoom-in-95'>
+                      {/* --- NEW EDIT BUTTON --- */}
+                      <Link
+                        to={`/edit/${post.slug}`}
+                        className='w-full text-left px-4 py-2 text-sm text-zinc-600 hover:bg-zinc-50 flex items-center gap-2'
+                      >
+                        <FileEdit className='w-4 h-4' />
+                        Edit
+                      </Link>
+
                       <button
                         onClick={handleDeleteClick}
-                        className='cursor-pointer w-full text-left px-4 py-2 text-sm text-red-600 flex items-center gap-2'
+                        className='w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2'
                       >
                         <Trash2 className='w-4 h-4' />
                         Delete

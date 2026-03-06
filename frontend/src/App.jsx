@@ -30,6 +30,7 @@ function App() {
             <Route element={<MainLayout />}>
               <Route path='/' element={<Home />} />
               <Route path='/posts/:slug' element={<PostDetails />} />
+              <Route path='/edit/:slug' element={<Write />} />
               <Route path='/write' element={<Write />} />
               <Route path='/u/:username' element={<Profile />} />
               <Route path='/bookmarks' element={<Library />} />
