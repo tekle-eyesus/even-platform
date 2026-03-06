@@ -24,4 +24,9 @@ export const postService = {
     const response = await api.delete(`/posts/${id}`);
     return response.data;
   },
+
+  async updatePost(id, postData) {
+    const response = await api.patch(`/posts/${id}`, postData);
+    return response.data;
+  },
 };
