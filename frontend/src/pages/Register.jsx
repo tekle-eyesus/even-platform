@@ -93,11 +93,11 @@ export default function Register() {
       `}</style>
 
       <div
-        className='min-h-screen grid lg:grid-cols-2 bg-stone-950'
+        className='min-h-screen grid lg:grid-cols-2 bg-stone-950 overflow-hidden lg:h-screen'
         style={{ fontFamily: "'DM Sans', sans-serif" }}
       >
         {/* ── LEFT PANEL ── */}
-        <div className='relative hidden lg:flex flex-col p-12 overflow-hidden'>
+        <div className='relative hidden lg:flex flex-col p-8 overflow-hidden'>
           {/* BG photo */}
           <div
             className='absolute inset-0 bg-cover bg-center'
@@ -176,11 +176,11 @@ export default function Register() {
               </p>
 
               <h2
-                className='text-white mb-6'
+                className='text-white mb-4'
                 style={{
                   fontFamily: "'DM Serif Display', serif",
-                  fontSize: "clamp(40px, 4.5vw, 58px)",
-                  lineHeight: 1.08,
+                  fontSize: "clamp(34px, 3.6vw, 48px)",
+                  lineHeight: 1.04,
                 }}
               >
                 Build the
@@ -218,7 +218,7 @@ export default function Register() {
               </div>
 
               {/* Stat pills */}
-              <div className='flex gap-4 mt-8'>
+              <div className='flex gap-3 mt-6'>
                 {[
                   { num: "12k+", label: "Builders" },
                   { num: "50+", label: "Integrations" },
@@ -226,7 +226,7 @@ export default function Register() {
                 ].map((s) => (
                   <div
                     key={s.label}
-                    className='flex-1 flex flex-col items-center justify-center p-4 rounded-2xl transition-all duration-200 hover:-translate-y-0.5'
+                    className='flex-1 flex flex-col items-center justify-center p-3 rounded-2xl transition-all duration-200 hover:-translate-y-0.5'
                     style={{
                       border: "1px solid rgba(255,255,255,0.08)",
                       background: "rgba(255,255,255,0.03)",
@@ -246,7 +246,7 @@ export default function Register() {
                       style={{
                         fontFamily: "'DM Sans', sans-serif",
                         fontWeight: 700,
-                        fontSize: 22,
+                        fontSize: 18,
                       }}
                     >
                       {s.num}
@@ -269,7 +269,7 @@ export default function Register() {
 
         {/* ── RIGHT PANEL ── */}
         <div
-          className='relative flex items-center justify-center px-8 py-14'
+          className='relative flex items-center justify-center px-6 py-8 lg:px-10 lg:py-8 overflow-hidden'
           style={{ background: "#f7f6f3" }}
         >
           {/* Dot texture */}
@@ -282,21 +282,21 @@ export default function Register() {
 
           <div className='relative w-full max-w-sm'>
             {/* Header */}
-            <div className='mb-8'>
+            <div className='mb-5'>
               <p
-                className='text-xs font-semibold uppercase mb-2.5'
+                className='text-[11px] font-semibold uppercase mb-2'
                 style={{ color: "rgba(0,0,0,0.28)", letterSpacing: "0.18em" }}
               >
                 New Account
               </p>
               <h1
-                className='text-4xl text-stone-950 mb-2 leading-tight'
+                className='text-[2.1rem] text-stone-950 mb-1.5 leading-tight'
                 style={{ fontFamily: "'DM Serif Display', serif" }}
               >
                 Join Even.
               </h1>
               <p
-                className='text-sm font-light'
+                className='text-[13px] font-light'
                 style={{ color: "rgba(0,0,0,0.42)", lineHeight: 1.6 }}
               >
                 Sign up and start building in minutes
@@ -305,7 +305,7 @@ export default function Register() {
 
             {/* Form */}
             <form onSubmit={handleSubmit}>
-              <div className='flex flex-col gap-3 mb-5'>
+              <div className='flex flex-col gap-2.5 mb-4'>
                 {fields.map((f) => {
                   const Icon = f.icon;
                   const isFocused = focusedField === f.id;
@@ -315,7 +315,7 @@ export default function Register() {
                       {/* Label */}
                       <label
                         htmlFor={f.id}
-                        className='block text-xs font-semibold uppercase mb-1.5 transition-colors duration-200'
+                        className='block text-[11px] font-semibold uppercase mb-1 transition-colors duration-200'
                         style={{
                           letterSpacing: "0.1em",
                           color: isFocused ? "#0a0a0a" : "rgba(0,0,0,0.35)",
@@ -347,7 +347,7 @@ export default function Register() {
                           onFocus={() => setFocusedField(f.id)}
                           onBlur={() => setFocusedField(null)}
                           required
-                          className='w-full h-12 pl-10 pr-4 text-sm rounded-lg outline-none transition-all duration-200 placeholder:text-stone-400 disabled:opacity-50 disabled:cursor-not-allowed'
+                          className='w-full h-11 pl-10 pr-4 text-sm rounded-lg outline-none transition-all duration-200 placeholder:text-stone-400 disabled:opacity-50 disabled:cursor-not-allowed'
                           style={{
                             fontFamily: f.mono
                               ? "'JetBrains Mono', monospace"
@@ -371,7 +371,7 @@ export default function Register() {
               {/* Error */}
               {error && (
                 <div
-                  className='flex items-center gap-2 px-3.5 py-3 rounded-lg mb-3.5 text-sm text-white'
+                  className='flex items-center gap-2 px-3.5 py-2.5 rounded-lg mb-3 text-[13px] text-white'
                   style={{ background: "#0a0a0a" }}
                 >
                   <span
@@ -386,7 +386,7 @@ export default function Register() {
               <button
                 type='submit'
                 disabled={isLoading}
-                className='w-full h-12 rounded-lg text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 mb-7 hover:-translate-y-px hover:shadow-lg active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed'
+                className='w-full h-11 rounded-lg text-white text-sm font-semibold flex items-center justify-center gap-2 transition-all duration-200 mb-5 hover:-translate-y-px hover:shadow-lg active:translate-y-0 disabled:opacity-55 disabled:cursor-not-allowed'
                 style={{
                   background: "#0a0a0a",
                   letterSpacing: "0.04em",
@@ -410,10 +410,10 @@ export default function Register() {
             </form>
 
             {/* Divider */}
-            <div className='flex items-center gap-3.5 mb-4'>
+            <div className='flex items-center gap-3.5 mb-3'>
               <div className='flex-1 h-px bg-black/[0.08]' />
               <span
-                className='text-xs font-semibold uppercase whitespace-nowrap'
+                className='text-[11px] font-semibold uppercase whitespace-nowrap'
                 style={{ color: "rgba(0,0,0,0.26)", letterSpacing: "0.1em" }}
               >
                 Or register with
@@ -422,7 +422,7 @@ export default function Register() {
             </div>
 
             {/* Social buttons */}
-            <div className='grid grid-cols-3 gap-2.5 mb-7'>
+            <div className='grid grid-cols-3 gap-2.5 mb-5'>
               {[
                 { provider: "google", Icon: FaGoogle },
                 { provider: "github", Icon: FaGithub },
@@ -432,7 +432,7 @@ export default function Register() {
                   key={provider}
                   onClick={() => handleSocialLogin(provider)}
                   disabled={isLoading}
-                  className='h-11 rounded-lg flex items-center justify-center text-base transition-all duration-200 hover:-translate-y-px hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed'
+                  className='h-10 rounded-lg flex items-center justify-center text-base transition-all duration-200 hover:-translate-y-px hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed'
                   style={{
                     background: "#fff",
                     border: "1.5px solid rgba(0,0,0,0.08)",
@@ -457,7 +457,7 @@ export default function Register() {
 
             {/* Sign in link */}
             <p
-              className='text-center text-sm'
+              className='text-center text-[13px]'
               style={{ color: "rgba(0,0,0,0.38)" }}
             >
               Already have an account?{" "}
