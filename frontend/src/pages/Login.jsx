@@ -78,7 +78,7 @@ export default function Login() {
           overflow: hidden;
           display: flex;
           flex-direction: column;
-          padding: 48px;
+          padding: 36px;
         }
 
         .login-left-bg {
@@ -173,10 +173,10 @@ export default function Login() {
 
         .left-headline {
           font-family: 'DM Serif Display', serif;
-          font-size: clamp(40px, 4.5vw, 60px);
-          line-height: 1.08;
+          font-size: clamp(34px, 4vw, 52px);
+          line-height: 1.04;
           color: #fff;
-          margin-bottom: 36px;
+          margin-bottom: 24px;
         }
 
         .left-headline em {
@@ -208,7 +208,7 @@ export default function Login() {
         .stat-row {
           display: flex;
           gap: 16px;
-          margin-top: 48px;
+          margin-top: 32px;
         }
 
         .stat-pill {
@@ -217,7 +217,7 @@ export default function Login() {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-          padding: 16px 12px;
+          padding: 12px 10px;
           border: 1px solid rgba(255,255,255,0.08);
           border-radius: 16px;
           background: rgba(255,255,255,0.03);
@@ -233,7 +233,7 @@ export default function Login() {
         .stat-pill-num {
           font-family: 'DM Sans', sans-serif;
           font-weight: 700;
-          font-size: 22px;
+          font-size: 18px;
           color: #fff;
           line-height: 1.1;
           margin-bottom: 4px;
@@ -253,7 +253,7 @@ export default function Login() {
           display: flex;
           align-items: center;
           justify-content: center;
-          padding: 48px 32px;
+          padding: 32px 24px;
           position: relative;
         }
 
@@ -268,12 +268,12 @@ export default function Login() {
         .form-card {
           position: relative;
           width: 100%;
-          max-width: 390px;
+          max-width: 370px;
           animation: fadeUp 0.5s ease both;
         }
 
         .form-header {
-          margin-bottom: 36px;
+          margin-bottom: 24px;
         }
 
         .form-eyebrow {
@@ -287,14 +287,14 @@ export default function Login() {
 
         .form-title {
           font-family: 'DM Serif Display', serif;
-          font-size: 38px;
-          line-height: 1.08;
+          font-size: 34px;
+          line-height: 1.05;
           color: #0a0a0a;
-          margin-bottom: 8px;
+          margin-bottom: 6px;
         }
 
         .form-subtitle {
-          font-size: 14px;
+          font-size: 13px;
           color: rgba(0,0,0,0.42);
           font-weight: 300;
           line-height: 1.5;
@@ -302,7 +302,7 @@ export default function Login() {
 
         /* ─── FIELDS ─── */
         .field-wrapper {
-          margin-bottom: 14px;
+          margin-bottom: 10px;
         }
 
         .field-label {
@@ -312,7 +312,7 @@ export default function Login() {
           letter-spacing: 0.1em;
           text-transform: uppercase;
           color: rgba(0,0,0,0.35);
-          margin-bottom: 7px;
+          margin-bottom: 5px;
           transition: color 0.2s;
         }
 
@@ -335,7 +335,7 @@ export default function Login() {
 
         .field-input {
           width: 100%;
-          height: 48px;
+          height: 44px;
           padding: 0 14px 0 42px;
           font-family: 'DM Sans', sans-serif;
           font-size: 14px;
@@ -362,7 +362,7 @@ export default function Login() {
           display: flex;
           justify-content: flex-end;
           margin-top: -4px;
-          margin-bottom: 22px;
+          margin-bottom: 14px;
         }
 
         .forgot-link {
@@ -379,10 +379,10 @@ export default function Login() {
           display: flex;
           align-items: center;
           gap: 8px;
-          padding: 12px 14px;
+          padding: 10px 12px;
           background: #0a0a0a;
           border-radius: 10px;
-          margin-bottom: 14px;
+          margin-bottom: 10px;
           font-size: 13px;
           color: #fff;
         }
@@ -398,7 +398,7 @@ export default function Login() {
         /* ─── SUBMIT ─── */
         .submit-btn {
           width: 100%;
-          height: 50px;
+          height: 44px;
           background: #0a0a0a;
           color: #fff;
           border: none;
@@ -413,7 +413,7 @@ export default function Login() {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          margin-bottom: 28px;
+          margin-bottom: 18px;
         }
 
         .submit-btn:hover:not(:disabled) {
@@ -430,7 +430,7 @@ export default function Login() {
           display: flex;
           align-items: center;
           gap: 14px;
-          margin-bottom: 18px;
+          margin-bottom: 12px;
         }
 
         .divider-line {
@@ -452,11 +452,11 @@ export default function Login() {
           display: grid;
           grid-template-columns: repeat(3, 1fr);
           gap: 10px;
-          margin-bottom: 30px;
+          margin-bottom: 18px;
         }
 
         .social-btn {
-          height: 46px;
+          height: 40px;
           background: #fff;
           border: 1.5px solid rgba(0,0,0,0.08);
           border-radius: 10px;
@@ -481,7 +481,7 @@ export default function Login() {
         /* ─── REGISTER ─── */
         .register-row {
           text-align: center;
-          font-size: 13px;
+          font-size: 12px;
           color: rgba(0,0,0,0.38);
         }
 
@@ -519,8 +519,8 @@ export default function Login() {
         /* ─── LANGUAGE ─── */
         .lang-container {
           position: absolute;
-          top: 32px;
-          right: 32px;
+          top: 24px;
+          right: 24px;
           z-index: 50;
         }
 
@@ -530,7 +530,7 @@ export default function Login() {
           gap: 10px;
           background: #fff;
           border: 1px solid rgba(0,0,0,0.08);
-          padding: 8px 16px;
+          padding: 7px 14px;
           border-radius: 12px;
           font-family: 'DM Sans', sans-serif;
           font-size: 13px;
@@ -565,7 +565,7 @@ export default function Login() {
         .lang-item {
           width: 100%;
           text-align: left;
-          padding: 10px 12px;
+          padding: 9px 11px;
           font-family: 'DM Sans', sans-serif;
           font-size: 13px;
           font-weight: 500;
