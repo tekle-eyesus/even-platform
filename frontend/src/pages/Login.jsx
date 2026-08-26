@@ -580,6 +580,21 @@ export default function Login() {
           justify-content: space-between;
         }
 
+        .lang-item-left {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .lang-item-note {
+          font-size: 10px;
+          font-weight: 600;
+          color: rgba(0,0,0,0.38);
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+          white-space: nowrap;
+        }
+
         .lang-item:hover {
           background: rgba(0,0,0,0.04);
           color: #0a0a0a;
@@ -687,16 +702,24 @@ export default function Login() {
                     className={`lang-item ${language === lang.code ? "active" : ""}`}
                     onClick={() => setLanguage(lang.code)}
                   >
-                    <span className='lang-label'>{lang.label}</span>
-                    {language === lang.code && (
-                      <div
-                        style={{
-                          width: 6,
-                          height: 6,
-                          borderRadius: "50%",
-                          background: "#0a0a0a",
-                        }}
-                      ></div>
+                    <span className='lang-item-left'>
+                      <span className='lang-label'>{lang.label}</span>
+                    </span>
+                    {lang.code === "en" ? (
+                      language === lang.code && (
+                        <div
+                          style={{
+                            width: 6,
+                            height: 6,
+                            borderRadius: "50%",
+                            background: "#0a0a0a",
+                          }}
+                        ></div>
+                      )
+                    ) : (
+                      <span className='lang-item-note text-sm'>
+                        Not supported
+                      </span>
                     )}
                   </button>
                 ))}
