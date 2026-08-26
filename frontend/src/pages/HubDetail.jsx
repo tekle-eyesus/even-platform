@@ -8,6 +8,7 @@ import { Loader2, Hash, Users, Check, ArrowLeft, BrainCog } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useTitle } from "../hooks/useTitle";
 import { Link } from "react-router-dom";
+import { useToast } from "../context/ToastContext";
 
 export default function HubDetail() {
   const { slug } = useParams();
@@ -17,7 +18,7 @@ export default function HubDetail() {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   useTitle(hub ? hub.name : "Tech Hub");
-
+  const { showToast } = useToast();
   const [isFollowing, setIsFollowing] = useState(false);
   const [subCount, setSubCount] = useState(0);
 
@@ -57,7 +58,7 @@ export default function HubDetail() {
   }, [slug, user]);
 
   const handleFollowToggle = async () => {
-    if (!user) return alert("Please login to follow this Hub");
+    if (!user) return showToast("Please login to follow this Hub", "error");
     const newStatus = !isFollowing;
     setIsFollowing(newStatus);
     setSubCount((prev) => (newStatus ? prev + 1 : prev - 1));

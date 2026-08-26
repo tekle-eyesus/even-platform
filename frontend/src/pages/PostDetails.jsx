@@ -11,10 +11,12 @@ import CommentSection from "../features/blog/components/CommentSection";
 import { commentService } from "../features/blog/services/comment.service";
 import ShareModal from "../features/blog/components/ShareModal";
 import { useTitle } from "../hooks/useTitle";
+import { useToast } from "../context/ToastContext";
 
 export default function PostDetails() {
   const { slug } = useParams();
   const { user } = useAuth();
+  const { showToast } = useToast();
 
   const [post, setPost] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,7 +78,7 @@ export default function PostDetails() {
 
   // Handlers
   const handleLike = async () => {
-    if (!user) return alert("Please login to like");
+    if (!user) return showToast("Please login to like", "error");
     const newStatus = !isLiked;
     setIsLiked(newStatus);
     setLikesCount((prev) => (newStatus ? prev + 1 : prev - 1));
@@ -90,7 +92,7 @@ export default function PostDetails() {
   };
 
   const handleBookmark = async () => {
-    if (!user) return alert("Please login to bookmark");
+    if (!user) return showToast("Please login to bookmark", "error");
     setIsBookmarked(!isBookmarked);
     try {
       await interactionService.toggleBookmark(post._id);
@@ -100,7 +102,7 @@ export default function PostDetails() {
   };
 
   const handleFollow = async () => {
-    if (!user) return alert("Please login to follow");
+    if (!user) return showToast("Please login to follow", "error");
     setIsFollowing(!isFollowing);
     try {
       await interactionService.toggleFollow(post.author._id);

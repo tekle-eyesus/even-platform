@@ -7,6 +7,7 @@ import { MessageSquare, CornerDownRight, Loader2 } from "lucide-react"; // Note:
 import { clsx } from "clsx";
 import { Link } from "react-router-dom";
 import { PiHandsClapping } from "react-icons/pi";
+import { useToast } from "../../../context/ToastContext";
 // Helper to format date relative
 const formatDate = (dateString) => {
   return new Date(dateString).toLocaleDateString(undefined, {
@@ -30,10 +31,11 @@ export default function CommentItem({ comment, postId }) {
   const [replyContent, setReplyContent] = useState("");
   const [isLoadingReplies, setIsLoadingReplies] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { showToast } = useToast();
 
   // 1. Handle Clapping
   const handleClap = async () => {
-    if (!user) return alert("Login to clap!");
+    if (!user) return showToast("Login to clap!", "error");
 
     // Optimistic Update
     const newStatus = !isClapped;
@@ -139,7 +141,9 @@ export default function CommentItem({ comment, postId }) {
 
           <button
             onClick={() =>
-              user ? setIsReplying(!isReplying) : alert("Login to reply")
+              user
+                ? setIsReplying(!isReplying)
+                : showToast("Login to reply", "error")
             }
             className='flex items-center gap-1.5 text-xs font-medium text-zinc-500 hover:text-black transition-colors cursor-pointer'
           >
