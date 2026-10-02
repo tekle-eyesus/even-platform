@@ -2,6 +2,10 @@ const { asyncHandler } = require("../utils/asyncHandler");
 const { ApiError } = require("../utils/ApiError");
 const { ApiResponse } = require("../utils/ApiResponse");
 const User = require("../models/UserModel");
+const { OAuth2Client } = require("google-auth-library");
+const crypto = require("crypto");
+
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 const generateAccessAndRefreshTokens = async (userId) => {
   const user = await User.findById(userId);
@@ -100,6 +104,94 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
+const createGoogleUsername = async (email) => {
+  const base =
+    email
+      .split("@")[0]
+      .toLowerCase()
+      .replace(/[^a-z0-9_]/g, "_")
+      .replace(/^\d+/, "user")
+      .slice(0, 24) || "user";
+
+  let username = base;
+  let suffix = 1;
+  while (await User.exists({ username })) {
+    username = `${base.slice(0, 24 - String(suffix).length)}${suffix}`;
+    suffix += 1;
+  }
+  return username;
+};
+
+// @desc    Login or register with Google
+// @route   POST /api/v1/auth/google
+const googleLogin = asyncHandler(async (req, res) => {
+  const { credential } = req.body;
+
+  if (!credential || !process.env.GOOGLE_CLIENT_ID) {
+    throw new ApiError(400, "Google authentication is not configured");
+  }
+
+  let payload;
+  try {
+    const ticket = await googleClient.verifyIdToken({
+      idToken: credential,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+    payload = ticket.getPayload();
+  } catch (error) {
+    throw new ApiError(401, "Invalid Google credential");
+  }
+
+  if (!payload?.sub || !payload.email || payload.email_verified !== true) {
+    throw new ApiError(401, "Google account email is not verified");
+  }
+
+  let user = await User.findOne({
+    $or: [{ googleId: payload.sub }, { email: payload.email.toLowerCase() }],
+  });
+
+  if (!user) {
+    user = await User.create({
+      googleId: payload.sub,
+      fullName: payload.name || payload.email.split("@")[0],
+      email: payload.email.toLowerCase(),
+      username: await createGoogleUsername(payload.email),
+      password: crypto.randomBytes(32).toString("hex"),
+      avatar: payload.picture || undefined,
+      role: "reader",
+    });
+  } else if (!user.googleId) {
+    user.googleId = payload.sub;
+    if (payload.picture && user.avatar?.includes("stock.adobe.com")) {
+      user.avatar = payload.picture;
+    }
+    await user.save({ validateBeforeSave: false });
+  }
+
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    user._id,
+  );
+  const loggedInUser = await User.findById(user._id).select(
+    "-password -refreshToken",
+  );
+  const options = {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        { user: loggedInUser, accessToken, refreshToken },
+        "Google login successful",
+      ),
+    );
+});
+
 // @desc    Logout user
 // @route   POST /api/v1/auth/logout
 const logoutUser = asyncHandler(async (req, res) => {
@@ -115,4 +207,4 @@ const logoutUser = asyncHandler(async (req, res) => {
     .json(new ApiResponse(200, {}, "User logged out"));
 });
 
-module.exports = { registerUser, loginUser, logoutUser };
+module.exports = { registerUser, loginUser, googleLogin, logoutUser };

@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Mail, Lock, User, Terminal, Loader2, ArrowRight } from "lucide-react";
 import { FaGoogle, FaGithub, FaLinkedin } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
 import { useTitle } from "../hooks/useTitle";
 
 export default function Register() {
@@ -14,7 +15,7 @@ export default function Register() {
   });
   const [focusedField, setFocusedField] = useState(null);
 
-  const { register } = useAuth();
+  const { register, googleLogin } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -37,6 +38,23 @@ export default function Register() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      await googleLogin(credentialResponse.credential);
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "Google registration failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError("Google registration was cancelled or failed");
   };
 
   const handleSocialLogin = (provider) => {
@@ -90,6 +108,26 @@ export default function Register() {
     <>
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+        .google-login-btn {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .google-login-btn > svg { pointer-events: none; }
+
+        .google-login-trigger {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          opacity: 0;
+        }
+
+        .google-login-trigger > div,
+        .google-login-trigger iframe {
+          width: 100% !important;
+          height: 100% !important;
+        }
       `}</style>
 
       <div
@@ -423,14 +461,27 @@ export default function Register() {
 
             {/* Social buttons */}
             <div className='grid grid-cols-3 gap-2.5 mb-5'>
+              <div className='h-10 rounded-lg flex items-center justify-center bg-white google-login-btn'>
+                <FaGoogle aria-hidden='true' />
+                <div className='google-login-trigger'>
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    type='icon'
+                    shape='rectangular'
+                    size='large'
+                    useOneTap={false}
+                  />
+                </div>
+                <span className='sr-only'>Continue with Google</span>
+              </div>
               {[
-                { provider: "google", Icon: FaGoogle },
                 { provider: "github", Icon: FaGithub },
                 { provider: "linkedin", Icon: FaLinkedin },
-              ].map(({ provider, Icon }) => (
+              ].map((socialProvider) => (
                 <button
-                  key={provider}
-                  onClick={() => handleSocialLogin(provider)}
+                  key={socialProvider.provider}
+                  onClick={() => handleSocialLogin(socialProvider.provider)}
                   disabled={isLoading}
                   className='h-10 rounded-lg flex items-center justify-center text-base transition-all duration-200 hover:-translate-y-px hover:shadow-md disabled:opacity-50 disabled:cursor-not-allowed'
                   style={{
@@ -449,8 +500,8 @@ export default function Register() {
                     e.currentTarget.style.color = "rgba(0,0,0,0.45)";
                   }}
                 >
-                  <Icon />
-                  <span className='sr-only'>{provider}</span>
+                  <socialProvider.Icon />
+                  <span className='sr-only'>{socialProvider.provider}</span>
                 </button>
               ))}
             </div>

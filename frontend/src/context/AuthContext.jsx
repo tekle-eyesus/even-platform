@@ -47,6 +47,17 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const googleLogin = async (credential) => {
+    const response = await authService.googleLogin(credential);
+    const { user, accessToken } = response.data;
+
+    setUser(user);
+    localStorage.setItem("accessToken", accessToken);
+    localStorage.setItem("user", JSON.stringify(user));
+
+    return response.data;
+  };
+
   // Register Action
   const register = async (userData) => {
     try {
@@ -78,6 +89,7 @@ export const AuthProvider = ({ children }) => {
     user,
     isLoading,
     login,
+    googleLogin,
     register,
     logout,
     isAuthenticated: !!user,

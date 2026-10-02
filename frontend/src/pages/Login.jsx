@@ -4,9 +4,9 @@ import { useAuth } from "../context/AuthContext";
 import { Button } from "../components/ui/Button";
 import { Input } from "../components/ui/Input";
 import { Mail, Lock, Loader2, ArrowRight } from "lucide-react";
-import { FaGoogle } from "react-icons/fa";
-import { FaGithub } from "react-icons/fa";
+import { FaGoogle, FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
+import { GoogleLogin } from "@react-oauth/google";
 import { useTitle } from "../hooks/useTitle";
 
 export default function Login() {
@@ -24,7 +24,7 @@ export default function Login() {
 
   useTitle("Login");
 
-  const { login } = useAuth();
+  const { login, googleLogin } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -46,6 +46,23 @@ export default function Login() {
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setIsLoading(true);
+    setError("");
+    try {
+      await googleLogin(credentialResponse.credential);
+      navigate("/");
+    } catch (err) {
+      setError(err.response?.data?.message || "Google login failed");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    setError("Google login was cancelled or failed");
   };
 
   const handleSocialLogin = (provider) => {
@@ -478,6 +495,26 @@ export default function Login() {
 
         .social-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
+        .google-login-btn {
+          position: relative;
+          overflow: hidden;
+        }
+
+        .google-login-btn > svg { pointer-events: none; }
+
+        .google-login-trigger {
+          position: absolute;
+          inset: 0;
+          z-index: 2;
+          opacity: 0;
+        }
+
+        .google-login-trigger > div,
+        .google-login-trigger iframe {
+          width: 100% !important;
+          height: 100% !important;
+        }
+
         /* ─── REGISTER ─── */
         .register-row {
           text-align: center;
@@ -829,14 +866,20 @@ export default function Login() {
             </div>
 
             <div className='social-grid'>
-              <button
-                className='social-btn'
-                onClick={() => handleSocialLogin("google")}
-                disabled={isLoading}
-              >
-                <FaGoogle />
-                <span className='sr-only'>Google</span>
-              </button>
+              <div className='social-btn google-login-btn'>
+                <FaGoogle aria-hidden='true' />
+                <div className='google-login-trigger'>
+                  <GoogleLogin
+                    onSuccess={handleGoogleSuccess}
+                    onError={handleGoogleError}
+                    type='icon'
+                    shape='rectangular'
+                    size='large'
+                    useOneTap={false}
+                  />
+                </div>
+                <span className='sr-only'>Continue with Google</span>
+              </div>
               <button
                 className='social-btn'
                 onClick={() => handleSocialLogin("github")}
