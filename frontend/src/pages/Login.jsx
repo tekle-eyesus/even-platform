@@ -8,6 +8,7 @@ import { FaGoogle, FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import { useTitle } from "../hooks/useTitle";
+import { API_URL } from "../config/env";
 
 export default function Login() {
   const [formData, setFormData] = useState({ email: "", password: "" });
@@ -26,7 +27,9 @@ export default function Login() {
 
   const { login, googleLogin } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [error, setError] = useState(
+    () => new URLSearchParams(window.location.search).get("authError") || "",
+  );
   const [isLoading, setIsLoading] = useState(false);
 
   const handleChange = (e) => {
@@ -66,7 +69,9 @@ export default function Login() {
   };
 
   const handleSocialLogin = (provider) => {
-    console.log(`Login with ${provider}`);
+    if (provider === "github") {
+      window.location.assign(`${API_URL}/auth/github`);
+    }
   };
 
   return (

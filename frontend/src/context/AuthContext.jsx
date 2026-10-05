@@ -10,16 +10,13 @@ export const AuthProvider = ({ children }) => {
   // Check if user is logged in on app mount
   useEffect(() => {
     const checkAuth = async () => {
-      const token = localStorage.getItem("accessToken");
-      if (token) {
-        try {
-          const response = await authService.getCurrentUser();
-          setUser(response.data);
-        } catch (error) {
-          console.error("Session expired", error);
-          localStorage.removeItem("accessToken");
-          localStorage.removeItem("user");
-        }
+      try {
+        const response = await authService.getCurrentUser();
+        setUser(response.data);
+        localStorage.setItem("user", JSON.stringify(response.data));
+      } catch {
+        localStorage.removeItem("accessToken");
+        localStorage.removeItem("user");
       }
       setIsLoading(false);
     };

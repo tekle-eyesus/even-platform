@@ -5,6 +5,7 @@ import { Mail, Lock, User, Terminal, Loader2, ArrowRight } from "lucide-react";
 import { FaGoogle, FaGithub, FaLinkedin } from "react-icons/fa";
 import { GoogleLogin } from "@react-oauth/google";
 import { useTitle } from "../hooks/useTitle";
+import { API_URL } from "../config/env";
 
 export default function Register() {
   const [formData, setFormData] = useState({
@@ -17,7 +18,9 @@ export default function Register() {
 
   const { register, googleLogin } = useAuth();
   const navigate = useNavigate();
-  const [error, setError] = useState("");
+  const [error, setError] = useState(
+    () => new URLSearchParams(window.location.search).get("authError") || "",
+  );
   const [isLoading, setIsLoading] = useState(false);
   useTitle("Register");
 
@@ -58,7 +61,9 @@ export default function Register() {
   };
 
   const handleSocialLogin = (provider) => {
-    console.log(`Register with ${provider}`);
+    if (provider === "github") {
+      window.location.assign(`${API_URL}/auth/github`);
+    }
   };
 
   const fields = [
