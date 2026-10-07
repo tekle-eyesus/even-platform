@@ -16,6 +16,8 @@ import Library from "./pages/Library";
 import TechHubs from "./pages/TechHubs";
 import HubDetail from "./pages/HubDetail";
 import About from "./pages/About";
+import LearningPaths from "./pages/LearningPaths";
+import LearningPathDetails from "./pages/LearningPathDetails";
 import { ToastProvider } from "./context/ToastContext";
 
 function App() {
@@ -37,6 +39,8 @@ function App() {
               <Route path='/hubs' element={<TechHubs />} />
               <Route path='/hubs/:slug' element={<HubDetail />} />
               <Route path='/about' element={<About />} />
+              <Route path='/paths' element={<LearningPaths />} />
+              <Route path='/paths/:pathId' element={<LearningPathDetails />} />
             </Route>
 
             {/* Redirect any unknown routes to home */}

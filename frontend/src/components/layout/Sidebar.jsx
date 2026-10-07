@@ -11,6 +11,7 @@ import {
   Users,
   Hash,
   Loader2,
+  Route,
 } from "lucide-react";
 import clsx from "clsx";
 
@@ -29,7 +30,7 @@ export default function Sidebar({ isOpen, onClose }) {
           setLoadingHubs(true);
           const data = await interactionService.getMySubscribedHubs();
           setFollowedHubs(data.data || []);
-        } catch (error) {
+        } catch {
           console.error("Failed to fetch sidebar hubs");
         } finally {
           setLoadingHubs(false);
@@ -42,6 +43,7 @@ export default function Sidebar({ isOpen, onClose }) {
   const menuItems = [
     { icon: Home, label: "Home", path: "/" },
     { icon: Bookmark, label: "Library", path: "/bookmarks" },
+    { icon: Route, label: "Even Paths", path: "/paths" },
     { icon: FileText, label: "Stories", path: "/write" },
   ];
 
@@ -91,7 +93,7 @@ export default function Sidebar({ isOpen, onClose }) {
                 <Icon
                   className={clsx(
                     "w-5 h-5",
-                    isActive ? "stroke-[2]" : "stroke-[1.5]",
+                    isActive ? "stroke-2" : "stroke-[1.5]",
                   )}
                 />
                 {item.label}
